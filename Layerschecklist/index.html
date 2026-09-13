@@ -83,29 +83,31 @@
     }
 
     // Load each section's content from its own file in pages/
-    const sectionFiles = {
-      "math": "math.html",
-      "python-fundamentals": "python-fundamentals.html",
-      "python-libraries": "python-libraries.html",
-      "ml-fundamentals": "ml-fundamentals.html",
-      "dsa": "dsa.html",
-      "sql": "sql.html",
-      "outlier-detection": "outlier-detection.html",
-      "eda": "eda.html",
-      "cuda": "cuda.html",
-      "ros": "ros.html",
-      "mujoco": "mujoco.html",
-      "isaac": "isaac.html"
-    };
+      const sectionFiles = {
+        "math": "math.html",
+        "python-fundamentals": "python-fundamentals.html",
+        "python-libraries": "python-libraries.html",
+        "ml-fundamentals": "ml-fundamentals.html",
+        "dsa": "dsa.html",
+        "sql": "sql.html",
+        "outlier-detection": "outlier-detection.html",
+        "eda": "eda.html",
+        "cuda": "cuda.html",
+        "ros": "ros.html",
+        "mujoco": "mujoco.html",
+        "isaac": "isaac.html"
+      };
 
-    Object.entries(sectionFiles).forEach(([sectionId, filename]) => {
-      fetch(`pages/${filename}`)
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById(sectionId).innerHTML = html;
-        })
-        .catch(e => console.error(`Failed to load ${filename}:`, e));
-    });
+      Object.entries(sectionFiles).forEach(([sectionId, filename]) => {
+        fetch(`pages/${filename}`, { cache: 'no-store' })
+          .then(res => res.text())
+          .then(html => {
+            document.getElementById(sectionId).innerHTML = html;
+          })
+          .catch(e => console.error(`Failed to load ${filename}:`, e));
+      });
+
+    
 
     // Dark/light mode toggle
     const toggleBtn = document.getElementById('theme-toggle');

@@ -1,0 +1,131 @@
+export default function CUDA() {
+    return (
+      <section id="cuda" className="fade-section">
+        <h2>CUDA</h2>
+  
+        <p>
+          CUDA is what lets PyTorch (and other frameworks) run computations on an
+          NVIDIA GPU instead of the CPU — often 10-100x faster for the matrix math
+          deep learning relies on.
+        </p>
+  
+        <div className="interview-note">
+          <strong>Interview mindset:</strong>
+          <p>
+            For every operation: Is this running on the CPU or GPU? Do the tensors
+            involved actually live on the same device?
+          </p>
+        </div>
+  
+        <div className="topic-grid">
+  
+          <div className="topic-row">
+            <div className="topic-explain">
+              <strong>Checking for GPU Availability</strong>
+              <p>
+                Always check if a GPU is actually available before assuming your
+                code will use one — code should gracefully fall back to CPU.
+              </p>
+              <p className="interview-tip">
+                <strong>Interview check:</strong>
+                Know why hardcoding <code>&quot;cuda&quot;</code> without checking
+                availability will crash on a CPU-only machine.
+              </p>
+            </div>
+            <div className="topic-code">
+              <pre><code>{`import torch
+  
+  device = torch.device("cuda" if torch.cuda.is_available() else "cpu")`}</code></pre>
+            </div>
+          </div>
+  
+          <div className="topic-row">
+            <div className="topic-explain">
+              <strong>Moving Tensors & Models to GPU</strong>
+              <p>
+                Both your model and your data need to be on the same device — a
+                common source of runtime errors is mismatched devices.
+              </p>
+              <p className="interview-tip">
+                <strong>Interview check:</strong>
+                Know the exact error PyTorch throws when tensors are on different
+                devices.
+              </p>
+            </div>
+            <div className="topic-code">
+              <pre><code>{`model = model.to(device)
+  x = x.to(device)
+  
+  output = model(x)`}</code></pre>
+            </div>
+          </div>
+  
+          <div className="topic-row">
+            <div className="topic-explain">
+              <strong>GPU Memory</strong>
+              <p>
+                GPU memory (VRAM) is limited and separate from system RAM. Large
+                batch sizes or models can run out of it.
+              </p>
+              <p className="interview-tip">
+                <strong>Interview check:</strong>
+                Know that reducing batch size is the most common fix for a CUDA
+                out-of-memory error.
+              </p>
+            </div>
+            <div className="topic-code">
+              <pre><code>{`torch.cuda.memory_allocated()
+  torch.cuda.empty_cache()`}</code></pre>
+            </div>
+          </div>
+  
+          <div className="topic-row">
+            <div className="topic-explain">
+              <strong>Mixed Precision Training</strong>
+              <p>
+                Uses lower-precision (16-bit) floats for parts of training to speed
+                things up and use less memory, without meaningfully hurting accuracy.
+              </p>
+              <p className="interview-tip">
+                <strong>Interview check:</strong>
+                Know the basic tradeoff — faster and more memory-efficient, at the
+                cost of some numerical precision.
+              </p>
+            </div>
+            <div className="topic-code">
+              <pre><code>{`scaler = torch.cuda.amp.GradScaler()
+  
+  with torch.cuda.amp.autocast():
+      output = model(x)
+      loss = loss_fn(output, y)`}</code></pre>
+            </div>
+          </div>
+  
+        </div>
+  
+        <h3>CUDA Interview Questions You Should Be Able to Answer</h3>
+  
+        <div className="interview-questions">
+          <ul>
+            <li>Why is training on a GPU faster than on a CPU?</li>
+            <li>What happens if your model and data are on different devices?</li>
+            <li>What causes a CUDA out-of-memory error, and how would you fix it?</li>
+            <li>What is mixed precision training, and what&apos;s the tradeoff?</li>
+          </ul>
+        </div>
+  
+        <h3>The Standard You Want</h3>
+  
+        <p>
+          You should be comfortable debugging a device-mismatch error immediately,
+          and know what to try first when you hit an out-of-memory error mid-training.
+        </p>
+  
+        <p>
+          <strong>
+            A GPU only helps if your code is actually using it correctly.
+          </strong>
+        </p>
+      </section>
+    );
+  }

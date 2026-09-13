@@ -4,13 +4,16 @@ A running log of my AI/ML/DL learning — notes, thoughts, and progress as I wor
 
 🔗 **Live site:** [layerschecklist.vercel.app](https://layerschecklist.vercel.app)
 
+Built with Next.js, deployed on Vercel. Each topic below is its own section on a single scrolling page.
+
 ## Topics
 
-- [ ] TIPG
-- [ ] PANDS *(most critical)*
-- [ ] EDA — Exploratory Data Analysis
-- [ ] Outlier Detection
-- [ ] SQL
-- [ ] DSA
-- [ ] ML Fundamentals
-- [ ] Python Fundamentalss
+- [x] Math
+- [x] Python Fundamentals
+- [x] Python Libraries
+- [x] ML Fundamentals
+- [x] DL (Deep Learning) Fundamentals
+- [x] SQL
+- [x] ROS (Robot Operating System)
+- [x] CUDA
+- [x] Simulation Environments (MuJoCo, Isaac Sim)
