@@ -1,0 +1,570 @@
+<h2>Python Fundamentals</h2>
+
+<p>
+  These are the Python concepts that show up constantly in AI, ML, and DL work —
+  and just as importantly, the ones you should be comfortable explaining during
+  a technical interview.
+</p>
+
+<p>
+  The goal is not to memorize syntax. The goal is to understand what the code
+  is doing well enough that you can explain it, modify it, debug it, and write
+  a small version of it under pressure.
+</p>
+
+<div class="interview-note">
+  <strong>Interview mindset:</strong>
+  <p>
+    For every concept below, ask yourself three questions:
+    What does it do? Why would I use it? What happens if I change it?
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <!-- Lists -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Lists & list comprehensions</strong>
+      <p>
+        Lists store ordered collections of values. In ML code, they appear in
+        preprocessing, filtering, batching, feature construction, and quick data
+        transformations.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to convert a normal loop into a list comprehension and explain
+        when readability is more important than making the code shorter.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>squares = [x**2 for x in range(5)]
+
+# Same idea written normally:
+squares = []
+
+for x in range(5):
+    squares.append(x**2)</code></pre>
+    </div>
+  </div>
+
+  <!-- Dictionaries -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Dictionaries</strong>
+      <p>
+        Dictionaries store information as key-value pairs. They are everywhere
+        in ML projects: configurations, label mappings, model outputs,
+        hyperparameters, and experiment results.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know how to access, update, loop through, and safely retrieve dictionary
+        values using <code>.get()</code>.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>config = {
+    "lr": 0.001,
+    "epochs": 10
+}
+
+print(config["lr"])
+
+config["epochs"] = 20
+
+batch_size = config.get("batch_size", 32)</code></pre>
+    </div>
+  </div>
+
+  <!-- Tuples -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Tuples & unpacking</strong>
+      <p>
+        Tuples often represent fixed groups of values. Unpacking lets you pull
+        those values apart cleanly.
+      </p>
+      <p>
+        This appears constantly when working with tensor shapes, model outputs,
+        datasets, and function returns.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Understand why
+        <code>batch_size, channels, height, width = x.shape</code>
+        is useful and what error occurs if the number of values does not match.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>shape = (32, 3, 224, 224)
+
+batch_size, channels, h, w = shape
+
+print(batch_size)
+# 32</code></pre>
+    </div>
+  </div>
+
+  <!-- Functions -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Functions & default arguments</strong>
+      <p>
+        Functions organize reusable logic. Training loops, preprocessing steps,
+        evaluation functions, and model utilities are usually built from small
+        reusable functions.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain parameters, return values, default arguments, and
+        why mutable default arguments can be dangerous.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>def train(model, epochs=10, lr=0.001):
+    print(f"Training for {epochs} epochs")
+    print(f"Learning rate: {lr}")</code></pre>
+    </div>
+  </div>
+
+  <!-- Args and Kwargs -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>*args and **kwargs</strong>
+      <p>
+        <code>*args</code> collects extra positional arguments.
+        <code>**kwargs</code> collects extra named arguments.
+      </p>
+      <p>
+        They are useful when building flexible ML APIs, custom layers, wrappers,
+        and reusable training utilities.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain the difference between positional arguments and
+        keyword arguments.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>def example(*args, **kwargs):
+    print(args)
+    print(kwargs)
+
+example(1, 2, lr=0.001, epochs=10)</code></pre>
+    </div>
+  </div>
+
+  <!-- Classes -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Classes & __init__</strong>
+      <p>
+        Classes let us group data and behavior together. In deep learning,
+        models are usually represented as objects.
+      </p>
+      <p>
+        In PyTorch, models inherit from <code>nn.Module</code>, layers are
+        usually created inside <code>__init__</code>, and the computation is
+        defined inside <code>forward()</code>.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain what <code>self</code>, <code>__init__</code>,
+        inheritance, and <code>super()</code> are doing.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>class Net(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.fc = nn.Linear(10, 1)
+
+    def forward(self, x):
+        return self.fc(x)</code></pre>
+    </div>
+  </div>
+
+  <!-- Enumerate -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Loops with enumerate()</strong>
+      <p>
+        <code>enumerate()</code> gives you both the position and the value while
+        looping.
+      </p>
+      <p>
+        In ML, this is common when iterating through batches, epochs, predictions,
+        or layers.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why <code>enumerate()</code> is usually cleaner than manually
+        maintaining a counter.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>losses = [0.9, 0.6, 0.3]
+
+for epoch, loss in enumerate(losses):
+    print(epoch, loss)</code></pre>
+    </div>
+  </div>
+
+  <!-- Zip -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>zip()</strong>
+      <p>
+        <code>zip()</code> lets you loop through multiple collections together.
+      </p>
+      <p>
+        This is useful when pairing predictions with labels, features with
+        values, or multiple datasets.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know what happens if the collections have different lengths.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>predictions = [1, 0, 1]
+labels = [1, 1, 1]
+
+for pred, label in zip(predictions, labels):
+    print(pred, label)</code></pre>
+    </div>
+  </div>
+
+  <!-- Lambda -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Lambda functions</strong>
+      <p>
+        Lambda functions are small anonymous functions used when a full function
+        definition would be unnecessary.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know the syntax, but also know when a normal function would be more
+        readable.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>numbers = [1, 2, 3, 4]
+
+squares = list(map(lambda x: x**2, numbers))</code></pre>
+    </div>
+  </div>
+
+  <!-- Exceptions -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Exception handling</strong>
+      <p>
+        Real ML pipelines fail: missing files, invalid inputs, corrupt samples,
+        bad API responses, and shape mismatches all happen.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Understand <code>try</code>, <code>except</code>, and why catching every
+        error with a bare <code>except</code> is usually a bad idea.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>try:
+    value = int(user_input)
+
+except ValueError:
+    print("Input must be a number.")</code></pre>
+    </div>
+  </div>
+
+  <!-- Decorators -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Decorators</strong>
+      <p>
+        Decorators modify or wrap the behavior of a function without rewriting
+        the function itself.
+      </p>
+      <p>
+        In PyTorch, <code>@torch.no_grad()</code> is commonly used during
+        evaluation because gradients are not needed.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        You do not always need to implement a decorator from scratch, but you
+        should understand what the <code>@</code> syntax means.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>@torch.no_grad()
+def evaluate(model, x):
+    return model(x)</code></pre>
+    </div>
+  </div>
+
+  <!-- Generators -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Iterators & generators</strong>
+      <p>
+        Generators produce values one at a time instead of storing everything
+        in memory at once.
+      </p>
+      <p>
+        This idea matters when working with large datasets and data loading
+        pipelines.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain why <code>yield</code> can use less memory than
+        returning one huge list.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>def batches(data, batch_size):
+
+    for i in range(0, len(data), batch_size):
+        yield data[i:i + batch_size]</code></pre>
+    </div>
+  </div>
+
+  <!-- Sets -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Sets</strong>
+      <p>
+        Sets store unique values. They are especially useful when you need fast
+        membership checks or want to remove duplicate values.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know when a set is better than a list, especially when repeatedly
+        checking whether an item already exists.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>labels = [1, 2, 2, 3, 3, 3]
+
+unique_labels = set(labels)
+
+print(unique_labels)
+# {1, 2, 3}
+
+if 2 in unique_labels:
+    print("Found")</code></pre>
+    </div>
+  </div>
+
+  <!-- Mutability -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Mutability & references</strong>
+      <p>
+        Some Python objects can be changed after they are created.
+        Lists and dictionaries are mutable, while integers, strings, and tuples
+        are immutable.
+      </p>
+      <p>
+        Variables in Python refer to objects. Assigning one list to another
+        variable does not automatically create a new independent list.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain why changing <code>b</code> below also changes
+        <code>a</code>.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>a = [1, 2, 3]
+
+b = a
+b.append(4)
+
+print(a)
+# [1, 2, 3, 4]
+
+# Create a separate shallow copy:
+c = a.copy()</code></pre>
+    </div>
+  </div>
+
+  <!-- Equality vs Identity -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>== vs is</strong>
+      <p>
+        <code>==</code> asks whether two objects have equal values.
+        <code>is</code> asks whether they refer to the exact same object.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Never describe <code>is</code> as simply another version of
+        <code>==</code>. They answer different questions.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>a = [1, 2, 3]
+b = [1, 2, 3]
+
+print(a == b)
+# True
+
+print(a is b)
+# False
+
+c = a
+
+print(a is c)
+# True</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<!-- Complexity -->
+<h3>Know the Cost of Your Code</h3>
+
+<p>
+  Good Python interviews are not only about whether your code works.
+  You may also be asked how efficiently it works.
+</p>
+
+<p>
+  You do not need to memorize the complexity of every Python operation, but
+  you should understand the common ones well enough to choose the right data
+  structure.
+</p>
+
+<div class="topic-grid">
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>List membership</strong>
+      <p>
+        Checking whether something exists in a list may require Python to scan
+        through the list until it finds the value.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>x in my_list
+
+# Usually O(n)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Dictionary lookup</strong>
+      <p>
+        Dictionaries use hashing, so looking up a key is very fast on average.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>config["lr"]
+
+# Average case: O(1)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Set membership</strong>
+      <p>
+        Sets also use hashing, which makes checking whether a value exists very
+        fast on average.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>x in my_set
+
+# Average case: O(1)</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<!-- Interview Questions -->
+<h3>Python Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>What is the difference between a list and a tuple?</li>
+    <li>When would you use a set instead of a list?</li>
+    <li>What is the difference between <code>==</code> and <code>is</code>?</li>
+    <li>What is the difference between a shallow copy and a deep copy?</li>
+    <li>What are mutable and immutable objects?</li>
+    <li>What happens when you assign one list to another variable?</li>
+    <li>What do <code>*args</code> and <code>**kwargs</code> do?</li>
+    <li>What is the difference between positional and keyword arguments?</li>
+    <li>What does <code>self</code> mean inside a Python class?</li>
+    <li>What does <code>__init__</code> do?</li>
+    <li>What does <code>super()</code> do?</li>
+    <li>What is inheritance?</li>
+    <li>What is a generator and why would you use one?</li>
+    <li>What is the difference between <code>return</code> and <code>yield</code>?</li>
+    <li>What is the difference between <code>append()</code> and <code>extend()</code>?</li>
+    <li>What does <code>enumerate()</code> do?</li>
+    <li>What does <code>zip()</code> do?</li>
+    <li>What happens when two lists passed to <code>zip()</code> have different lengths?</li>
+    <li>What is a lambda function?</li>
+    <li>What is a dictionary lookup and why is it usually fast?</li>
+    <li>Why is set membership usually faster than list membership?</li>
+    <li>What is the difference between <code>range()</code> and a list?</li>
+    <li>What does a decorator do?</li>
+    <li>Why are exceptions useful?</li>
+    <li>Why should you usually avoid a bare <code>except:</code>?</li>
+    <li>What is the difference between a method and a function?</li>
+    <li>Why can mutable default arguments cause unexpected behavior?</li>
+  </ul>
+</div>
+
+<!-- Final Standard -->
+<h3>The Standard You Want</h3>
+
+<p>
+  You are interview-ready when you can do more than recognize Python syntax.
+</p>
+
+<p>
+  Given a short piece of code, you should be able to:
+</p>
+
+<ul>
+  <li>Explain what it does line by line.</li>
+  <li>Predict its output before running it.</li>
+  <li>Find bugs and edge cases.</li>
+  <li>Rewrite it more clearly.</li>
+  <li>Explain why you chose one data structure over another.</li>
+  <li>Estimate the basic time and memory cost of your approach.</li>
+  <li>Connect the Python concept to how it appears in ML code.</li>
+  <li>Modify the code when the interviewer changes the requirements.</li>
+</ul>
+
+<p>
+  <strong>
+    Do not aim to memorize Python.
+    Aim to understand it well enough to reason with it.
+  </strong>
+</p>

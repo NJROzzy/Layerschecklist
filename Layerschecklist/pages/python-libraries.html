@@ -1,0 +1,672 @@
+<h2>Python Libraries</h2>
+
+<p>
+  You don't need to know every library in the Python ecosystem — you need to know
+  the handful that show up constantly in AI, ML, and DL work, and understand
+  what job each one is doing.
+</p>
+
+<div class="interview-note">
+  <strong>Don't memorize libraries. Understand the pipeline.</strong>
+  <p>
+    In a real ML project, these tools usually work together:
+    load the data, understand it, clean it, transform it, train a model,
+    evaluate the result, and visualize what happened.
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <!-- NumPy -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>NumPy</strong>
+
+      <p>
+        NumPy is the foundation of numerical computing in Python.
+        It gives us fast arrays for working with vectors, matrices,
+        and multidimensional numerical data.
+      </p>
+
+      <p>
+        The most important ideas are not just the functions themselves —
+        but understanding <strong>shape</strong>, <strong>axis</strong>,
+        <strong>vectorization</strong>, and <strong>broadcasting</strong>.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Given an array with shape <code>(100, 5)</code>, be able to explain
+        what the two dimensions mean, what <code>axis=0</code> and
+        <code>axis=1</code> do, and why NumPy operations are usually faster
+        than plain Python loops.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>import numpy as np
+
+X = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+print(X.shape)
+# (2, 3)
+
+print(X.mean(axis=0))
+# [2.5, 3.5, 4.5]
+
+print(X.mean(axis=1))
+# [2.0, 5.0]</code></pre>
+    </div>
+  </div>
+
+
+  <!-- pandas -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>pandas</strong>
+
+      <p>
+        pandas is the go-to tool for loading, inspecting, cleaning,
+        filtering, transforming, grouping, and combining tabular data
+        before it ever reaches a model.
+      </p>
+
+      <p>
+        In practice, a large part of machine learning work happens here —
+        before the model is even trained.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know the difference between a Series and a DataFrame, how to inspect
+        missing values, how to filter rows, and how <code>.loc</code>
+        differs from <code>.iloc</code>.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>import pandas as pd
+
+df = pd.read_csv("data.csv")
+
+# Understand the dataset
+df.head()
+df.info()
+df.describe()
+
+# Missing values
+df.isnull().sum()
+
+df["age"] = df["age"].fillna(
+    df["age"].median()
+)
+
+# Filter rows
+adults = df[df["age"] >= 18]
+
+# Select one column
+ages = df["age"]</code></pre>
+    </div>
+  </div>
+
+
+  <!-- Matplotlib -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Matplotlib</strong>
+
+      <p>
+        Matplotlib is the core plotting library in Python.
+        It is used constantly to visualize distributions, model behavior,
+        training curves, predictions, and errors.
+      </p>
+
+      <p>
+        Visualization helps you understand what is happening instead of
+        relying only on numbers.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know how to create a simple line plot or scatter plot, label the axes,
+        add a title, and explain what the plot is showing.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>import matplotlib.pyplot as plt
+
+losses = [0.9, 0.7, 0.5, 0.3]
+
+plt.plot(losses)
+
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training Loss")
+
+plt.show()</code></pre>
+    </div>
+  </div>
+
+
+  <!-- Seaborn -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Seaborn</strong>
+
+      <p>
+        Seaborn is built on top of Matplotlib and makes statistical
+        visualization easier.
+      </p>
+
+      <p>
+        It is especially useful during exploratory data analysis for quickly
+        seeing distributions, correlations, relationships, and outliers.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Understand why visualization should happen before modeling.
+        A plot may reveal outliers, class imbalance, skewed distributions,
+        or relationships that summary statistics alone may hide.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>import seaborn as sns
+
+sns.histplot(
+    data=df,
+    x="age"
+)
+
+sns.scatterplot(
+    data=df,
+    x="age",
+    y="income"
+)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- scikit-learn -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>scikit-learn</strong>
+
+      <p>
+        scikit-learn provides the standard workflow for classical machine
+        learning: preprocessing, regression, classification, clustering,
+        model selection, and evaluation.
+      </p>
+
+      <p>
+        One of the most important patterns to recognize is:
+        <strong>split → train → predict → evaluate.</strong>
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain why we separate training and testing data,
+        what <code>fit()</code> learns, what <code>predict()</code> does,
+        and how preprocessing can accidentally cause
+        <strong>data leakage</strong>.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+model = LinearRegression()
+
+model.fit(X_train, y_train)
+
+predictions = model.predict(X_test)
+
+error = mean_squared_error(
+    y_test,
+    predictions
+)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- Preprocessing -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>scikit-learn preprocessing</strong>
+
+      <p>
+        Raw data often needs to be transformed before a model can use it.
+        Numerical features may need scaling, while categorical values may
+        need to be encoded.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Understand why preprocessing should be learned from the training data
+        rather than from the complete dataset.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(
+    X_train
+)
+
+X_test_scaled = scaler.transform(
+    X_test
+)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- Pipeline -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>scikit-learn Pipeline</strong>
+
+      <p>
+        A Pipeline connects preprocessing and modeling into one repeatable
+        workflow.
+      </p>
+
+      <p>
+        This makes code cleaner and helps prevent mistakes such as fitting
+        preprocessing steps on the test set.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain why pipelines help prevent data leakage and make
+        experiments easier to reproduce.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+pipeline = Pipeline([
+    ("scale", StandardScaler()),
+    ("model", LogisticRegression())
+])
+
+pipeline.fit(X_train, y_train)
+
+predictions = pipeline.predict(
+    X_test
+)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- PyTorch Tensors -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>PyTorch</strong>
+
+      <p>
+        PyTorch is one of the main frameworks for building and training
+        neural networks.
+      </p>
+
+      <p>
+        Its core object is the <strong>tensor</strong> — a multidimensional
+        array similar to a NumPy array, but designed for automatic
+        differentiation and GPU computation.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Understand what a tensor is, what <code>requires_grad=True</code>
+        means, and what <code>.backward()</code> actually computes.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>import torch
+
+x = torch.tensor(
+    [2.0],
+    requires_grad=True
+)
+
+y = x ** 2
+
+y.backward()
+
+print(x.grad)
+# tensor([4.])</code></pre>
+    </div>
+  </div>
+
+
+  <!-- PyTorch Training Loop -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>The PyTorch training loop</strong>
+
+      <p>
+        Most neural network training eventually comes down to the same
+        repeating pattern:
+      </p>
+
+      <p>
+        <strong>
+          clear gradients → forward pass → calculate loss →
+          backpropagate → update parameters
+        </strong>
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain what every line in a basic PyTorch training loop
+        is doing and why the order matters.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>optimizer.zero_grad()
+
+predictions = model(X)
+
+loss = loss_fn(
+    predictions,
+    y
+)
+
+loss.backward()
+
+optimizer.step()</code></pre>
+    </div>
+  </div>
+
+
+  <!-- PyTorch DataLoader -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Dataset & DataLoader</strong>
+
+      <p>
+        Deep learning models usually do not process the entire dataset at once.
+        Data is commonly divided into smaller batches.
+      </p>
+
+      <p>
+        PyTorch's <code>Dataset</code> represents the data, while
+        <code>DataLoader</code> handles batching, shuffling, and iteration.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain what a batch is, why training uses batches,
+        and why training data is commonly shuffled.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>from torch.utils.data import DataLoader
+
+loader = DataLoader(
+    dataset,
+    batch_size=32,
+    shuffle=True
+)
+
+for X_batch, y_batch in loader:
+    predictions = model(X_batch)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- Train vs Eval -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>model.train() vs model.eval()</strong>
+
+      <p>
+        PyTorch models can behave differently during training and evaluation.
+        Layers such as dropout and batch normalization depend on which mode
+        the model is using.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Understand that <code>model.eval()</code> does not automatically disable
+        gradient tracking. It changes model behavior, while
+        <code>torch.no_grad()</code> controls gradient tracking.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code># Training
+model.train()
+
+predictions = model(X_train)
+
+
+# Evaluation
+model.eval()
+
+with torch.no_grad():
+    predictions = model(X_test)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- GPU -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>CPU & GPU tensors</strong>
+
+      <p>
+        One major advantage of PyTorch is that tensors and models can be moved
+        onto a GPU for much faster parallel computation.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know that the model and the data must normally be on the same device.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>device = torch.device(
+    "cuda"
+    if torch.cuda.is_available()
+    else "cpu"
+)
+
+model = model.to(device)
+
+X = X.to(device)
+y = y.to(device)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- Hugging Face -->
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Hugging Face Transformers</strong>
+
+      <p>
+        Hugging Face provides a major ecosystem for working with pretrained
+        transformer models for language, vision, audio, and multimodal AI.
+      </p>
+
+      <p>
+        It allows you to use powerful pretrained models without building
+        every architecture from scratch.
+      </p>
+
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Understand the difference between a tokenizer and a model,
+        what <strong>pretrained</strong> means, and the difference between
+        inference and fine-tuning.
+      </p>
+    </div>
+
+    <div class="topic-code">
+      <pre><code>from transformers import pipeline
+
+classifier = pipeline(
+    "sentiment-analysis"
+)
+
+result = classifier(
+    "Machine learning is fascinating."
+)
+
+print(result)</code></pre>
+    </div>
+  </div>
+
+</div>
+
+
+<h3>How These Libraries Fit Together</h3>
+
+<p>
+  A typical machine learning workflow might look something like this:
+</p>
+
+<div class="ml-pipeline">
+
+  <p>
+    <strong>1. pandas</strong><br>
+    Load and clean the dataset.
+  </p>
+
+  <p>
+    ↓
+  </p>
+
+  <p>
+    <strong>2. NumPy</strong><br>
+    Work with numerical arrays and matrix operations.
+  </p>
+
+  <p>
+    ↓
+  </p>
+
+  <p>
+    <strong>3. Matplotlib / Seaborn</strong><br>
+    Understand and visualize the data.
+  </p>
+
+  <p>
+    ↓
+  </p>
+
+  <p>
+    <strong>4. scikit-learn</strong><br>
+    Preprocess data, train classical ML models, and evaluate them.
+  </p>
+
+  <p>
+    ↓
+  </p>
+
+  <p>
+    <strong>5. PyTorch</strong><br>
+    Build and train neural networks when deep learning is needed.
+  </p>
+
+  <p>
+    ↓
+  </p>
+
+  <p>
+    <strong>6. Hugging Face</strong><br>
+    Use and fine-tune modern pretrained transformer models.
+  </p>
+
+</div>
+
+
+<h3>Library Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>Why is NumPy usually faster than normal Python loops?</li>
+    <li>What does the shape of an array represent?</li>
+    <li>What is the difference between <code>axis=0</code> and <code>axis=1</code>?</li>
+    <li>What is broadcasting in NumPy?</li>
+
+    <li>What is the difference between a pandas Series and DataFrame?</li>
+    <li>What is the difference between <code>.loc</code> and <code>.iloc</code>?</li>
+    <li>How would you find missing values in a DataFrame?</li>
+    <li>When would you use <code>groupby()</code>?</li>
+
+    <li>Why do we split data into training and testing sets?</li>
+    <li>What does <code>fit()</code> do?</li>
+    <li>What does <code>predict()</code> do?</li>
+    <li>What is data leakage?</li>
+    <li>Why are pipelines useful?</li>
+    <li>Why should a scaler be fit only on the training data?</li>
+
+    <li>What is a tensor?</li>
+    <li>How is a PyTorch tensor different from a NumPy array?</li>
+    <li>What does <code>requires_grad=True</code> mean?</li>
+    <li>What does <code>loss.backward()</code> compute?</li>
+    <li>Why do we call <code>optimizer.zero_grad()</code>?</li>
+    <li>What does <code>optimizer.step()</code> do?</li>
+    <li>What is the difference between <code>model.train()</code> and <code>model.eval()</code>?</li>
+    <li>What does <code>torch.no_grad()</code> do?</li>
+    <li>Why do we train neural networks in batches?</li>
+    <li>Why is training data often shuffled?</li>
+
+    <li>What is a pretrained model?</li>
+    <li>What does a tokenizer do?</li>
+    <li>What is the difference between inference and fine-tuning?</li>
+  </ul>
+</div>
+
+
+<h3>The Standard You Want</h3>
+
+<p>
+  Knowing a library does not mean memorizing hundreds of functions.
+</p>
+
+<p>
+  You should be able to:
+</p>
+
+<ul>
+  <li>Explain why you chose a particular library.</li>
+  <li>Recognize the common workflow of that library.</li>
+  <li>Read and understand a small piece of code written with it.</li>
+  <li>Debug basic shape, type, and data problems.</li>
+  <li>Explain what the library is doing for you behind the scenes.</li>
+  <li>Know when another tool would be more appropriate.</li>
+</ul>
+
+<p>
+  <strong>
+    A library is only a tool.
+    The real skill is knowing which problem requires which tool —
+    and understanding what the tool is doing for you.
+  </strong>
+</p>

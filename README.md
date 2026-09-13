@@ -13,4 +13,4 @@ A running log of my AI/ML/DL learning — notes, thoughts, and progress as I wor
 - [ ] SQL
 - [ ] DSA
 - [ ] ML Fundamentals
-- [ ] Python Fundamentals
+- [ ] Python Fundamentalss

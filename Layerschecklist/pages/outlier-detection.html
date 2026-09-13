@@ -1,0 +1,132 @@
+<h2>Outlier Detection</h2>
+
+<p>
+  Outliers can quietly wreck a model — skewing averages, distorting scaling,
+  and misleading training. Knowing how to spot them is step one before any
+  modeling happens.
+</p>
+
+<div class="interview-note">
+  <strong>Interview mindset:</strong>
+  <p>
+    For every method: What assumption does it make about the data? What kind
+    of outlier does it catch — and what kind does it miss?
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Z-Score Method</strong>
+      <p>
+        Measures how many standard deviations a point is from the mean.
+        Points beyond a threshold (commonly 3) are flagged as outliers.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know this assumes roughly normal data — it can misfire on skewed
+        distributions.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>from scipy import stats
+import numpy as np
+
+z_scores = np.abs(stats.zscore(data))
+outliers = data[z_scores > 3]</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>IQR Method</strong>
+      <p>
+        Uses the interquartile range (spread of the middle 50% of data) to
+        flag points far outside that range — more robust to skew than Z-score.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know the standard rule: anything beyond 1.5×IQR past Q1 or Q3 is an
+        outlier.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>Q1 = data.quantile(0.25)
+Q3 = data.quantile(0.75)
+IQR = Q3 - Q1
+
+outliers = data[(data < Q1 - 1.5*IQR) | (data > Q3 + 1.5*IQR)]</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Visual Detection</strong>
+      <p>
+        Boxplots and scatterplots make outliers visually obvious before
+        running any formal test.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain what the whiskers on a boxplot represent.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>import matplotlib.pyplot as plt
+
+plt.boxplot(data)
+plt.show()</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Isolation Forest</strong>
+      <p>
+        A model-based approach — outliers are "easier to isolate" with fewer
+        random splits than normal points. Works well in higher dimensions
+        where boxplots and Z-scores don't apply.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why this scales better to multi-feature data than the simpler
+        statistical methods above.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>from sklearn.ensemble import IsolationForest
+
+model = IsolationForest(contamination=0.05)
+preds = model.fit_predict(X)
+# -1 = outlier, 1 = normal</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<h3>Outlier Detection Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>What is the difference between the Z-score and IQR methods?</li>
+    <li>Why might Z-score misfire on skewed data?</li>
+    <li>What does the 1.5×IQR rule represent?</li>
+    <li>When would you use Isolation Forest instead of a statistical method?</li>
+    <li>Should outliers always be removed? When might you keep them?</li>
+  </ul>
+</div>
+
+<h3>The Standard You Want</h3>
+
+<p>
+  You should be able to justify whether a flagged point is a genuine outlier,
+  a data entry error, or a rare-but-real event — and explain why that
+  distinction changes what you do next.
+</p>
+
+<p>
+  <strong>
+    Detecting outliers is easy. Deciding what to do about them is the real skill.
+  </strong>
+</p>

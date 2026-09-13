@@ -1,0 +1,299 @@
+<h2>ML Fundamentals</h2>
+
+<p>
+  These are the core ML concepts that come up in almost every interview and
+  every real project — the ideas underneath the libraries and frameworks.
+</p>
+
+<p>
+  Knowing the name of a concept isn't enough. You should be able to explain
+  why it matters, what breaks without it, and recognize it when it shows up
+  in code that doesn't spell it out.
+</p>
+
+<div class="interview-note">
+  <strong>Interview mindset:</strong>
+  <p>
+    For every concept below, ask yourself: What problem does this solve?
+    What happens if I skip it? How would I explain this to someone non-technical?
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Supervised vs. Unsupervised Learning</strong>
+      <p>
+        Supervised learning trains on labeled data (inputs paired with known
+        answers). Unsupervised learning finds structure in data with no labels
+        at all — clustering, dimensionality reduction.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be ready with an example of each — e.g. spam detection (supervised)
+        vs. customer segmentation (unsupervised).
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code># Supervised: labels exist
+X, y = features, labels
+model.fit(X, y)
+
+# Unsupervised: no labels
+from sklearn.cluster import KMeans
+KMeans(n_clusters=3).fit(X)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Train/Test Split</strong>
+      <p>
+        Data is split so the model is evaluated on examples it has never seen.
+        Without this, you can't tell if the model actually learned or just
+        memorized.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why shuffling matters and why you never train on your test set.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Overfitting & Underfitting</strong>
+      <p>
+        Overfitting: the model memorizes training data but fails on new data.
+        Underfitting: the model is too simple to capture the pattern at all.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to describe the training-vs-validation loss curve for each
+        case, and name one fix for each (more data / regularization vs. a
+        more complex model).
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code># Signs of overfitting:
+# train_loss keeps dropping
+# val_loss starts increasing
+
+# Signs of underfitting:
+# both train_loss and val_loss
+# stay high</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Loss Functions</strong>
+      <p>
+        A loss function measures how wrong a prediction is. Training is the
+        process of adjusting parameters to make this number smaller.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know when to use MSE (regression) vs. cross-entropy (classification),
+        and why.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>import torch.nn as nn
+
+mse = nn.MSELoss()
+cross_entropy = nn.CrossEntropyLoss()
+
+loss = cross_entropy(predictions, labels)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Gradient Descent</strong>
+      <p>
+        The algorithm that adjusts model parameters step by step in the
+        direction that reduces loss, using the gradient (slope) of the loss
+        function.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to explain what the learning rate controls, and what happens
+        if it's set too high or too low.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+
+optimizer.zero_grad()
+loss.backward()
+optimizer.step()</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Bias-Variance Tradeoff</strong>
+      <p>
+        Bias is error from overly simple assumptions (underfitting). Variance
+        is error from being too sensitive to the training data (overfitting).
+        Good models balance both.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to place overfitting and underfitting on this spectrum without
+        hesitating.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code># High bias: model too simple
+# → underfits, misses patterns
+
+# High variance: model too sensitive
+# → overfits, memorizes noise</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Evaluation Metrics</strong>
+      <p>
+        Accuracy alone can be misleading, especially with imbalanced data.
+        Precision, recall, and F1 give a fuller picture of classification
+        performance.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why accuracy is misleading on imbalanced datasets (e.g. 99% of
+        one class), and what precision vs. recall each measure.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>from sklearn.metrics import precision_score, recall_score, f1_score
+
+precision_score(y_true, y_pred)
+recall_score(y_true, y_pred)
+f1_score(y_true, y_pred)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Cross-Validation</strong>
+      <p>
+        Instead of a single train/test split, the data is split into multiple
+        folds, and the model is trained and validated across each — giving a
+        more reliable estimate of performance.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why a single split can be misleading (lucky/unlucky split) and
+        how k-fold cross-validation addresses that.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>from sklearn.model_selection import cross_val_score
+
+scores = cross_val_score(model, X, y, cv=5)
+print(scores.mean())</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Regularization</strong>
+      <p>
+        Techniques that discourage a model from becoming too complex or
+        relying too heavily on any one feature — used to fight overfitting.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know the difference between L1 (drives some weights to zero) and L2
+        (shrinks weights smoothly) regularization.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>from sklearn.linear_model import Ridge, Lasso
+
+Ridge(alpha=1.0)   # L2
+Lasso(alpha=1.0)   # L1</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Feature Scaling</strong>
+      <p>
+        Many algorithms are sensitive to the scale of input features. Scaling
+        puts all features on comparable ranges so no single feature dominates
+        just because of its units.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know which models need scaling (KNN, SVM, neural nets) and which
+        don't (tree-based models like Random Forest).
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<h3>ML Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>What is the difference between supervised and unsupervised learning?</li>
+    <li>What is overfitting, and how do you detect it?</li>
+    <li>What is the bias-variance tradeoff?</li>
+    <li>Why do we split data into training and test sets?</li>
+    <li>What is cross-validation, and why is it more reliable than a single split?</li>
+    <li>What is the difference between precision and recall?</li>
+    <li>When would you use F1 score instead of accuracy?</li>
+    <li>What does a loss function measure?</li>
+    <li>How does gradient descent work?</li>
+    <li>What is the learning rate, and what happens if it's too high or too low?</li>
+    <li>What is regularization, and why would you use it?</li>
+    <li>What is the difference between L1 and L2 regularization?</li>
+    <li>Why do some models need feature scaling and others don't?</li>
+    <li>What is the difference between a parameter and a hyperparameter?</li>
+    <li>How would you handle an imbalanced dataset?</li>
+  </ul>
+</div>
+
+<h3>The Standard You Want</h3>
+
+<p>
+  You are interview-ready when you can do more than name these concepts.
+</p>
+
+<p>
+  You should be able to:
+</p>
+
+<ul>
+  <li>Explain why a model might be overfitting just from a loss curve.</li>
+  <li>Choose the right evaluation metric for a given problem.</li>
+  <li>Explain gradient descent without relying on jargon.</li>
+  <li>Justify a choice of loss function for a specific task.</li>
+  <li>Connect each concept back to a concrete, real dataset or problem.</li>
+</ul>
+
+<p>
+  <strong>
+    Anyone can name these terms. Interview-ready means you can reason with them.
+  </strong>
+</p>

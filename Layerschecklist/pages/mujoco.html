@@ -1,0 +1,109 @@
+<h2>MuJoCo</h2>
+
+<p>
+  MuJoCo (Multi-Joint dynamics with Contact) is a physics engine built for
+  fast, accurate simulation — widely used to train robotics and
+  reinforcement learning models before ever touching real hardware.
+</p>
+
+<div class="interview-note">
+  <strong>Interview mindset:</strong>
+  <p>
+    For every simulation: What's being modeled physically? What forces or
+    contacts matter? How does a simulated result translate to reality?
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>The XML Model</strong>
+      <p>
+        A MuJoCo simulation is defined declaratively in XML — bodies,
+        joints, and physical properties are described rather than coded
+        imperatively.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know that this declarative approach makes it easy to swap or tweak
+        a robot's physical design without touching simulation code.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>&lt;mujoco&gt;
+  &lt;worldbody&gt;
+    &lt;body name="box" pos="0 0 1"&gt;
+      &lt;geom type="box" size="0.1 0.1 0.1"/&gt;
+    &lt;/body&gt;
+  &lt;/worldbody&gt;
+&lt;/mujoco&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Simulation Steps</strong>
+      <p>
+        Physics is advanced in small discrete timesteps — each call
+        integrates forces, velocities, and positions forward by a tiny
+        amount.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why smaller timesteps improve accuracy but cost more compute.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>import mujoco
+
+mujoco.mj_step(model, data)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Actuators & Sensors</strong>
+      <p>
+        Actuators apply forces/torques to joints (like motors). Sensors read
+        back state (position, velocity, contact forces) for the controller
+        to use.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know the basic control loop: read sensor → decide action → apply
+        actuator → step simulation.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>data.ctrl[0] = 1.0  # apply actuator force
+mujoco.mj_step(model, data)
+print(data.sensordata)</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<h3>MuJoCo Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>Why use a physics simulator instead of testing directly on real hardware?</li>
+    <li>What is the tradeoff of smaller vs. larger simulation timesteps?</li>
+    <li>What's the difference between an actuator and a sensor in a simulation?</li>
+    <li>What's the "sim-to-real gap," and why does it matter?</li>
+  </ul>
+</div>
+
+<h3>The Standard You Want</h3>
+
+<p>
+  You should understand simulation not just as a way to test code, but as a
+  tool for generating cheap, safe training data for robotics ML models.
+</p>
+
+<p>
+  <strong>
+    A good simulation saves you from breaking real, expensive hardware.
+  </strong>
+</p>

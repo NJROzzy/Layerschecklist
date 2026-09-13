@@ -4,68 +4,146 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Layerchecklist</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 </head>
 <body>
 
-  <header>
-    <h1>Layerchecklist</h1>
-    <p>Notes and thoughts on AI, ML, and DL as I work through them.</p>
-  </header>
-
-  <nav>
+  <nav id="navbar">
+    <span class="nav-title">Layerchecklist</span>
     <ul>
-      <li><a href="#python-fundamentals">Python Fundamentals</a></li>
-      <li><a href="#ml-fundamentals">ML Fundamentals</a></li>
+      <li><a href="#math">Math</a></li>
+      <li><a href="#python-fundamentals">Python</a></li>
+      <li><a href="#python-libraries">Libraries</a></li>
+      <li><a href="#ml-fundamentals">ML</a></li>
       <li><a href="#dsa">DSA</a></li>
       <li><a href="#sql">SQL</a></li>
-      <li><a href="#outlier-detection">Outlier Detection</a></li>
+      <li><a href="#outlier-detection">Outliers</a></li>
       <li><a href="#eda">EDA</a></li>
-      <li><a href="#pands">PANDS</a></li>
+      <li><a href="#cuda">CUDA</a></li>
+      <li><a href="#ros">ROS</a></li>
+      <li><a href="#mujoco">MuJoCo</a></li>
+      <li><a href="#isaac">Isaac</a></li>
       <li><a href="#tipg">TIPG</a></li>
     </ul>
+    <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   </nav>
 
+  <header class="hero">
+    <div class="hero-content">
+      <div id="hero-equation"></div>
+
+      <div class="hero-note">
+        <p>The Perceptron</p>
+
+        <p class="hero-note-detail">
+          Life is a continuous learning process.
+          <br><br>
+          Take in every experience. Give weight to what helps you grow.
+          Learn from what causes loss. Adjust, try again, and move forward.
+          <br><br>
+          <strong>
+            You don't need to begin with the right weights.
+            You just need to keep learning.
+          </strong>
+        </p>
+      </div>
+    </div>
+
+    <p class="hero-subtitle">
+      Learning machines. Learning mathematics. Learning how to learn.
+    </p>
+  </header>
+
   <main>
-    <section id="python-fundamentals">
-      <h2>Python Fundamentals</h2>
-      <p>Coming soon.</p>
-    </section>
-
-    <section id="ml-fundamentals">
-      <h2>ML Fundamentals</h2>
-      <p>Coming soon.</p>
-    </section>
-
-    <section id="dsa">
-      <h2>DSA</h2>
-      <p>Coming soon.</p>
-    </section>
-
-    <section id="sql">
-      <h2>SQL</h2>
-      <p>Coming soon.</p>
-    </section>
-
-    <section id="outlier-detection">
-      <h2>Outlier Detection</h2>
-      <p>Coming soon.</p>
-    </section>
-
-    <section id="eda">
-      <h2>EDA</h2>
-      <p>Coming soon.</p>
-    </section>
-
-    <section id="pands">
-      <h2>PANDS</h2>
-      <p>Coming soon.</p>
-    </section>
-
-    <section id="tipg">
-      <h2>TIPG</h2>
-      <p>Coming soon.</p>
-    </section>
+    <section id="math" class="fade-section"></section>
+    <section id="python-fundamentals" class="fade-section"></section>
+    <section id="python-libraries" class="fade-section"></section>
+    <section id="ml-fundamentals" class="fade-section"></section>
+    <section id="dsa" class="fade-section"></section>
+    <section id="sql" class="fade-section"></section>
+    <section id="outlier-detection" class="fade-section"></section>
+    <section id="eda" class="fade-section"></section>
+    <section id="cuda" class="fade-section"></section>
+    <section id="ros" class="fade-section"></section>
+    <section id="mujoco" class="fade-section"></section>
+    <section id="isaac" class="fade-section"></section>
   </main>
+
+  <script>
+    // Render the hero equation with KaTeX (Perceptron / artificial neuron equation)
+    try {
+      katex.render("y = f\\left(\\sum_{i=1}^{n} w_i x_i + b\\right)", document.getElementById("hero-equation"), {
+        throwOnError: false,
+        displayMode: true
+      });
+    } catch (e) {
+      console.error("KaTeX failed to load:", e);
+    }
+
+    // Load each section's content from its own file in pages/
+    const sectionFiles = {
+      "math": "math.html",
+      "python-fundamentals": "python-fundamentals.html",
+      "python-libraries": "python-libraries.html",
+      "ml-fundamentals": "ml-fundamentals.html",
+      "dsa": "dsa.html",
+      "sql": "sql.html",
+      "outlier-detection": "outlier-detection.html",
+      "eda": "eda.html",
+      "cuda": "cuda.html",
+      "ros": "ros.html",
+      "mujoco": "mujoco.html",
+      "isaac": "isaac.html"
+    };
+
+    Object.entries(sectionFiles).forEach(([sectionId, filename]) => {
+      fetch(`pages/${filename}`)
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById(sectionId).innerHTML = html;
+        })
+        .catch(e => console.error(`Failed to load ${filename}:`, e));
+    });
+
+    // Dark/light mode toggle
+    const toggleBtn = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    const savedTheme = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+
+    toggleBtn.addEventListener('click', () => {
+      const newTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+    });
+
+    // Navbar shrink/blur on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Fade-in sections on scroll into view
+    const sections = document.querySelectorAll('.fade-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
 
 </body>
 </html>

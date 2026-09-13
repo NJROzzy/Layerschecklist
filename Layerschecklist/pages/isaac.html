@@ -1,0 +1,103 @@
+<h2>Isaac (NVIDIA Isaac Sim)</h2>
+
+<p>
+  Isaac Sim is NVIDIA's robotics simulation platform — built to run many
+  physics simulations in parallel on a GPU, making it well suited for
+  training reinforcement learning policies at scale.
+</p>
+
+<div class="interview-note">
+  <strong>Interview mindset:</strong>
+  <p>
+    For every setup: How many environments are running in parallel? What's
+    actually different between simulation and the real robot?
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>GPU-Parallel Environments</strong>
+      <p>
+        Instead of running one simulation at a time, Isaac Sim can run
+        thousands of copies simultaneously on a GPU — massively speeding up
+        RL training.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why this matters for reinforcement learning specifically:
+        RL needs huge amounts of experience to train well.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code># Conceptual — thousands of environments
+# stepped together on GPU
+envs = IsaacEnv(num_envs=4096)
+obs = envs.reset()</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Domain Randomization</strong>
+      <p>
+        Randomizing simulation parameters (friction, lighting, mass) during
+        training so the trained policy generalizes better to the real world.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know why this directly addresses the "sim-to-real gap."
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code># Conceptual
+env.randomize_physics(friction_range=(0.5, 1.5))</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Sim-to-Real Transfer</strong>
+      <p>
+        The process of taking a policy trained entirely in simulation and
+        deploying it on physical hardware — never a perfect 1:1 match.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Be able to name at least one technique used to close the sim-to-real
+        gap (domain randomization, fine-tuning on real data).
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code># Trained in sim, deployed on hardware
+policy.load("trained_in_sim.pt")
+real_robot.run(policy)</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<h3>Isaac Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>Why is GPU-parallel simulation especially useful for reinforcement learning?</li>
+    <li>What is domain randomization, and what problem does it solve?</li>
+    <li>What is the "sim-to-real gap"?</li>
+    <li>What's the difference between MuJoCo and Isaac Sim in terms of scale?</li>
+  </ul>
+</div>
+
+<h3>The Standard You Want</h3>
+
+<p>
+  You should understand why massive parallelism changes what's practical to
+  train, not just how fast it runs.
+</p>
+
+<p>
+  <strong>
+    Simulation scale is often the difference between an RL policy that works and one that doesn't.
+  </strong>
+</p>

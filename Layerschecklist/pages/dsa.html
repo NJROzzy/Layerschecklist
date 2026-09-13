@@ -1,0 +1,189 @@
+<h2>Data Structures & Algorithms</h2>
+
+<p>
+  DSA shows up less in day-to-day ML work and more in interviews — but it's
+  also the foundation for writing efficient code once your dataset gets too
+  big to brute-force through.
+</p>
+
+<div class="interview-note">
+  <strong>Interview mindset:</strong>
+  <p>
+    For every problem: What's the brute-force solution? What's the time/space
+    complexity? Can a different data structure do better?
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Big O Notation</strong>
+      <p>
+        Describes how runtime or memory grows as input size grows —
+        independent of hardware.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Identify O(1), O(log n), O(n), O(n log n), O(n²) from loop structure.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code># O(n)
+for x in arr:
+    print(x)
+
+# O(n^2)
+for x in arr:
+    for y in arr:
+        print(x, y)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Hash Maps</strong>
+      <p>
+        Store key-value pairs with near-instant lookup, insertion, and
+        deletion — a go-to tool for optimizing brute-force solutions.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Explain why "have I seen this?" is O(1) with a hash map vs. O(n) with
+        a list.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>seen = {}
+
+for num in nums:
+    if num in seen:
+        print("duplicate:", num)
+    seen[num] = True</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Stacks & Queues</strong>
+      <p>
+        A stack is Last-In-First-Out. A queue is First-In-First-Out.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know a use case for each — stacks for backtracking, queues for
+        breadth-first search.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>stack = []
+stack.append(1)
+stack.pop()
+
+from collections import deque
+queue = deque()
+queue.append(1)
+queue.popleft()</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Trees & Binary Search Trees</strong>
+      <p>
+        A hierarchical structure of nodes. A BST keeps values ordered so
+        search, insert, and delete average O(log n).
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Explain why an unbalanced BST degrades to O(n).
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Graphs & Traversal</strong>
+      <p>
+        Nodes connected by edges, used to model networks and dependencies.
+        Traversed with BFS or DFS.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know when to use BFS (shortest path) vs. DFS (explore deep first).
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>graph = {
+    "A": ["B", "C"],
+    "B": ["D"],
+    "C": ["D"],
+    "D": []
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Binary Search</strong>
+      <p>
+        Repeatedly splits a sorted search space in half — O(log n) instead of
+        checking every element.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know the array must be sorted first, and trace pointer movement by
+        hand.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>def binary_search(arr, target):
+    lo, hi = 0, len(arr) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return -1</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<h3>DSA Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>What is Big O notation and why does it matter?</li>
+    <li>What is the time complexity of common operations on a list vs. a hash map?</li>
+    <li>When would you use a stack instead of a queue?</li>
+    <li>What is the difference between BFS and DFS?</li>
+    <li>What happens to BST performance if it becomes unbalanced?</li>
+    <li>Why must an array be sorted before binary search?</li>
+    <li>What is the time complexity of binary search?</li>
+  </ul>
+</div>
+
+<h3>The Standard You Want</h3>
+
+<p>
+  You should be able to state the time/space complexity of your own solution
+  without being asked, and explain the tradeoff of any data structure you
+  choose.
+</p>
+
+<p>
+  <strong>
+    Working code isn't enough. Know why it's efficient — or isn't.
+  </strong>
+</p>

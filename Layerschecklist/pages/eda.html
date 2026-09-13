@@ -1,0 +1,125 @@
+<h2>Exploratory Data Analysis (EDA)</h2>
+
+<p>
+  Before any model, you need to actually understand your data — its shape,
+  its quality, its quirks. EDA is that first look.
+</p>
+
+<div class="interview-note">
+  <strong>Interview mindset:</strong>
+  <p>
+    For every dataset: What does each column mean? What's missing? What's
+    the distribution? What relationships jump out?
+  </p>
+</div>
+
+<div class="topic-grid">
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Summary Statistics</strong>
+      <p>
+        Quick numeric overview of every column — mean, std, min, max,
+        quartiles — before looking at a single row in detail.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know what a large gap between mean and median suggests about
+        skewness.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>import pandas as pd
+
+df = pd.read_csv("data.csv")
+df.describe()</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Missing Values</strong>
+      <p>
+        Almost every real dataset has gaps. How you handle them (drop,
+        impute, flag) affects everything downstream.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know the tradeoff between dropping rows and imputing missing values.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>df.isnull().sum()
+
+df["age"].fillna(df["age"].median(), inplace=True)</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Distributions</strong>
+      <p>
+        Visualizing how values in a column are spread reveals skew,
+        multimodal patterns, and potential outliers.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know when a histogram vs. a KDE plot is more appropriate.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>import matplotlib.pyplot as plt
+
+df["age"].hist(bins=20)
+plt.show()</code></pre>
+    </div>
+  </div>
+
+  <div class="topic-row">
+    <div class="topic-explain">
+      <strong>Correlation</strong>
+      <p>
+        Measures how strongly two numeric variables move together — useful
+        for spotting redundant features or potential predictors.
+      </p>
+      <p class="interview-tip">
+        <strong>Interview check:</strong>
+        Know that correlation doesn't imply causation, and that it only
+        captures linear relationships.
+      </p>
+    </div>
+    <div class="topic-code">
+      <pre><code>corr = df.corr()
+
+import seaborn as sns
+sns.heatmap(corr, annot=True)</code></pre>
+    </div>
+  </div>
+
+</div>
+
+<h3>EDA Interview Questions You Should Be Able to Answer</h3>
+
+<div class="interview-questions">
+  <ul>
+    <li>What's the first thing you'd check when given a new dataset?</li>
+    <li>How would you decide whether to drop or impute missing values?</li>
+    <li>What does a skewed distribution tell you?</li>
+    <li>Why doesn't correlation imply causation?</li>
+    <li>What's the difference between a histogram and a boxplot, and when would you use each?</li>
+  </ul>
+</div>
+
+<h3>The Standard You Want</h3>
+
+<p>
+  You should be able to look at a new dataset and, within a few minutes,
+  describe its shape, flag its problems, and point to what looks worth
+  investigating further.
+</p>
+
+<p>
+  <strong>
+    Good models start with genuinely understanding the data, not skipping to the fun part.
+  </strong>
+</p>
