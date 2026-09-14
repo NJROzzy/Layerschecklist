@@ -25,6 +25,17 @@
   margin-top: var(--space-1);
 }
 
+#ml .roadmap-lesson-link {
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 4px;
+}
+
+#ml .roadmap-lesson-link:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
 @media (max-width: 640px) {
   #ml .roadmap {
     margin-block: var(--space-3);

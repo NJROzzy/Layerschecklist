@@ -1,0 +1,32 @@
+/* Shared frame for the machine learning map and its week pages. */
+
+.ml-page {
+  padding-top: var(--space-5);
+}
+
+.ml-page .back-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  text-underline-offset: 4px;
+}
+
+.ml-page .ml-intro {
+  max-width: var(--content-width);
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+.ml-page a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .ml-page {
+    padding-top: var(--space-3);
+  }
+}

@@ -1,0 +1,215 @@
+.ml-lesson {
+  padding-block: var(--space-4) var(--space-5);
+}
+
+.ml-lesson h1 {
+  max-width: 920px;
+  margin: 0 0 var(--space-3);
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.ml-lesson p,
+.ml-lesson li {
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+.ml-lesson strong,
+.ml-lesson h2,
+.ml-lesson h3 {
+  color: var(--color-text);
+}
+
+.ml-lesson .ml-lesson-summary,
+.ml-lesson .ml-prerequisites,
+.ml-lesson .ml-lesson-section > p {
+  max-width: 76ch;
+}
+
+.ml-lesson .ml-prerequisites {
+  font-size: var(--text-sm);
+}
+
+.ml-lesson .ml-lesson-goals,
+.ml-lesson .ml-lesson-pitfalls {
+  margin-block: var(--space-4);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+}
+
+.ml-lesson .ml-lesson-goals h2,
+.ml-lesson .ml-lesson-pitfalls h2 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.ml-lesson ul,
+.ml-lesson ol {
+  padding-left: var(--space-3);
+}
+
+.ml-lesson li + li {
+  margin-top: var(--space-1);
+}
+
+.ml-lesson .ml-lesson-workflow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  padding-left: var(--space-3);
+  margin-block: var(--space-4);
+}
+
+.ml-lesson .ml-lesson-workflow li {
+  margin: 0;
+  padding: var(--space-2) var(--space-1);
+  border-bottom: 2px solid var(--color-border);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.ml-lesson .ml-lesson-workflow li::marker {
+  color: var(--color-accent);
+}
+
+.ml-lesson .ml-lesson-contents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px var(--space-3);
+  padding-block: var(--space-3);
+  border-block: 1px solid var(--color-border);
+}
+
+.ml-lesson a {
+  color: var(--color-accent);
+  text-underline-offset: 4px;
+}
+
+.ml-lesson .ml-lesson-contents a {
+  font-size: var(--text-sm);
+}
+
+.ml-lesson .ml-lesson-section {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: auto;
+  margin: var(--space-5) 0 0;
+  scroll-margin-top: var(--space-3);
+}
+
+.ml-lesson .ml-lesson-section h2 {
+  margin: 0 0 var(--space-2);
+  font-size: clamp(21px, 2.4vw, 27px);
+  line-height: 1.35;
+}
+
+.ml-lesson pre {
+  max-width: 100%;
+  overflow: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  line-height: 1.8;
+  tab-size: 4;
+}
+
+.ml-lesson .ml-lesson-example {
+  max-height: 680px;
+}
+
+.ml-lesson .ml-lesson-table {
+  overflow-x: auto;
+  margin-block: var(--space-3);
+}
+
+.ml-lesson table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.ml-lesson caption {
+  padding-bottom: var(--space-2);
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.ml-lesson th,
+.ml-lesson td {
+  min-width: 140px;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.ml-lesson th {
+  color: var(--color-text);
+  background: var(--color-surface-soft);
+}
+
+.ml-lesson td {
+  color: var(--color-muted);
+}
+
+.ml-lesson .ml-lesson-reference {
+  font-size: var(--text-sm);
+}
+
+.ml-lesson .ml-download-example {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-block: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.ml-lesson .ml-exercises > li {
+  padding-left: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.ml-lesson .ml-exercises p {
+  margin: 0 0 var(--space-1);
+}
+
+.ml-lesson details {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ml-lesson summary {
+  padding-block: var(--space-1);
+  color: var(--color-text);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ml-lesson :is(a, pre, summary, .ml-lesson-table):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .ml-lesson .ml-lesson-workflow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ml-lesson pre,
+  .ml-lesson .ml-lesson-goals,
+  .ml-lesson .ml-lesson-pitfalls,
+  .ml-lesson details {
+    padding: var(--space-2);
+  }
+}
