@@ -1,6 +1,9 @@
+import "./Section.css";
+import "./SimulationsEnv.css";
+
 export default function SimulationsEnv() {
     return (
-      <section id="simulations" className="fade-section">
+      <section id="simulations" className="learning-section fade-section">
         <h2>Simulation Environments</h2>
   
         <p>

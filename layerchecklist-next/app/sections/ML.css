@@ -1,0 +1,37 @@
+/* Machine learning: a compact sequence of weekly lessons. */
+
+#ml {
+  max-width: 960px;
+}
+
+#ml .roadmap {
+  gap: var(--space-2);
+}
+
+#ml .roadmap-item {
+  border-left-width: 3px;
+}
+
+#ml .roadmap-item.ready {
+  border-left-color: var(--color-accent);
+  background: var(--color-surface-soft);
+}
+
+#ml .roadmap-item.pending .roadmap-week {
+  font-weight: 500;
+}
+
+#ml .read-more-link {
+  margin-top: var(--space-1);
+}
+
+@media (max-width: 640px) {
+  #ml .roadmap {
+    margin-block: var(--space-3);
+  }
+
+  #ml .read-more-link {
+    justify-content: center;
+    width: 100%;
+  }
+}

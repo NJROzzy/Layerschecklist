@@ -1,6 +1,9 @@
+import "./Section.css";
+import "./CUDA.css";
+
 export default function CUDA() {
     return (
-      <section id="cuda" className="fade-section">
+      <section id="cuda" className="learning-section fade-section">
         <h2>CUDA</h2>
   
         <p>

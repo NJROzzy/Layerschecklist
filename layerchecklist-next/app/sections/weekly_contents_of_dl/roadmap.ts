@@ -1,0 +1,16 @@
+export const dlRoadmap = [
+  { week: 0, title: "Statistical Learning to Neural Learning", ready: true },
+  { week: 1, title: "Neural Network from First Principles", ready: true },
+  { week: 2, title: "Depth, Activations, and Gradient Behaviour", ready: true },
+  { week: 3, title: "Optimization and Generalization", ready: false },
+  { week: 4, title: "Convolutional Neural Networks", ready: false },
+  { week: 5, title: "Residual Networks and Transfer Learning", ready: false },
+  { week: 6, title: "Recurrent Neural Networks and Memory", ready: false },
+  { week: 7, title: "Attention and Transformers", ready: false },
+  { week: 8, title: "Representation Learning, Self-Supervision, and Pretraining", ready: false },
+  { week: 9, title: "Autoencoders and Variational Autoencoders", ready: false },
+  { week: 10, title: "Generative Adversarial Networks", ready: false },
+  { week: 11, title: "Diffusion Models", ready: false },
+  { week: 12, title: "Interpreting and Stress-Testing Black Boxes", ready: false },
+  { week: 13, title: "Deep Reinforcement Learning", ready: false },
+];

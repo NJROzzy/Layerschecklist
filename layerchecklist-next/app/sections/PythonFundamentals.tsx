@@ -1,6 +1,9 @@
+import "./Section.css";
+import "./PythonFundamentals.css";
+
 export default function PythonFundamentals() {
     return (
-      <section id="python-fundamentals" className="fade-section">
+      <section id="python-fundamentals" className="learning-section fade-section">
         <h2>Python Fundamentals</h2>
   
         <p>

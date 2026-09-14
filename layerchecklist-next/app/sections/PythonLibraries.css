@@ -1,0 +1,1928 @@
+/* =========================================================
+   PYTHON LIBRARIES
+   Interactive visual learning workspace
+========================================================= */
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.python-libraries-section {
+    width: 100%;
+    max-width: var(--wide-width);
+  
+    margin: 0 auto var(--space-7);
+    padding: 64px 0 80px;
+  
+    min-height: auto;
+  
+    display: block;
+  
+    overflow: visible;
+  }
+  
+  
+  /* =========================================================
+     HEADER
+  ========================================================= */
+  
+  .libraries-heading {
+    width: 100%;
+    max-width: 680px;
+  
+    margin: 0 auto 36px;
+  
+    text-align: center;
+  }
+  
+  
+  .libraries-eyebrow {
+    display: block;
+  
+    margin-bottom: 8px;
+  
+    color: var(--color-muted);
+  
+    font-size: 10px;
+    font-weight: 700;
+  
+    letter-spacing: 0.18em;
+  
+    text-transform: uppercase;
+  }
+  
+  
+  .python-libraries-section .libraries-heading h2 {
+    margin: 0 0 12px;
+  
+    color: var(--color-text);
+  
+    font-size: clamp(30px, 3vw, 42px);
+  
+    line-height: 1.1;
+  
+    letter-spacing: -0.045em;
+  }
+  
+  
+  .python-libraries-section .libraries-heading p {
+    max-width: 620px;
+  
+    margin: 0 auto;
+  
+    color: var(--color-muted);
+  
+    font-size: 14px;
+  
+    line-height: 1.6;
+  }
+  
+  
+  /* =========================================================
+     MAIN INTERACTIVE LAYOUT
+  
+     [ buttons ] [ visual ] [ information ]
+  ========================================================= */
+  
+  .library-learning-layout {
+    width: 100%;
+  
+    display: grid;
+  
+    grid-template-columns:
+      180px
+      minmax(0, 1fr)
+      260px;
+  
+    gap: 16px;
+  
+    align-items: stretch;
+  }
+  
+  
+  /*
+     Critical:
+     allows grid children to shrink instead of overflowing.
+  */
+  
+  .library-selector,
+  .library-visual-area,
+  .library-info-panel {
+    min-width: 0;
+  }
+  
+  
+  /* =========================================================
+     LEFT LIBRARY SELECTOR
+  ========================================================= */
+  
+  .library-selector {
+    display: flex;
+  
+    flex-direction: column;
+  
+    gap: 9px;
+  }
+  
+  
+  .library-select-button {
+    appearance: none;
+  
+    width: 100%;
+  
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 11px;
+  
+    padding: 13px 12px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 12px;
+  
+    background: var(--color-surface);
+  
+    color: var(--color-text);
+  
+    text-align: left;
+  
+    cursor: pointer;
+  
+    transition:
+      border-color 0.18s ease,
+      background 0.18s ease,
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+  
+  
+  .library-select-button:hover {
+    transform: translateX(2px);
+  
+    border-color:
+      color-mix(
+        in srgb,
+        var(--color-accent) 45%,
+        var(--color-border)
+      );
+  }
+  
+  
+  .library-select-button.active {
+    border-color: var(--color-accent);
+  
+    background:
+      color-mix(
+        in srgb,
+        var(--color-accent) 10%,
+        var(--color-surface)
+      );
+  
+    box-shadow:
+      inset 0 0 0 1px
+      color-mix(
+        in srgb,
+        var(--color-accent) 12%,
+        transparent
+      );
+  }
+  
+  
+  /* =========================================================
+     SELECTOR ICON
+  ========================================================= */
+  
+  .selector-icon {
+    width: 34px;
+    height: 34px;
+  
+    flex: 0 0 34px;
+  
+    display: grid;
+  
+    place-items: center;
+  
+    border-radius: 8px;
+  
+    background: var(--color-surface-soft);
+  
+    color: var(--color-text);
+  
+    font-size: 14px;
+  }
+  
+  
+  /* =========================================================
+     SELECTOR TEXT
+  ========================================================= */
+  
+  .selector-text {
+    min-width: 0;
+  
+    display: block;
+  }
+  
+  
+  .selector-text strong {
+    display: block;
+  
+    margin: 0 0 2px;
+  
+    color: var(--color-text);
+  
+    font-size: 12px;
+  
+    line-height: 1.2;
+  }
+  
+  
+  .selector-text small {
+    display: block;
+  
+    color: var(--color-muted);
+  
+    font-size: 9px;
+  
+    line-height: 1.3;
+  }
+  
+  
+  /* =========================================================
+     CENTER VISUAL AREA
+  ========================================================= */
+  
+  .library-visual-area {
+    width: 100%;
+  
+    display: flex;
+  
+    flex-direction: column;
+  }
+  
+  
+  /* =========================================================
+     WORKFLOW BAR
+  ========================================================= */
+  
+  .workflow-bar {
+    width: 100%;
+  
+    min-height: 58px;
+  
+    display: grid;
+  
+    grid-template-columns:
+      minmax(70px, 1fr)
+      18px
+      minmax(70px, 1fr)
+      18px
+      minmax(70px, 1fr)
+      18px
+      minmax(70px, 1fr);
+  
+    align-items: center;
+  
+    gap: 4px;
+  
+    margin: 0 0 10px;
+  
+    padding: 8px 12px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 12px;
+  
+    background: var(--color-surface);
+  }
+  
+  
+  .workflow-bar > div {
+    min-width: 0;
+  
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    gap: 7px;
+  
+    opacity: 0.28;
+  
+    transition:
+      opacity 0.2s ease;
+  }
+  
+  
+  .workflow-bar > div.active {
+    opacity: 1;
+  }
+  
+  
+  .workflow-bar > div > span {
+    width: 23px;
+    height: 23px;
+  
+    flex: 0 0 23px;
+  
+    display: grid;
+  
+    place-items: center;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 50%;
+  
+    color: var(--color-muted);
+  
+    font-size: 9px;
+  }
+  
+  
+  .workflow-bar > div.active > span {
+    border-color: var(--color-accent);
+  
+    color: var(--color-accent);
+  
+    background:
+      color-mix(
+        in srgb,
+        var(--color-accent) 10%,
+        transparent
+      );
+  }
+  
+  
+  .workflow-bar p {
+    min-width: 0;
+  
+    margin: 0;
+  
+    color: var(--color-text);
+  
+    font-size: 10px;
+    font-weight: 600;
+  
+    line-height: 1.2;
+  }
+  
+  
+  .workflow-bar small {
+    display: block;
+  
+    margin-top: 2px;
+  
+    color: var(--color-muted);
+  
+    font-size: 7px;
+    font-weight: 400;
+  
+    white-space: nowrap;
+  }
+  
+  
+  .workflow-arrow {
+    display: block;
+  
+    text-align: center;
+  
+    color: var(--color-muted);
+  
+    font-size: 10px;
+  
+    opacity: 0.35;
+  }
+  
+  
+  /* =========================================================
+     MAIN VISUAL FRAME
+  ========================================================= */
+  
+  .visual-frame {
+    width: 100%;
+  
+    height: 390px;
+  
+    min-width: 0;
+  
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    padding: 28px;
+  
+    overflow: hidden;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 14px;
+  
+    background:
+      radial-gradient(
+        circle at 50% 40%,
+        color-mix(
+          in srgb,
+          var(--color-accent) 6%,
+          transparent
+        ),
+        transparent 55%
+      ),
+      var(--color-surface);
+  }
+  
+  
+  .visual-content {
+    width: 100%;
+    max-width: 100%;
+  
+    min-width: 0;
+  }
+  
+  
+  /* =========================================================
+     VISUAL DESCRIPTION
+  ========================================================= */
+  
+  .visual-caption {
+    min-height: 38px;
+  
+    max-width: 520px;
+  
+    margin: 10px auto 0;
+  
+    color: var(--color-muted);
+  
+    font-size: 11px;
+  
+    line-height: 1.5;
+  
+    text-align: center;
+  }
+  
+  
+  /* =========================================================
+     PANDAS VISUAL
+  ========================================================= */
+  
+  .pandas-visual {
+    display: grid;
+  
+    grid-template-columns:
+      120px
+      30px
+      minmax(0, 1fr);
+  
+    align-items: center;
+  
+    gap: 12px;
+  }
+  
+  
+  /* CSV FILE */
+  
+  .file-box {
+    width: 120px;
+  
+    display: flex;
+  
+    flex-direction: column;
+  
+    align-items: center;
+    justify-content: center;
+  
+    padding: 18px 10px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 12px;
+  
+    background: var(--color-surface-soft);
+  
+    text-align: center;
+  }
+  
+  
+  .file-icon {
+    margin-bottom: 8px;
+  
+    color: var(--color-accent);
+  
+    font-size: 28px;
+  
+    line-height: 1;
+  }
+  
+  
+  .file-box strong {
+    display: block;
+  
+    color: var(--color-text);
+  
+    font-size: 11px;
+  }
+  
+  
+  .file-box span {
+    display: block;
+  
+    margin-top: 3px;
+  
+    color: var(--color-muted);
+  
+    font-size: 8px;
+  
+    line-height: 1.3;
+  }
+  
+  
+  .big-arrow {
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    color: var(--color-muted);
+  
+    font-size: 20px;
+  
+    opacity: 0.45;
+  }
+  
+  
+  /* =========================================================
+     DATAFRAME
+  ========================================================= */
+  
+  .dataframe-window {
+    width: 100%;
+  
+    min-width: 0;
+  
+    overflow: hidden;
+  
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--color-accent) 35%,
+        var(--color-border)
+      );
+  
+    border-radius: 11px;
+  
+    background: var(--color-surface);
+  }
+  
+  
+  .visual-window-title {
+    display: flex;
+  
+    align-items: center;
+    justify-content: space-between;
+  
+    gap: 10px;
+  
+    padding: 10px 12px;
+  
+    border-bottom:
+      1px solid
+      var(--color-border);
+  }
+  
+  
+  .visual-window-title strong {
+    color: var(--color-text);
+  
+    font-size: 10px;
+  }
+  
+  
+  .visual-window-title span {
+    padding: 2px 6px;
+  
+    border-radius: 4px;
+  
+    background:
+      color-mix(
+        in srgb,
+        var(--color-accent) 12%,
+        transparent
+      );
+  
+    color: var(--color-accent);
+  
+    font-size: 7px;
+  }
+  
+  
+  /* =========================================================
+     DATAFRAME TABLE
+  ========================================================= */
+  
+  .dataframe-window table {
+    width: 100%;
+  
+    border-collapse: collapse;
+  
+    table-layout: fixed;
+  
+    color: var(--color-text);
+  
+    font-size: 9px;
+  }
+  
+  
+  .dataframe-window th,
+  .dataframe-window td {
+    padding: 7px 6px;
+  
+    overflow: hidden;
+  
+    border-bottom:
+      1px solid
+      var(--color-border);
+  
+    text-align: left;
+  
+    text-overflow: ellipsis;
+  
+    white-space: nowrap;
+  }
+  
+  
+  .dataframe-window th {
+    color: var(--color-muted);
+  
+    font-size: 8px;
+  
+    font-weight: 600;
+  }
+  
+  
+  .dataframe-window tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  
+  .missing-row td:nth-child(2) {
+    color: #e5a33b;
+  
+    background:
+      rgba(229, 163, 59, 0.08);
+  }
+  
+  
+  /* =========================================================
+     NUMPY VISUAL
+  ========================================================= */
+  
+  .numpy-visual {
+    display: flex;
+  
+    flex-direction: column;
+  
+    align-items: center;
+    justify-content: center;
+  
+    gap: 12px;
+  }
+  
+  
+  .visual-label {
+    color: var(--color-muted);
+  
+    font-size: 10px;
+  }
+  
+  
+  .python-list {
+    max-width: 100%;
+  
+    padding: 10px 18px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 8px;
+  
+    background: var(--color-surface-soft);
+  
+    color: var(--color-text);
+  
+    font-family:
+      "SF Mono",
+      Menlo,
+      monospace;
+  
+    font-size: 12px;
+  }
+  
+  
+  .vertical-arrow {
+    color: var(--color-muted);
+  
+    font-size: 17px;
+  
+    opacity: 0.5;
+  }
+  
+  
+  .numpy-transform {
+    text-align: center;
+  }
+  
+  
+  .numpy-transform > span {
+    display: block;
+  
+    margin-bottom: 9px;
+  
+    color: var(--color-muted);
+  
+    font-size: 9px;
+  }
+  
+  
+  /* =========================================================
+     MATRIX
+  ========================================================= */
+  
+  .matrix {
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 6px;
+  
+    padding: 11px 12px;
+  
+    border-left:
+      2px solid
+      var(--color-accent);
+  
+    border-right:
+      2px solid
+      var(--color-accent);
+  }
+  
+  
+  .matrix span {
+    width: 38px;
+    height: 38px;
+  
+    display: grid;
+  
+    place-items: center;
+  
+    border-radius: 7px;
+  
+    background:
+      color-mix(
+        in srgb,
+        var(--color-accent) 8%,
+        transparent
+      );
+  
+    color: var(--color-text);
+  
+    font-family:
+      "SF Mono",
+      Menlo,
+      monospace;
+  
+    font-size: 11px;
+  }
+  
+  
+  /* =========================================================
+     NUMPY OUTPUT
+  ========================================================= */
+  
+  .math-output {
+    display: flex;
+  
+    justify-content: center;
+  
+    gap: 8px;
+  
+    margin-top: 7px;
+  }
+  
+  
+  .math-output div {
+    min-width: 70px;
+  
+    padding: 8px 10px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 8px;
+  
+    background: var(--color-surface);
+  
+    text-align: center;
+  }
+  
+  
+  .math-output small {
+    display: block;
+  
+    color: var(--color-muted);
+  
+    font-size: 7px;
+  }
+  
+  
+  .math-output strong {
+    display: block;
+  
+    margin-top: 2px;
+  
+    color: var(--color-text);
+  
+    font-size: 11px;
+  }
+  
+  
+  /* =========================================================
+     SCIKIT-LEARN VISUAL
+  ========================================================= */
+  
+  .sklearn-visual {
+    display: grid;
+  
+    grid-template-columns:
+      minmax(90px, 1fr)
+      28px
+      minmax(120px, 1.25fr)
+      28px
+      minmax(90px, 1fr);
+  
+    align-items: center;
+  
+    gap: 8px;
+  }
+  
+  
+  .training-data,
+  .model-box,
+  .prediction-box {
+    min-width: 0;
+  
+    padding: 16px 10px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 11px;
+  
+    background: var(--color-surface-soft);
+  
+    text-align: center;
+  }
+  
+  
+  .training-data > span,
+  .model-box > span,
+  .prediction-box > span {
+    display: block;
+  
+    margin-bottom: 8px;
+  
+    color: var(--color-muted);
+  
+    font-size: 8px;
+  }
+  
+  
+  .mini-data {
+    display: flex;
+  
+    justify-content: center;
+  
+    gap: 4px;
+  
+    flex-wrap: wrap;
+  }
+  
+  
+  .mini-data div {
+    padding: 5px 6px;
+  
+    border-radius: 5px;
+  
+    background: var(--color-surface);
+  
+    color: var(--color-text);
+  
+    font-size: 8px;
+  }
+  
+  
+  .model-box {
+    border-color:
+      color-mix(
+        in srgb,
+        var(--color-accent) 45%,
+        var(--color-border)
+      );
+  
+    background:
+      color-mix(
+        in srgb,
+        var(--color-accent) 6%,
+        var(--color-surface)
+      );
+  }
+  
+  
+  .model-box strong,
+  .model-box small,
+  .prediction-box strong,
+  .prediction-box small {
+    display: block;
+  }
+  
+  
+  .model-box strong {
+    margin-bottom: 4px;
+  
+    color: var(--color-text);
+  
+    font-size: 15px;
+  }
+  
+  
+  .model-box small,
+  .prediction-box small {
+    color: var(--color-muted);
+  
+    font-size: 8px;
+  }
+  
+  
+  .prediction-box strong {
+    margin-bottom: 3px;
+  
+    color: var(--color-text);
+  
+    font-size: 12px;
+  }
+  
+  
+  /* =========================================================
+     PYTORCH VISUAL
+  ========================================================= */
+  
+  .pytorch-visual {
+    display: flex;
+  
+    flex-direction: column;
+  
+    align-items: center;
+    justify-content: center;
+  
+    text-align: center;
+  }
+  
+  
+  .network-label {
+    margin-bottom: 14px;
+  
+    color: var(--color-muted);
+  
+    font-size: 9px;
+  }
+  
+  
+  .neural-network {
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    gap: 25px;
+  }
+  
+  
+  .network-column {
+    display: flex;
+  
+    flex-direction: column;
+  
+    gap: 10px;
+  }
+  
+  
+  .network-column span {
+    width: 25px;
+    height: 25px;
+  
+    border:
+      2px solid
+      var(--color-accent);
+  
+    border-radius: 50%;
+  
+    background:
+      color-mix(
+        in srgb,
+        var(--color-accent) 8%,
+        transparent
+      );
+  }
+  
+  
+  .network-column.hidden span {
+    border-color: #9b7cff;
+  }
+  
+  
+  .network-column.output span {
+    border-color: #57c99b;
+  }
+  
+  
+  .network-lines {
+    color: var(--color-muted);
+  
+    font-size: 15px;
+  
+    opacity: 0.45;
+  }
+  
+  
+  /* =========================================================
+     PYTORCH RESULT
+  ========================================================= */
+  
+  .network-result {
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    gap: 18px;
+  
+    margin-top: 22px;
+  }
+  
+  
+  .network-result > div:not(.backprop-arrow) {
+    min-width: 85px;
+  
+    padding: 8px 12px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 8px;
+  
+    background: var(--color-surface-soft);
+  }
+  
+  
+  .network-result small {
+    display: block;
+  
+    color: var(--color-muted);
+  
+    font-size: 7px;
+  }
+  
+  
+  .network-result strong {
+    display: block;
+  
+    margin-top: 2px;
+  
+    color: var(--color-text);
+  
+    font-size: 11px;
+  }
+  
+  
+  .backprop-arrow {
+    color: var(--color-muted);
+  
+    font-size: 9px;
+  }
+  
+  
+  /* =========================================================
+     MATPLOTLIB VISUAL
+  ========================================================= */
+  
+  .matplotlib-visual {
+    width: 100%;
+    max-width: 480px;
+  
+    margin: auto;
+  }
+  
+  
+  .chart-title {
+    margin-bottom: 12px;
+  
+    color: var(--color-text);
+  
+    font-size: 11px;
+    font-weight: 600;
+  
+    text-align: center;
+  }
+  
+  
+  .fake-chart {
+    width: 100%;
+  
+    display: flex;
+  
+    min-height: 200px;
+  }
+  
+  
+  .y-axis {
+    width: 30px;
+  
+    display: flex;
+  
+    flex-direction: column;
+  
+    justify-content: space-between;
+  
+    padding:
+      0 7px
+      20px 0;
+  
+    color: var(--color-muted);
+  
+    font-size: 8px;
+  
+    text-align: right;
+  }
+  
+  
+  .chart-area {
+    position: relative;
+  
+    min-width: 0;
+  
+    flex: 1;
+  
+    border-left:
+      1px solid
+      var(--color-border);
+  
+    border-bottom:
+      1px solid
+      var(--color-border);
+  
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 49px,
+        var(--color-border) 50px
+      );
+  }
+  
+  
+  .chart-area svg {
+    position: absolute;
+  
+    inset:
+      10px
+      10px
+      25px
+      10px;
+  
+    width:
+      calc(100% - 20px);
+  
+    height:
+      calc(100% - 35px);
+  }
+  
+  
+  .loss-line {
+    fill: none;
+  
+    stroke: var(--color-accent);
+  
+    stroke-width: 3;
+  
+    vector-effect:
+      non-scaling-stroke;
+  }
+  
+  
+  .x-axis {
+    position: absolute;
+  
+    right: 0;
+    bottom: 3px;
+    left: 0;
+  
+    display: flex;
+  
+    justify-content: space-around;
+  
+    color: var(--color-muted);
+  
+    font-size: 7px;
+  }
+  
+  
+  .chart-caption {
+    margin-top: 8px;
+  
+    color: var(--color-muted);
+  
+    font-size: 8px;
+  
+    text-align: center;
+  }
+  
+  
+  /* =========================================================
+     RIGHT INFORMATION PANEL
+  ========================================================= */
+  
+  .library-info-panel {
+    width: 100%;
+  
+    display: flex;
+  
+    flex-direction: column;
+  
+    padding: 16px;
+  
+    overflow: hidden;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 13px;
+  
+    background: var(--color-surface);
+  }
+  
+  
+  /* =========================================================
+     INFO TITLE
+  ========================================================= */
+  
+  .info-title {
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 10px;
+  
+    padding-bottom: 13px;
+  
+    border-bottom:
+      1px solid
+      var(--color-border);
+  }
+  
+  
+  .info-icon {
+    width: 35px;
+    height: 35px;
+  
+    flex: 0 0 35px;
+  
+    display: grid;
+  
+    place-items: center;
+  
+    border-radius: 8px;
+  
+    background:
+      color-mix(
+        in srgb,
+        var(--color-accent) 8%,
+        var(--color-surface-soft)
+      );
+  
+    color: var(--color-text);
+  
+    font-size: 13px;
+  }
+  
+  
+  .info-title > div {
+    min-width: 0;
+  }
+  
+  
+  .info-title h3 {
+    margin: 0 0 2px;
+  
+    color: var(--color-text);
+  
+    font-size: 14px;
+  
+    line-height: 1.2;
+  }
+  
+  
+  .info-title p {
+    margin: 0;
+  
+    color: var(--color-muted);
+  
+    font-size: 9px;
+  
+    line-height: 1.3;
+  }
+  
+  
+  /* =========================================================
+     ROLE
+  ========================================================= */
+  
+  .info-stage {
+    display: flex;
+  
+    align-items: center;
+    justify-content: space-between;
+  
+    gap: 10px;
+  
+    margin: 13px 0;
+  
+    padding: 8px 9px;
+  
+    border-radius: 7px;
+  
+    background: var(--color-surface-soft);
+  }
+  
+  
+  .info-stage span {
+    color: var(--color-muted);
+  
+    font-size: 7px;
+  
+    letter-spacing: 0.06em;
+  }
+  
+  
+  .info-stage strong {
+    color: var(--color-text);
+  
+    font-size: 9px;
+  
+    text-align: right;
+  }
+  
+  
+  /* =========================================================
+     EXAMPLE CODE
+  ========================================================= */
+  
+  .example-title {
+    margin:
+      2px 0
+      7px;
+  
+    color: var(--color-text);
+  
+    font-size: 9px;
+    font-weight: 600;
+  }
+  
+  
+  .library-example-code {
+    width: 100%;
+  
+    min-width: 0;
+  
+    margin: 0;
+  
+    padding: 12px;
+  
+    overflow-x: auto;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 8px;
+  
+    background: var(--color-surface-soft);
+  }
+  
+  
+  .library-example-code code {
+    display: block;
+  
+    width: max-content;
+  
+    min-width: 100%;
+  
+    padding: 0;
+  
+    background: transparent;
+  
+    color: var(--color-text);
+  
+    font-family:
+      "SF Mono",
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+  
+    font-size: 9px;
+  
+    line-height: 1.65;
+  
+    white-space: pre;
+  }
+  
+  
+  /* =========================================================
+     REMEMBER BOX
+  ========================================================= */
+  
+  .remember-box {
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 9px;
+  
+    margin-top: 13px;
+  
+    padding: 10px;
+  
+    border:
+      1px solid
+      rgba(220, 170, 60, 0.3);
+  
+    border-radius: 8px;
+  
+    background:
+      rgba(220, 170, 60, 0.04);
+  }
+  
+  
+  .remember-box > span {
+    flex-shrink: 0;
+  
+    font-size: 14px;
+  }
+  
+  
+  .remember-box > div {
+    min-width: 0;
+  }
+  
+  
+  .remember-box small {
+    display: block;
+  
+    margin-bottom: 2px;
+  
+    color: var(--color-muted);
+  
+    font-size: 7px;
+  }
+  
+  
+  .remember-box strong {
+    display: block;
+  
+    color: var(--color-text);
+  
+    font-size: 9px;
+  
+    line-height: 1.3;
+  }
+  
+  
+  /* =========================================================
+     QUICK REFERENCE
+  ========================================================= */
+  
+  .library-quick-reference {
+    width: 100%;
+  
+    margin-top: 30px;
+  
+    padding-top: 20px;
+  
+    border-top:
+      1px solid
+      var(--color-border);
+  }
+  
+  
+  .library-quick-reference h3 {
+    margin:
+      0 0
+      12px;
+  
+    color: var(--color-text);
+  
+    font-size: 13px;
+  }
+  
+  
+  .quick-reference-grid {
+    display: grid;
+  
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+  
+    gap: 8px;
+  }
+  
+  
+  .quick-reference-item {
+    min-width: 0;
+  
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 8px;
+  
+    padding: 10px;
+  
+    border:
+      1px solid
+      var(--color-border);
+  
+    border-radius: 9px;
+  
+    background: var(--color-surface);
+  }
+  
+  
+  .quick-reference-item > span {
+    width: 29px;
+    height: 29px;
+  
+    flex: 0 0 29px;
+  
+    display: grid;
+  
+    place-items: center;
+  
+    border-radius: 7px;
+  
+    background: var(--color-surface-soft);
+  
+    font-size: 11px;
+  }
+  
+  
+  .quick-reference-item > div {
+    min-width: 0;
+  }
+  
+  
+  .quick-reference-item strong {
+    display: block;
+  
+    color: var(--color-text);
+  
+    font-size: 9px;
+  }
+  
+  
+  .quick-reference-item p {
+    margin: 2px 0 0;
+  
+    color: var(--color-muted);
+  
+    font-size: 8px;
+  
+    line-height: 1.3;
+  }
+  
+  
+  /* =========================================================
+     TABLET
+  ========================================================= */
+  
+  @media (max-width: 1050px) {
+  
+    .library-learning-layout {
+      grid-template-columns:
+        165px
+        minmax(0, 1fr);
+    }
+  
+  
+    /*
+       Information panel moves below the main visual
+       instead of crushing the visual.
+    */
+  
+    .library-info-panel {
+      grid-column:
+        1 / -1;
+  
+      display: grid;
+  
+      grid-template-columns:
+        1fr 1fr;
+  
+      gap: 12px;
+    }
+  
+  
+    .info-title {
+      border-bottom: none;
+    }
+  
+  
+    .info-stage {
+      margin: 0;
+    }
+  
+  
+    .example-title {
+      display: none;
+    }
+  
+  
+    .remember-box {
+      margin-top: 0;
+    }
+  
+  
+    .quick-reference-grid {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  
+  }
+  
+  
+  /* =========================================================
+     SMALL TABLET
+  ========================================================= */
+  
+  @media (max-width: 760px) {
+  
+    .python-libraries-section {
+      padding:
+        48px 0
+        64px;
+    }
+  
+  
+    .libraries-heading {
+      margin-bottom: 28px;
+    }
+  
+  
+    .library-learning-layout {
+      display: flex;
+  
+      flex-direction: column;
+  
+      gap: 14px;
+    }
+  
+  
+    /*
+       Buttons become horizontal tabs.
+    */
+  
+    .library-selector {
+      display: grid;
+  
+      grid-template-columns:
+        repeat(5, minmax(120px, 1fr));
+  
+      overflow-x: auto;
+  
+      padding-bottom: 4px;
+    }
+  
+  
+    .library-select-button:hover {
+      transform: none;
+    }
+  
+  
+    .workflow-bar {
+      overflow-x: auto;
+  
+      grid-template-columns:
+        90px 18px
+        90px 18px
+        90px 18px
+        90px;
+  
+      justify-content: start;
+    }
+  
+  
+    .visual-frame {
+      height: auto;
+  
+      min-height: 350px;
+  
+      padding: 22px;
+    }
+  
+  
+    .library-info-panel {
+      display: block;
+    }
+  
+  
+    .info-title {
+      padding-bottom: 12px;
+  
+      border-bottom:
+        1px solid
+        var(--color-border);
+    }
+  
+  
+    .info-stage {
+      margin: 12px 0;
+    }
+  
+  
+    .example-title {
+      display: block;
+    }
+  
+  
+    .remember-box {
+      margin-top: 12px;
+    }
+  
+  
+    .quick-reference-grid {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  
+  }
+  
+  
+  /* =========================================================
+     MOBILE
+  ========================================================= */
+  
+  @media (max-width: 520px) {
+  
+    .python-libraries-section {
+      padding:
+        40px 0
+        56px;
+    }
+  
+  
+    .python-libraries-section
+    .libraries-heading h2 {
+      font-size: 30px;
+    }
+  
+  
+    .python-libraries-section
+    .libraries-heading p {
+      font-size: 12px;
+    }
+  
+  
+    .library-selector {
+      grid-template-columns:
+        repeat(5, 125px);
+    }
+  
+  
+    .visual-frame {
+      min-height: 330px;
+  
+      padding: 16px;
+    }
+  
+  
+    /* pandas stacks vertically */
+  
+    .pandas-visual {
+      display: flex;
+  
+      flex-direction: column;
+  
+      gap: 12px;
+    }
+  
+  
+    .file-box {
+      width: 140px;
+    }
+  
+  
+    .pandas-visual .big-arrow {
+      transform: rotate(90deg);
+    }
+  
+  
+    .dataframe-window {
+      width: 100%;
+    }
+  
+  
+    /* sklearn stacks vertically */
+  
+    .sklearn-visual {
+      display: flex;
+  
+      flex-direction: column;
+  
+      gap: 10px;
+    }
+  
+  
+    .sklearn-visual
+    .big-arrow {
+      transform: rotate(90deg);
+    }
+  
+  
+    .training-data,
+    .model-box,
+    .prediction-box {
+      width: min(220px, 100%);
+    }
+  
+  
+    /* NumPy */
+  
+    .matrix {
+      max-width: 100%;
+  
+      overflow-x: auto;
+    }
+  
+  
+    .matrix span {
+      width: 32px;
+      height: 32px;
+  
+      flex: 0 0 32px;
+    }
+  
+  
+    .math-output {
+      width: 100%;
+  
+      flex-wrap: wrap;
+    }
+  
+  
+    /* PyTorch */
+  
+    .neural-network {
+      gap: 16px;
+    }
+  
+  
+    .network-result {
+      gap: 8px;
+  
+      flex-wrap: wrap;
+    }
+  
+  
+    /* Quick reference */
+  
+    .quick-reference-grid {
+      grid-template-columns: 1fr;
+    }
+  
+  }

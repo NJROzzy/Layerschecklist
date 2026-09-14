@@ -1,6 +1,9 @@
+import "./Section.css";
+import "./SQL.css";
+
 export default function SQL() {
     return (
-      <section id="sql" className="fade-section">
+      <section id="sql" className="learning-section fade-section">
         <h2>SQL</h2>
   
         <p>

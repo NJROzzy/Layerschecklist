@@ -1,6 +1,9 @@
+import "./Section.css";
+import "./Math.css";
+
 export default function Math() {
     return (
-      <section id="math" className="fade-section">
+      <section id="math" className="learning-section fade-section">
         <h2>Math: Learn to Read It, Not Fear It</h2>
   
         <p>
@@ -8,7 +11,7 @@ export default function Math() {
           complicated math and start reading them like sentences.
         </p>
   
-        <p>
+        <p className="math-takeaway">
           <strong>Think of it this way:</strong><br />
           Symbols are just words.<br />
           An equation is just a sentence made from those words.
@@ -16,7 +19,7 @@ export default function Math() {
   
         <h3>Start With the Most Common Symbols</h3>
   
-        <ul>
+        <ul className="math-symbol-grid">
           <li>
             <strong>x</strong> — the <strong>input</strong> or data given to the model.
             <br />
@@ -68,7 +71,7 @@ export default function Math() {
   
         <h3>Symbols That Tell Us What to Do</h3>
   
-        <ul>
+        <ul className="math-symbol-grid">
           <li>
             <strong>Σ (sigma)</strong> — <strong>&quot;add all of these.&quot;</strong>
             <br />
@@ -105,7 +108,7 @@ export default function Math() {
   
         <h3>Small Symbols Around Other Symbols</h3>
   
-        <ul>
+        <ul className="math-symbol-grid">
           <li>
             <strong>x<sub>i</sub></strong> — the <strong>i-th item</strong>.
             <br />
@@ -134,13 +137,13 @@ export default function Math() {
   
         <p>Suppose you see:</p>
   
-        <p><strong>ŷ = wx + b</strong></p>
+        <p className="math-equation"><strong>ŷ = wx + b</strong></p>
   
         <p>Don&apos;t immediately think, <em>&quot;Oh no, math.&quot;</em></p>
   
         <p>Translate each symbol:</p>
   
-        <ul>
+        <ul className="math-breakdown">
           <li><strong>x</strong> = input</li>
           <li><strong>w</strong> = importance of that input</li>
           <li><strong>b</strong> = extra adjustment</li>
@@ -149,7 +152,7 @@ export default function Math() {
   
         <p>So the equation is simply saying:</p>
   
-        <p>
+        <p className="math-takeaway">
           <strong>
             &quot;Take the input, multiply it by its importance, add an adjustment,
             and you get the model&apos;s prediction.&quot;
@@ -160,11 +163,11 @@ export default function Math() {
   
         <p>You may eventually see something like:</p>
   
-        <p><strong>θ := θ − α∇J(θ)</strong></p>
+        <p className="math-equation"><strong>θ := θ − α∇J(θ)</strong></p>
   
         <p>Instead of memorizing it, translate it:</p>
   
-        <ul>
+        <ul className="math-breakdown">
           <li><strong>θ</strong> = the model&apos;s current settings</li>
           <li><strong>J</strong> = how wrong the model is</li>
           <li><strong>∇J</strong> = which direction makes the error increase</li>
@@ -174,7 +177,7 @@ export default function Math() {
   
         <p>In normal English:</p>
   
-        <p>
+        <p className="math-takeaway">
           <strong>
             &quot;Change the model&apos;s settings a little bit in the direction that reduces
             its error.&quot;
@@ -203,7 +206,7 @@ export default function Math() {
   
         <p>and starts sounding like:</p>
   
-        <p>
+        <p className="math-takeaway">
           <strong>
             &quot;Make a prediction, compare it with the real answer, measure the error,
             and adjust the model so the next prediction is better.&quot;

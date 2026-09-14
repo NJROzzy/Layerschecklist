@@ -1,0 +1,33 @@
+/* Simulations: compare tools and transfer techniques side by side. */
+
+#simulations {
+  max-width: var(--wide-width);
+}
+
+#simulations .topic-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#simulations .topic-row {
+  grid-template-rows: 1fr auto;
+}
+
+#simulations .topic-code {
+  border-top: 1px solid var(--color-border);
+  border-radius: 0 0 15px 15px;
+}
+
+#simulations > p:last-child {
+  max-width: none;
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 12px 12px 0;
+  background: var(--color-surface-soft);
+}
+
+@media (max-width: 800px) {
+  #simulations .topic-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

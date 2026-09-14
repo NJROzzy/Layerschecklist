@@ -1,0 +1,4 @@
+#week-0 .topic-explain > strong {
+  display: block;
+  margin-bottom: var(--space-2);
+}

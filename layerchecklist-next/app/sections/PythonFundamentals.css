@@ -1,0 +1,32 @@
+/* Python: keep each explanation alongside its code example. */
+
+#python-fundamentals {
+  max-width: var(--wide-width);
+}
+
+#python-fundamentals .topic-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#python-fundamentals .topic-code {
+  border-left: 1px solid var(--color-border);
+  border-radius: 0 15px 15px 0;
+}
+
+#python-fundamentals > p:last-child {
+  margin-top: var(--space-2);
+  padding-left: var(--space-2);
+  border-left: 3px solid var(--color-accent);
+}
+
+@media (max-width: 800px) {
+  #python-fundamentals .topic-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #python-fundamentals .topic-code {
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+    border-radius: 0 0 15px 15px;
+  }
+}

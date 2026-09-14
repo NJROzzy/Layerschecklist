@@ -77,16 +77,24 @@ export default function Home() {
 
     // Fade-in sections on scroll into view
     const sections = document.querySelectorAll(".fade-section");
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
+
+            // Once visible, stop watching it
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.15 }
+      {
+        threshold: 0.01,
+        rootMargin: "0px 0px -80px 0px",
+      }
     );
+
     sections.forEach((section) => observer.observe(section));
 
     return () => {
@@ -115,7 +123,26 @@ export default function Home() {
       </nav>
 
       <header className="hero">
-        <div id="hero-equation"></div>
+        <div className="hero-content">
+          <div id="hero-equation"></div>
+
+          <div className="hero-note">
+            <p>The Perceptron</p>
+
+            <p className="hero-note-detail">
+              Life is a continuous learning process.
+              <br /><br />
+              Take in every experience. Give weight to what helps you grow.
+              Learn from what causes loss. Adjust, try again, and move forward.
+              <br /><br />
+              <strong>
+                You don&apos;t need to begin with the right weights.
+                You just need to keep learning.
+              </strong>
+            </p>
+          </div>
+        </div>
+
         <p className="hero-subtitle">
           Learning machines. Learning mathematics. Learning how to learn.
         </p>

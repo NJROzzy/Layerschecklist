@@ -1,6 +1,9 @@
+import "./Section.css";
+import "./ROS.css";
+
 export default function ROS() {
     return (
-      <section id="ros" className="fade-section">
+      <section id="ros" className="learning-section fade-section">
         <h2>ROS (Robot Operating System)</h2>
   
         <p>
