@@ -8,6 +8,12 @@ type Topic = {
   check: string;
 };
 
+type Contributor = {
+  name: string;
+  contribution: string;
+  year?: string;
+};
+
 type WeeklyLessonProps = {
   week: number;
   title: string;
@@ -18,10 +24,11 @@ type WeeklyLessonProps = {
   questions: string[];
   outcome: string;
   source: { title: string; href: string };
+  contributors?: Contributor[];
 };
 
 export default function WeeklyLesson({
-  week, title, introduction, coreIdea, topics, exercise, questions, outcome, source,
+  week, title, introduction, coreIdea, topics, exercise, questions, outcome, source, contributors,
 }: WeeklyLessonProps) {
   return (
     <section id={`week-${week}`} className="week-block learning-section" aria-labelledby={`week-${week}-title`}>
@@ -58,6 +65,22 @@ export default function WeeklyLesson({
 
       <h3>The Standard You Want</h3>
       <p>{outcome}</p>
+
+      {contributors && contributors.length > 0 && (
+        <>
+          <h3>Who Built This</h3>
+          <div className="contributors-list">
+            {contributors.map((c) => (
+              <div className="contributor-row" key={c.name}>
+                <strong>{c.name}</strong>
+                {c.year && <span className="contributor-year">{c.year}</span>}
+                <p>{c.contribution}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
       <p className="week-reading">Further reading: <a href={source.href}>{source.title}</a></p>
       <Link className="week-back-to-map" href={`/dl#week-${week}`}>Back to the learning map &uarr;</Link>
     </section>

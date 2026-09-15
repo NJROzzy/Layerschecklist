@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { mlRoadmap } from "../../sections/weekly_contents_of_ml/roadmap";
+import { getMLLesson } from "../../sections/weekly_contents_of_ml/lessons";
+import MLLesson from "../../sections/weekly_contents_of_ml/MLLesson";
 import "./week.css";
 
 type WeekPageProps = { params: Promise<{ week: string }> };
@@ -19,15 +21,21 @@ function getWeek(slug: string) {
 }
 
 export async function generateMetadata({ params }: WeekPageProps): Promise<Metadata> {
-  const lesson = getWeek((await params).week);
+  const { week } = await params;
+  const lesson = getWeek(week);
+  const content = getMLLesson(week);
+  if (!content) notFound();
   return {
     title: `Week ${lesson.week}: ${lesson.title} — Layerchecklist`,
-    description: `${lesson.title}. Week ${lesson.week} of the Layerchecklist machine learning series. Lesson content coming soon.`,
+    description: content.summary,
   };
 }
 
 export default async function WeekPage({ params }: WeekPageProps) {
-  const lesson = getWeek((await params).week);
+  const { week } = await params;
+  const lesson = getWeek(week);
+  const content = getMLLesson(week);
+  if (!content) notFound();
   const index = mlRoadmap.indexOf(lesson);
   const previous = mlRoadmap[index - 1];
   const next = mlRoadmap[index + 1];
@@ -36,19 +44,7 @@ export default async function WeekPage({ params }: WeekPageProps) {
     <main className="ml-page ml-week-page">
       <Link href={`/ml#week-${lesson.week}`} className="back-link">&larr; Back to the learning map</Link>
 
-      <article className="ml-upcoming-lesson">
-        <p className="ml-week-label">Machine Learning · Week {lesson.week}</p>
-        <h1>{lesson.title}</h1>
-        <div className="ml-upcoming-note">
-          <span className="ml-upcoming-status">Coming soon</span>
-          <h2>This lesson is on the way.</h2>
-          <p>
-            The content for this week hasn&apos;t been added yet. Use the map or
-            the links below to explore the other weeks in the series.
-          </p>
-          <Link href="/ml">View all weeks &rarr;</Link>
-        </div>
-      </article>
+      <MLLesson lesson={content} title={lesson.title} />
 
       <nav className="ml-week-pagination" aria-label="Previous and next weeks">
         {previous && (

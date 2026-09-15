@@ -247,3 +247,34 @@
     justify-self: end;
   }
 }
+
+
+.learning-section .contributors-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.learning-section .contributor-row {
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+}
+
+.learning-section .contributor-row strong {
+  margin-right: var(--space-2);
+  font-size: var(--text-base);
+}
+
+.learning-section .contributor-year {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.learning-section .contributor-row p {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  line-height: 1.7;
+}
