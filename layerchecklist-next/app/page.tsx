@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Math from "./sections/Math";
 import PythonFundamentals from "./sections/PythonFundamentals";
+import AI from "./sections/AI";
 import PythonLibraries from "./sections/PythonLibraries";
 import ML from "./sections/ML";
 import DL from "./sections/DL";
@@ -10,6 +11,7 @@ import SQL from "./sections/SQL";
 import ROS from "./sections/ROS";
 import CUDA from "./sections/CUDA";
 import SimulationsEnv from "./sections/SimulationsEnv";
+import ThemeToggle from "./ThemeToggle";
 
 declare global {
   interface Window {
@@ -44,30 +46,6 @@ export default function Home() {
       setTimeout(() => clearInterval(interval), 5000);
     }
 
-    // Dark/light mode toggle
-    const toggleBtn = document.getElementById("theme-toggle");
-    const root = document.documentElement;
-
-    function applyTheme(theme: string) {
-      root.setAttribute("data-theme", theme);
-      if (toggleBtn) toggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
-    }
-
-    const savedTheme =
-      localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light");
-    applyTheme(savedTheme);
-
-    const handleToggleClick = () => {
-      const newTheme =
-        root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      localStorage.setItem("theme", newTheme);
-      applyTheme(newTheme);
-    };
-    toggleBtn?.addEventListener("click", handleToggleClick);
-
     // Navbar shrink/blur on scroll
     const navbar = document.getElementById("navbar");
     const handleScroll = () => {
@@ -98,7 +76,6 @@ export default function Home() {
     sections.forEach((section) => observer.observe(section));
 
     return () => {
-      toggleBtn?.removeEventListener("click", handleToggleClick);
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
@@ -111,6 +88,7 @@ export default function Home() {
         <ul>
           <li><a href="#math">Math</a></li>
           <li><a href="#python-fundamentals">Python</a></li>
+          <li><a href="#ai">AI</a></li>
           <li><a href="#python-libraries">Libraries</a></li>
           <li><a href="#ml">ML</a></li>
           <li><a href="#dl">DL</a></li>
@@ -119,7 +97,7 @@ export default function Home() {
           <li><a href="#cuda">CUDA</a></li>
           <li><a href="#simulations">Simulations</a></li>
         </ul>
-        <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        <ThemeToggle />
       </nav>
 
       <header className="hero">
@@ -151,6 +129,7 @@ export default function Home() {
       <main>
         <Math />
         <PythonFundamentals />
+        <AI />
         <PythonLibraries />
         <ML />
         <DL />

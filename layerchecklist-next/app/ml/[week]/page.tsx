@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { mlRoadmap } from "../../sections/weekly_contents_of_ml/roadmap";
 import { getMLLesson } from "../../sections/weekly_contents_of_ml/lessons";
+import { getMLLabs } from "../../sections/weekly_contents_of_ml/labs";
 import MLLesson from "../../sections/weekly_contents_of_ml/MLLesson";
 import "./week.css";
 
@@ -44,7 +45,7 @@ export default async function WeekPage({ params }: WeekPageProps) {
     <main className="ml-page ml-week-page">
       <Link href={`/ml#week-${lesson.week}`} className="back-link">&larr; Back to the learning map</Link>
 
-      <MLLesson lesson={content} title={lesson.title} />
+      <MLLesson lesson={content} title={lesson.title} labs={getMLLabs(lesson.week)} />
 
       <nav className="ml-week-pagination" aria-label="Previous and next weeks">
         {previous && (

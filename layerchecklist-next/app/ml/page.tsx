@@ -31,33 +31,27 @@ export default function MLPage() {
 
       <nav id="ml-weeks" className="ml-learning-map" aria-label="Machine learning weeks in learning order">
         <ol className="ml-map-path" role="list">
-          {mlRoadmap.map((lesson, index) => {
-            const row = Math.floor(index / 3);
-            const movesLeft = row % 2 === 1;
-            const column = movesLeft ? 3 - (index % 3) : (index % 3) + 1;
-            const direction = index === mlRoadmap.length - 1
-              ? "end"
-              : index % 3 === 2 ? "down" : movesLeft ? "left" : "right";
-
-            return (
-              <li
-                id={`week-${lesson.week}`}
-                className={`ml-map-node ml-map-${direction} ${lesson.ready ? "is-ready" : "is-upcoming"}`}
-                key={lesson.week}
-                style={{ "--map-column": column, "--map-row": row + 1 } as CSSProperties}
-              >
-                <Link href={`/ml/week-${lesson.week}`} className="ml-map-card">
-                  <div className="ml-map-card-top">
-                    <span className="ml-map-number" aria-hidden="true">{String(lesson.week).padStart(2, "0")}</span>
-                    <span className="ml-map-status">{lesson.ready ? "Lesson ready" : "Coming soon"}</span>
-                  </div>
+          {mlRoadmap.map((lesson, index) => (
+            <li
+              id={`week-${lesson.week}`}
+              className={`ml-map-node ${lesson.ready ? "is-ready" : "is-upcoming"}`}
+              key={lesson.week}
+              style={{ "--tier": index } as CSSProperties}
+            >
+              <span className="ml-map-tick" aria-hidden="true" />
+              <span className="ml-map-number" aria-hidden="true">{String(lesson.week).padStart(2, "0")}</span>
+              <Link href={`/ml/week-${lesson.week}`} className="ml-map-bar">
+                <div className="ml-map-bar-main">
                   <p className="ml-map-week">Week {lesson.week}</p>
                   <h2>{lesson.title}</h2>
+                </div>
+                <div className="ml-map-bar-meta">
+                  <span className="ml-map-status">{lesson.ready ? "Lesson ready" : "Coming soon"}</span>
                   <span className="ml-map-action">{lesson.ready ? "Read lesson" : "View week"}<span aria-hidden="true">&rarr;</span></span>
-                </Link>
-              </li>
-            );
-          })}
+                </div>
+              </Link>
+            </li>
+          ))}
         </ol>
       </nav>
 

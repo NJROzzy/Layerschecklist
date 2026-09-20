@@ -1,7 +1,8 @@
+import type { ComponentType } from "react";
 import type { MLLesson as LessonData } from "./types";
 import "./MLLesson.css";
 
-export default function MLLesson({ lesson, title }: { lesson: LessonData; title: string }) {
+export default function MLLesson({ lesson, title, labs }: { lesson: LessonData; title: string; labs?: Record<string, ComponentType> }) {
   return (
     <article className="ml-lesson" aria-labelledby="lesson-title">
       <header className="ml-lesson-header">
@@ -27,23 +28,27 @@ export default function MLLesson({ lesson, title }: { lesson: LessonData; title:
         <a href="#review">Review answers</a>
       </nav>
 
-      {lesson.sections.map((section, index) => (
-        <section id={section.id} className="ml-lesson-section" key={section.id} aria-labelledby={`${section.id}-title`}>
-          <h2 id={`${section.id}-title`}>{index + 1}. {section.title}</h2>
-          {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          {section.formula && <pre className="ml-lesson-formula" tabIndex={0} aria-label={`${section.title} formula`}><code>{section.formula}</code></pre>}
-          {section.table && (
-            <div className="ml-lesson-table" tabIndex={0} role="region" aria-label={section.table.caption}>
-              <table>
-                <caption>{section.table.caption}</caption>
-                <thead><tr>{section.table.headers.map((heading) => <th scope="col" key={heading}>{heading}</th>)}</tr></thead>
-                <tbody>{section.table.rows.map((row) => <tr key={row[0]}>{row.map((cell, cellIndex) => cellIndex === 0 ? <th scope="row" key={cellIndex}>{cell}</th> : <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody>
-              </table>
-            </div>
-          )}
-          {section.reference && <p className="ml-lesson-reference">Documentation: <a href={section.reference.href}>{section.reference.title}</a></p>}
-        </section>
-      ))}
+      {lesson.sections.map((section, index) => {
+        const SectionLab = labs?.[section.id];
+        return (
+          <section id={section.id} className="ml-lesson-section" key={section.id} aria-labelledby={`${section.id}-title`}>
+            <h2 id={`${section.id}-title`}>{index + 1}. {section.title}</h2>
+            {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {section.formula && <pre className="ml-lesson-formula" tabIndex={0} aria-label={`${section.title} formula`}><code>{section.formula}</code></pre>}
+            {section.table && (
+              <div className="ml-lesson-table" tabIndex={0} role="region" aria-label={section.table.caption}>
+                <table>
+                  <caption>{section.table.caption}</caption>
+                  <thead><tr>{section.table.headers.map((heading) => <th scope="col" key={heading}>{heading}</th>)}</tr></thead>
+                  <tbody>{section.table.rows.map((row) => <tr key={row[0]}>{row.map((cell, cellIndex) => cellIndex === 0 ? <th scope="row" key={cellIndex}>{cell}</th> : <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody>
+                </table>
+              </div>
+            )}
+            {SectionLab && <SectionLab />}
+            {section.reference && <p className="ml-lesson-reference">Documentation: <a href={section.reference.href}>{section.reference.title}</a></p>}
+          </section>
+        );
+      })}
 
       <section id="worked-example" className="ml-lesson-section" aria-labelledby="example-title">
         <h2 id="example-title">Complete example: {lesson.example.title}</h2>

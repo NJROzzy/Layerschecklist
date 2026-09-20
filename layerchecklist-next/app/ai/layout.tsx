@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import ThemeToggle from "../ThemeToggle";
-import "./dl.css";
+import "./ai.css";
 
-export default function DLLayout({ children }: { children: ReactNode }) {
+export default function AILayout({ children }: { children: ReactNode }) {
   return (
     <>
       <ThemeToggle variant="floating" />

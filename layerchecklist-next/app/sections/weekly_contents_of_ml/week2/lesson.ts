@@ -2,41 +2,65 @@ import type { MLLesson } from "../types";
 
 const lesson: MLLesson = {
   week: 2,
-  summary: "Improve the information a model can use by changing how inputs are represented. You will construct meaningful transformations, distinguish feature creation from feature selection, and compare raw and polynomial features without contaminating evaluation data.",
-  prerequisites: "Weeks 0–1: pipelines, regression versus classification, and cross-validation. Be comfortable with arrays and simple algebra.",
-  objectives: ["Explain why the same model can behave differently with different features.", "Choose transformations with a clear domain meaning and handle their edge cases.", "Measure the value of an added feature group using the same validation folds."],
+  summary: "Feature Engineering for ML: improve what a model can learn by changing how its inputs are represented. You'll build meaningful transformations, tell feature creation apart from feature selection, and compare raw versus polynomial features without leaking information into your evaluation.",
+  prerequisites: "Weeks 0–1: pipelines, regression versus classification, and cross-validation. You should be comfortable with arrays and basic algebra.",
+  objectives: [
+    "Explain why the same model can behave differently depending on its features.",
+    "Choose transformations that have a clear real-world meaning, and handle their edge cases.",
+    "Measure whether an added feature group actually helps, using the same validation folds each time.",
+  ],
   workflow: ["State a hypothesis", "Construct features", "Compare on folds", "Keep useful changes"],
   sections: [
     {
-      id: "representation", title: "Change the representation, not the evidence",
-      paragraphs: ["A linear model on x can only represent a weighted sum of its input columns. Give it x squared as an additional column, and it can represent a quadratic relationship in the original input while remaining linear in its coefficients. The learning algorithm did not become nonlinear in its parameters; its representation changed.", "Feature engineering should express a plausible relationship, such as a rate, interaction, or recurring time pattern. It cannot create independent evidence that was never measured. A feature computed from the target or a future event can appear extremely useful while making evaluation invalid."],
+      id: "representation",
+      title: "Change the representation, not the evidence",
+      paragraphs: [
+        "A linear model on x can only represent a weighted sum of its input columns. Give it x-squared as an extra column, and it can now represent a quadratic relationship in the original input — while still being linear in its coefficients. The algorithm itself didn't become nonlinear; only its representation of the input changed.",
+        "Good feature engineering expresses a plausible relationship — a rate, an interaction, a recurring time pattern. It can't manufacture evidence that was never actually measured. A feature computed from the target, or from a future event, can look extremely useful while quietly making your evaluation invalid.",
+      ],
       formula: "Raw features: y_hat = b + w1*x1 + w2*x2\nExpanded features: y_hat = b + w1*x1 + w2*x2\n                          + w3*x1^2 + w4*x1*x2 + w5*x2^2",
       reference: { title: "Polynomial feature expansion", href: "https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html" },
     },
     {
-      id: "domain-transformations", title: "Choose transformations with explicit assumptions",
-      paragraphs: ["A ratio such as completed tasks per hour may be more meaningful than either count alone. Define what happens when the denominator is zero: keep a missing value and an indicator, or use a domain-specific rule. Silently adding an arbitrary constant changes the meaning of the feature.", "For nonnegative counts, log1p(x) computes log(1+x), including zero, and compresses large values. It does not guarantee normality or better predictions. For periodic features, a sine/cosine pair can represent adjacency across the cycle boundary: hour 23 is near hour 0. Both coordinates are needed to identify positions around the cycle."],
+      id: "domain-transformations",
+      title: "Choose transformations with explicit assumptions",
+      paragraphs: [
+        "A ratio like completed-tasks-per-hour can be more meaningful than either count on its own — but you need to decide up front what happens when the denominator is zero: keep a missing value plus an indicator flag, or apply a domain-specific rule. Silently adding an arbitrary constant just to avoid the error quietly changes what the feature means.",
+        "For nonnegative counts, log1p(x) computes log(1+x), handles zero cleanly, and compresses large values — but it doesn't guarantee normality or better predictions on its own. For periodic features, a sine/cosine pair captures adjacency across the cycle boundary: hour 23 sits right next to hour 0. You need both coordinates together to correctly identify a position around the cycle — either one alone loses that information.",
+      ],
       formula: "hour_sin = sin(2*pi*hour/24)\nhour_cos = cos(2*pi*hour/24)\ninteraction = feature_a * feature_b",
     },
     {
-      id: "categories-and-scale", title: "Match encoding and scale to the model",
-      paragraphs: ["One-hot encoding is a useful starting point for nominal categories. Ordinal encoding is appropriate when order has a justified meaning, but it still assigns numeric spacing that a model may interpret. A category vocabulary fitted on training rows must be reused on new rows.", "After expansion, numeric columns may have very different magnitudes. Scale them inside the pipeline before fitting a regularized linear model so that the penalty is not dominated merely by units. StandardScaler can be sensitive to extreme values; robustness requires a considered choice of representation and estimator, not an automatic cleaning recipe."],
+      id: "categories-and-scale",
+      title: "Match encoding and scale to the model",
+      paragraphs: [
+        "One-hot encoding is a solid default for nominal categories with no inherent order. Ordinal encoding makes sense when order genuinely matters — but it still imposes numeric spacing that a model may read too literally. Whatever category vocabulary you fit on training rows has to be reused unchanged on new rows.",
+        "After expansion, numeric columns can end up on very different scales. Scale them inside the pipeline before fitting a regularized linear model, so the penalty isn't dominated purely by units rather than actual importance. StandardScaler is sensitive to extreme values — robustness comes from choosing the right representation and estimator, not from an automatic cleaning step.",
+      ],
       reference: { title: "Encoding, scaling, and transformations", href: "https://scikit-learn.org/stable/modules/preprocessing.html" },
     },
     {
-      id: "selection", title: "Separate feature selection from feature creation",
-      paragraphs: ["Feature creation adds or transforms columns. Feature selection retains a subset. More columns can increase cost, variance, and accidental correlations. Polynomial expansion grows quickly as both the number of inputs and degree increase, so a small useful expansion is a better starting experiment than every possible interaction.", "A supervised selector such as SelectKBest uses y during fitting and must be inside the cross-validation pipeline. Selecting features on all rows before validation leaks labels. A low univariate score does not prove a feature is useless: two features may matter through an interaction even if either one has little individual association with the target."],
+      id: "selection",
+      title: "Separate feature selection from feature creation",
+      paragraphs: [
+        "Feature creation adds or transforms columns. Feature selection keeps a subset of what's already there. More columns cost more, add variance, and increase the chance of accidental correlations. Polynomial expansion grows fast as both input count and degree increase — a small, deliberate expansion is a better first experiment than generating every possible interaction.",
+        "A supervised selector like SelectKBest looks at y while fitting, so it must live inside the cross-validation pipeline, not run beforehand. Selecting features on all rows before validation leaks label information. And a low univariate score doesn't prove a feature is useless — two features can matter together through an interaction even when neither shows much value alone.",
+      ],
       reference: { title: "Feature-selection methods", href: "https://scikit-learn.org/stable/modules/feature_selection.html" },
     },
     {
-      id: "ablation", title: "Test the contribution with an ablation",
-      paragraphs: ["An ablation compares a model with and without a particular component. Here, compare the same Ridge estimator on raw features and degree-two features, using identical training folds and the same error metric. This isolates the representation change more clearly than changing features, estimator, and split together.", "Use mean validation error to choose the representation, then fit that choice on all training rows. Inspect the reserved test set only after the choice. Coefficients and feature importance describe a fitted predictive model; they do not establish that changing a feature would cause the target to change."],
+      id: "ablation",
+      title: "Test the contribution with an ablation",
+      paragraphs: [
+        "An ablation compares a model with a component present versus absent. Here, compare the same Ridge estimator on raw features against degree-two features, using identical training folds and the same error metric. That isolates the effect of the representation change far more clearly than changing the features, the estimator, and the split all at once.",
+        "Use mean validation error to choose the representation, then fit that choice on all training rows. Only look at the reserved test set after you've made that decision. Coefficients and feature importance describe how the fitted model behaves — they don't establish that changing a feature would actually change the real-world target.",
+      ],
       reference: { title: "Pipelines and composite estimators", href: "https://scikit-learn.org/stable/modules/compose.html" },
     },
   ],
   example: {
     title: "Expose a hidden quadratic relationship",
-    description: "Generate a regression target containing a squared term and an interaction. Compare two otherwise identical Ridge pipelines, select the representation by validation MAE, and inspect its feature names and final test error.",
+    description: "Generate a regression target containing a squared term and an interaction. Compare two otherwise identical Ridge pipelines, pick the representation using validation MAE, then inspect its feature names and final test error.",
     install: "python -m pip install numpy scikit-learn",
     code: `import numpy as np
 from sklearn.base import clone
@@ -91,19 +115,27 @@ cyclic = np.column_stack([
 ])
 print("23:00-to-00:00 cyclic distance:", np.linalg.norm(cyclic[0] - cyclic[1]))
 `,
-    observations: ["Degree-two features should substantially improve validation MAE on this deliberately quadratic dataset. That result does not imply polynomial features help every dataset.", "The expanded representation contains x1, x2, x1^2, x1 x2, and x2^2. include_bias=False avoids an extra constant column because Ridge already fits an intercept.", "The cyclic distance between hour 23 and hour 0 is approximately 0.261, reflecting their proximity around the daily cycle."],
+    observations: [
+      "Degree-two features should substantially improve validation MAE on this deliberately quadratic dataset — that doesn't mean polynomial features will help every dataset you try this on.",
+      "The expanded representation contains x1, x2, x1^2, x1*x2, and x2^2. include_bias=False skips an extra constant column since Ridge already fits an intercept on its own.",
+      "The cyclic distance between hour 23 and hour 0 comes out to roughly 0.261 — reflecting how close they actually are around the daily cycle.",
+    ],
   },
-  pitfalls: ["Engineering a feature using an outcome that becomes available only after prediction time.", "Applying supervised feature selection before cross-validation rather than inside each fold.", "Adding many features and interpreting a small validation improvement as proof of a general rule."],
+  pitfalls: [
+    "Engineering a feature from an outcome that only becomes available after prediction time.",
+    "Running supervised feature selection before cross-validation instead of inside each fold.",
+    "Adding many features and treating a small validation improvement as proof of a general rule.",
+  ],
   exercises: [
-    { task: "Add a degree-three candidate using the same folds. Compare its validation MAE with degree two without inspecting the test set.", success: "You can justify a representation using validation results and complexity, without assuming that a higher degree must win." },
-    { task: "Replace the target-generating equation with a purely linear equation and rerun model selection as a separate experiment.", success: "You explain why the advantage of the quadratic representation may disappear." },
-    { task: "Design a tasks-per-hour feature for rows with zero, missing, and positive recorded hours.", success: "Every case has a documented policy, and no infinite values reach the estimator." },
+    { task: "Add a degree-three candidate using the same folds. Compare its validation MAE against degree two, without looking at the test set.", success: "You can justify a representation choice using validation results and complexity — without assuming a higher degree automatically wins." },
+    { task: "Swap the target-generating equation for a purely linear one, then rerun model selection as a separate experiment.", success: "You can explain why the quadratic representation's advantage disappears." },
+    { task: "Design a tasks-per-hour feature that handles rows with zero, missing, and positive recorded hours.", success: "Every case has a documented policy, and no infinite values ever reach the estimator." },
   ],
   review: [
-    { question: "Is Ridge with polynomial features still linear?", answer: "It is linear in its fitted coefficients, but its predictions can be nonlinear in the original inputs. The feature transformation supplies powers and interactions before the linear estimator." },
-    { question: "Why keep a selector inside the pipeline?", answer: "A selector may learn from X and y. Keeping it inside the pipeline ensures it is refitted using only each training fold, rather than seeing validation labels in advance." },
-    { question: "Why use both sine and cosine for hour?", answer: "One coordinate alone maps multiple hours to the same value. The pair locates the hour around a circle and preserves the wraparound relationship." },
-    { question: "Does a useful predictive feature establish causation?", answer: "No. Predictive relationships can reflect correlation, confounding, or collection artifacts. A causal conclusion needs a suitable causal design and assumptions." },
+    { question: "Is Ridge with polynomial features still linear?", answer: "It's linear in its fitted coefficients, but its predictions can be nonlinear in the original inputs. The feature transformation supplies the powers and interactions before the linear estimator ever sees them." },
+    { question: "Why keep a selector inside the pipeline?", answer: "A selector can learn from both X and y. Keeping it inside the pipeline ensures it's refit using only each training fold — never peeking at validation labels ahead of time." },
+    { question: "Why use both sine and cosine for hour?", answer: "A single coordinate maps multiple hours to the same value. The pair together locates the hour uniquely around a circle and preserves the wraparound relationship at the boundary." },
+    { question: "Does a useful predictive feature prove causation?", answer: "No. A predictive relationship can just as easily reflect correlation, confounding, or an artifact of how the data was collected. A causal conclusion needs its own causal design and assumptions." },
   ],
 };
 
