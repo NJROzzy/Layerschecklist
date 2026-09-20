@@ -46,12 +46,12 @@
 .ai-page .ai-contents a[aria-current="true"] { color: var(--ai-accent); font-weight: 650; box-shadow: inset 0 -2px var(--ai-accent); }
 .ai-page .ai-contents a[aria-current="true"] span { color: var(--ai-accent); }
 /* Floating reading-position pill. Centered so it clears the corner theme toggle. */
-.ai-chapter-bar { position: fixed; z-index: 30; top: calc(12px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); width: max-content; max-width: min(620px, calc(100vw - 112px)); border: 1px solid var(--ai-line); border-radius: 999px; background: color-mix(in srgb, var(--color-surface) 88%, transparent); backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); overflow: hidden; animation: ai-chapter-bar-in .2s ease-out; }
+.ai-chapter-bar { pointer-events: none; position: fixed; z-index: 30; top: calc(12px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); width: max-content; max-width: min(620px, calc(100vw - 112px)); border: 1px solid var(--ai-line); border-radius: 999px; background: color-mix(in srgb, var(--color-surface) 88%, transparent); backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); overflow: hidden; animation: ai-chapter-bar-in .2s ease-out; }
 @keyframes ai-chapter-bar-in { from { opacity: 0; transform: translate(-50%, -8px); } to { opacity: 1; transform: translate(-50%, 0); } }
 .ai-chapter-bar-body { display: flex; align-items: center; gap: 14px; padding: 10px 20px 11px; font-size: 13px; }
 .ai-chapter-bar-body .ai-eyebrow { flex: 0 0 auto; color: var(--ai-accent); }
 .ai-chapter-bar-body strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-text); }
-.ai-chapter-bar-body a { flex: 0 0 auto; margin-left: auto; color: var(--color-muted); font-size: 12px; text-decoration: none; }
+.ai-chapter-bar-body a { pointer-events: auto; flex: 0 0 auto; margin-left: auto; color: var(--color-muted); font-size: 12px; text-decoration: none; }
 .ai-chapter-bar-body a:hover { color: var(--ai-accent); }
 .ai-chapter-bar-track { height: 3px; background: var(--ai-line); }
 .ai-chapter-bar-track > span { display: block; height: 100%; background: var(--ai-accent); transition: width .12s linear; }

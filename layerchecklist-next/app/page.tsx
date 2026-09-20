@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Math from "./sections/Math";
+import MathOfAI from "./sections/MathOfAI";
 import PythonFundamentals from "./sections/PythonFundamentals";
 import AI from "./sections/AI";
 import PythonLibraries from "./sections/PythonLibraries";
@@ -128,6 +129,7 @@ export default function Home() {
 
       <main>
         <Math />
+        <MathOfAI />
         <PythonFundamentals />
         <AI />
         <PythonLibraries />

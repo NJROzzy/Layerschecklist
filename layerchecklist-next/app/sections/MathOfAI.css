@@ -1,0 +1,19 @@
+#math-of-ai { max-width: 920px; border-top: 1px solid var(--color-border); }
+#math-of-ai .moa-eyebrow { color: var(--color-accent); font: 700 11px/1.6 ui-monospace, monospace; letter-spacing: .09em; margin-bottom: 14px; }
+#math-of-ai .moa-path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; margin: 28px 0 20px; }
+#math-of-ai .moa-path li { margin: 0; min-width: 0; }
+#math-of-ai .moa-path a { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px 10px; height: 100%; padding: 18px; border: 1px solid var(--color-border); background: var(--color-surface); border-radius: 12px; text-decoration: none; }
+#math-of-ai .moa-path a:hover { border-color: var(--color-accent); }
+#math-of-ai .moa-path span { grid-row: span 2; color: var(--color-accent); font: 12px/1.9 ui-monospace, monospace; }
+#math-of-ai .moa-path strong { font-size: 15px; }
+#math-of-ai .moa-path small { color: var(--color-muted); font-size: 12px; line-height: 1.6; }
+#math-of-ai .moa-extras { display: grid; gap: 10px; margin-bottom: 28px; }
+#math-of-ai .moa-extras a { display: grid; gap: 3px; padding: 15px 18px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-soft); text-decoration: none; }
+#math-of-ai .moa-extras a:hover { border-color: var(--color-accent); }
+#math-of-ai .moa-extras strong { font-size: 14px; }
+#math-of-ai .moa-extras small { color: var(--color-muted); font-size: 12.5px; line-height: 1.6; }
+#math-of-ai .moa-start { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 48px; padding: 12px 20px; border-radius: 8px; background: var(--color-accent); color: var(--color-bg); text-decoration: none; font-size: 14px; font-weight: 650; }
+#math-of-ai .moa-note { margin-top: 16px; font-size: 12px; color: var(--color-muted); }
+#math-of-ai a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+@media (max-width: 760px) { #math-of-ai .moa-path { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { #math-of-ai .moa-path { grid-template-columns: minmax(0, 1fr); } }
