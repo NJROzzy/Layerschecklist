@@ -3,6 +3,8 @@ import Link from "next/link";
 import ChapterNav from "./ChapterNav";
 import Formula from "./Formula";
 import UniverseMap from "./UniverseMap";
+import { FoundationsChapter, StatisticsChapter, NumericsChapter } from "./AdditionalChapters";
+import { concepts, sectors } from "./universe";
 import { AlgebraLab, ChainRuleLab, CombinationLab, DerivativeLab, DescentLab, GaussianLab, KLLab, NumberLab, ProbabilityLab, RegularizationLab, SVDLab, TaylorLab, VariableLab, VectorLab } from "./Explorers";
 import { algebraMoves, calculusSteps, combinations, distributions, firstSteps, frontier, glossary, logRules, matrixFacts, normFamily, optimizerMath, resources, reviewedOn, reviewedOnISO, worldEchoes } from "./content";
 
@@ -35,26 +37,26 @@ export default function MathPage() {
     <section id="universe" className="math-opening">
       <header className="math-opening-head">
         <span className="math-eyebrow">BEFORE ANY OF THE DETAIL</span>
-        <h2>One circle. Everything mathematics has found.</h2>
-        <p>Draw a circle and call it the universe. Every dot inside is one idea people have discovered or built. Distance from the centre is how much has to exist first: the middle is counting and sets, the rim is where research happens. Each wedge is a branch.</p>
+        <h2>A universe of mathematics. Find your constellation.</h2>
+        <p>Explore {concepts.length} ideas across {sectors.length} constellations, from numbers and logic to geometry, dynamics and learning theory. Select a star to see its meaning, connections and available lessons.</p>
       </header>
 
-      <p>The dots that glow are the ones AI is built from. There are fewer of them than you might expect, and they are scattered rather than clustered — which is the point. The mathematics behind a language model is not one region of this circle. It is a thin path drawn across most of it, and almost everything else has nothing to do with AI at all.</p>
+      <p>The brighter stars have an AI connection listed here. Follow a guided path, search for a topic, or explore a branch. This is a curated atlas with an emphasis on AI foundations; its proportions do not measure how much of all mathematics AI uses.</p>
       <UniverseMap />
       <div className="math-card-grid">
-        <article><span className="math-eyebrow">READ IT OUTWARD</span><h3>Depth is dependency</h3><p>Nothing near the rim is harder for its own sake. It is further out because more has to be built underneath it. Curvature needs manifolds, which need continuity, which needs limits, which need the real numbers — five rings, one chain.</p></article>
-        <article><span className="math-eyebrow">READ IT AROUND</span><h3>Branches are conveniences</h3><p>The wedges are how universities timetable the subject, not how it works. Eigenvalues sit in linear algebra and answer questions in probability, physics and optimisation. The prerequisite lines cross the circle constantly.</p></article>
-        <article><span className="math-eyebrow">READ WHAT IS DARK</span><h3>Most of it is not about AI</h3><p>Switch to <em>Used by AI</em> and most of the circle goes out. What remains was not designed for this — it was lying around, built for other reasons, and turned out to fit.</p></article>
+        <article><span className="math-eyebrow">READ IT OUTWARD</span><h3>Study from the inside out</h3><p>The inner region begins with familiar objects. Outer stars introduce more advanced connections. These are approximate study levels, not exact prerequisites; active research exists at every level.</p></article>
+        <article><span className="math-eyebrow">READ IT AROUND</span><h3>Branches are conveniences</h3><p>A branch gives an idea a home on the map. Connections cross those boundaries: eigenvalues appear in linear algebra, probability, physics and optimization. Select a star to distinguish what it builds on from what it leads to.</p></article>
+        <article><span className="math-eyebrow">FOLLOW THE CONNECTIONS</span><h3>An application is a starting point</h3><p>The AI filter highlights the applications recorded in this atlas. An unmarked star may still have applications elsewhere. A ring around a star means there is a lesson you can open from its detail card.</p></article>
       </div>
       <aside className="math-callout">
-        <strong>What the circle is not</strong>
-        <p>It is not complete, and it cannot be. Every dot here is a whole field with its own circle inside it, and entire branches — number theory, mathematical logic, algebraic topology, numerical PDEs — are compressed to a handful of dots or missing outright. Treat it as a map at the scale where you can see the shape of the country, not the streets. The honest claim is that the dots are real, the dependencies are real, and the pattern of which ones AI lights up is real.</p>
+        <strong>A map to keep extending</strong>
+        <p>This atlas includes number theory, logic and foundations, differential equations, and learning theory alongside the core AI mathematics. It remains a selection, not an exhaustive inventory. Connections show useful study relationships; they are not a unique or mandatory order.</p>
       </aside>
       <p>There is one more thing worth noticing before you scroll on. Trace any glowing dot back through what it is built on and you will land, within a few steps, in the middle of the circle — at counting, at sets, at the idea of a variable. There is no separate advanced mathematics that AI runs on. It is the ordinary material, composed further than usual.</p>
         </section>
 
     <div className="math-overview-meta">
-      <span>No prior mathematics assumed</span><span>12 chapters</span><span>14 interactive labs</span>
+      <span>No prior mathematics assumed</span><span>15 chapters</span><span>17 interactive labs</span>
       <span>Open questions reviewed <time dateTime={reviewedOnISO}>{reviewedOn}</time></span>
     </div>
 
@@ -91,8 +93,10 @@ export default function MathPage() {
     </section>
 
     {/* ---------------------------------------------------------------- */}
+    <FoundationsChapter />
+
     <section id="algebra" className="math-chapter">
-      <ChapterHeading number="03" title="Algebra is not a bag of tricks.">
+      <ChapterHeading number="04" title="Algebra is not a bag of tricks.">
         <p>It is a very short list of moves you are permitted to make, plus the judgement of which one gets you closer. Most people who believe they are bad at algebra were taught the tricks without the list.</p>
       </ChapterHeading>
       <AlgebraLab />
@@ -113,7 +117,7 @@ export default function MathPage() {
 
     {/* ---------------------------------------------------------------- */}
     <section id="functions" className="math-chapter">
-      <ChapterHeading number="04" title="A function is a machine with one output per input.">
+      <ChapterHeading number="05" title="A function is a machine with one output per input.">
         <p>That is the entire definition, and the &ldquo;one&rdquo; is the load-bearing word: feed in the same input twice and you must get the same answer. A neural network, all hundred billion parameters of it, is one function.</p>
       </ChapterHeading>
       <div className="math-card-grid">
@@ -121,7 +125,7 @@ export default function MathPage() {
         <article><span className="math-eyebrow">RANGE</span><h3>What can come out</h3><p>A sigmoid can only emit values in (0, 1), which is exactly why it can stand for a probability. Matching a range to a meaning is most of the reason to choose one activation over another.</p></article>
         <article><span className="math-eyebrow">COMPOSITION</span><h3>Feeding one into the next</h3><p>f(g(x)) means do g, then f. A deep network is composition repeated dozens of times, and the chain rule is how you differentiate through it.</p></article>
       </div>
-      <p>Composition is the idea that makes depth mean something — and it comes with a warning. Compose two linear functions and you get another linear function: <Formula tex="W_2(W_1x + b_1) + b_2 = (W_2W_1)x + (W_2b_1 + b_2)" plain="W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂)" />, which is just one linear layer with different numbers. A hundred stacked linear layers are worth exactly one. Putting a nonlinear function between them is what buys you depth, and it is the only reason activation functions exist.</p>
+      <p>Composition is the idea that makes depth mean something — and it comes with a warning. Compose two affine layers and you get another affine layer: <Formula tex="W_2(W_1x + b_1) + b_2 = (W_2W_1)x + (W_2b_1 + b_2)" plain="W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂)" />, which is one affine layer with different weights and bias. A hundred stacked linear layers are worth exactly one. Putting a nonlinear function between them is what buys you depth, and it is the only reason activation functions exist.</p>
       <div className="math-table-wrap" tabIndex={0} role="region" aria-label="Function families and where they appear">
         <table>
           <thead><tr><th scope="col">Family</th><th scope="col">Shape</th><th scope="col">Where it shows up in AI</th></tr></thead>
@@ -139,7 +143,7 @@ export default function MathPage() {
 
     {/* ---------------------------------------------------------------- */}
     <section id="linear-algebra" className="math-chapter">
-      <ChapterHeading number="05" title="Learn this before calculus.">
+      <ChapterHeading number="06" title="Learn this before calculus.">
         <p>People are told that calculus is the mathematics of machine learning. Linear algebra is the one you will read on day one — it is what every shape in your code means, and what a forward pass is written in. Calculus explains how training works; linear algebra explains what is being trained.</p>
       </ChapterHeading>
       <VectorLab />
@@ -171,15 +175,17 @@ export default function MathPage() {
         </table>
       </div>
       <SVDLab />
+      <h3>Two uses of the same geometry</h3>
+      <div className="math-definition-grid"><div><h4>Least squares</h4><p>Choose w to minimize ‖Xw − y‖². The residual at an optimum is orthogonal to the column space: Xᵀ(Xw − y) = 0. A unique coefficient solution requires full column rank; the pseudoinverse selects a minimum-norm solution otherwise. In code, use a solver instead of forming an explicit inverse.</p></div><div><h4>Principal component analysis</h4><p>Center the feature columns, write X = UΣVᵀ, and project onto the first k columns of V. Their squared singular values, divided by n − 1, are sample covariance eigenvalues. PCA preserves maximal variance among rank-k orthogonal projections; large variance need not be useful predictive signal.</p></div></div>
       <aside className="math-callout">
         <strong>Tensors are not a new idea</strong>
-        <p>A vector is a list, a matrix is a grid, and a tensor is the same thing with as many dimensions as you need — a batch of images is (batch, channels, height, width). Broadcasting is the rule that lets shapes that nearly match line up automatically. Neither is deep mathematics, and both are what you will actually spend your debugging time on.</p>
+        <p>A vector is a list, a matrix is a grid, and a tensor is the same thing with as many axes as you need in array libraries — a batch of images is (batch, channels, height, width). Broadcasting is the rule that lets shapes that nearly match line up automatically. This array usage is distinct from the coordinate-transformation definition of a tensor in geometry. Shape rules still need to be checked explicitly.</p>
       </aside>
     </section>
 
     {/* ---------------------------------------------------------------- */}
     <section id="calculus" className="math-chapter">
-      <ChapterHeading number="06" title="Calculus is one idea, approached carefully.">
+      <ChapterHeading number="07" title="Calculus is one idea, approached carefully.">
         <p>It has a reputation for difficulty that comes almost entirely from how it is taught: rules first, meaning later, if ever. There is really one question — <em>when this changes a little, how much does that change?</em> — and everything else is technique for answering it without doing arithmetic by hand every time.</p>
       </ChapterHeading>
       <ol className="math-steps">
@@ -215,12 +221,12 @@ export default function MathPage() {
           <thead><tr><th scope="col">Object</th><th scope="col">Shape</th><th scope="col">Answers</th><th scope="col">In AI</th></tr></thead>
           <tbody>
             <tr><th scope="row">Gradient ∇f</th><td>A vector, one entry per input</td><td>How one output responds to every input</td><td>What an optimiser steps along.</td></tr>
-            <tr><th scope="row">Jacobian J</th><td>A matrix, outputs × inputs</td><td>How every output responds to every input</td><td>What backpropagation multiplies at each layer — without ever building it, because a Jacobian-vector product is far cheaper than the Jacobian.</td></tr>
-            <tr><th scope="row">Hessian H</th><td>A matrix, inputs × inputs</td><td>How the <em>gradient</em> responds to every input — curvature</td><td>Sets the largest stable learning rate. Too big to form for a real model, so it is probed rather than computed.</td></tr>
+            <tr><th scope="row">Jacobian J</th><td>A matrix, outputs × inputs</td><td>How every output responds to every input</td><td>Reverse-mode backpropagation propagates a vector–Jacobian product (equivalently Jᵀv in column notation), without building the full Jacobian.</td></tr>
+            <tr><th scope="row">Hessian H</th><td>A matrix, inputs × inputs</td><td>How the <em>gradient</em> responds to every input — curvature</td><td>Describes local curvature. For a positive-definite quadratic, its largest eigenvalue sets the plain-gradient-descent stability bound. Large models often use Hessian–vector products.</td></tr>
           </tbody>
         </table>
       </div>
-      <p>Curvature is worth dwelling on, because it explains a daily frustration. If the loss curves sharply in one direction and gently in another, a single learning rate cannot suit both: large enough to make progress along the flat direction, it oscillates along the sharp one. That ratio is the Hessian&apos;s condition number, and it is the real reason adaptive optimisers and normalisation layers help.</p>
+      <p>Curvature is worth dwelling on, because it explains a daily frustration. If the loss curves sharply in one direction and gently in another, a single learning rate cannot suit both: large enough to make progress along the flat direction, it oscillates along the sharp one. For a positive-definite quadratic, the ratio of the largest to smallest Hessian eigenvalue measures this conditioning. Neural losses need not have a positive-definite Hessian, and adaptive updates do not directly compute this curvature.</p>
       <h3>How derivatives are actually computed</h3>
       <p>Not by hand, not symbolically, and not by finite differences. A framework records every operation you perform into a <strong>computational graph</strong>, then applies the chain rule backwards through it — <strong>reverse-mode automatic differentiation</strong>. The results are exact to floating-point precision, and one backward sweep produces the gradient for every parameter at once.</p>
       <div className="math-card-grid">
@@ -235,18 +241,18 @@ export default function MathPage() {
 
     {/* ---------------------------------------------------------------- */}
     <section id="probability" className="math-chapter">
-      <ChapterHeading number="07" title="A prediction is a claim about uncertainty.">
-        <p>A classifier does not output &ldquo;cat&rdquo;. It outputs a distribution over the possibilities, and training grades how surprised that distribution was by the truth. Probability is what makes both halves of that sentence precise.</p>
+      <ChapterHeading number="08" title="A prediction is a claim about uncertainty.">
+        <p>A probabilistic classifier can output a distribution over possible labels, and training grades how surprised that distribution was by the truth. Probability is what makes both halves of that sentence precise.</p>
       </ChapterHeading>
       <ProbabilityLab />
       <div className="math-card-grid">
-        <article><span className="math-eyebrow">RANDOM VARIABLE</span><h3>A quantity that depends on chance</h3><p>Not a variable in the algebra sense. It has a distribution rather than a value, and you ask it for probabilities and averages.</p></article>
+        <article><span className="math-eyebrow">RANDOM VARIABLE</span><h3>A quantity that depends on chance</h3><p>A random variable maps outcomes to values. Before observing the outcome we describe its distribution; after observing it we have a realization.</p></article>
         <article><span className="math-eyebrow">EXPECTATION</span><h3>The long-run average</h3><p>E[X] weights every possible value by its probability. Nearly every loss you will meet is an expectation estimated from a sample — which is exactly what a mini-batch is.</p></article>
         <article><span className="math-eyebrow">BAYES</span><h3>Updating a belief with evidence</h3><p>P(A|B) = P(B|A)P(A) / P(B). New evidence reweights what you already believed; it does not replace it.</p></article>
       </div>
       <p>Two ideas from information theory follow immediately and are worth meeting by name. <strong>Entropy</strong> is the average surprise of a distribution — how uncertain it is. <strong>Cross-entropy</strong> is the average surprise your predicted distribution feels when reality is drawn from the true one. Minimising it is the same as maximising likelihood, which is why the standard classification loss is not an arbitrary choice but the statistically principled one.</p>
       <h3>Spread, and how two quantities move together</h3>
-      <p>The mean says where a distribution sits. <strong>Variance</strong> says how widely it spreads, and its square root, the standard deviation, puts that back in the original units. <strong>Covariance</strong> asks the same question of two quantities at once: do they rise and fall together? Collect every pair into a grid and you have a covariance matrix — which PCA diagonalises, whitening removes, and a Gaussian is completely defined by.</p>
+      <p>The mean says where a distribution sits. <strong>Variance</strong> says how widely it spreads, and its square root, the standard deviation, puts that back in the original units. <strong>Covariance</strong> measures how two centered quantities vary together. Collect the pairwise covariances into a matrix: PCA diagonalizes it, and whitening transforms it toward identity when the required directions are nondegenerate. A multivariate Gaussian requires both a mean vector and a covariance matrix.</p>
       <GaussianLab />
       <h3>The distributions worth knowing by name</h3>
       <p>A distribution is a shape of uncertainty. You do not need many.</p>
@@ -257,8 +263,8 @@ export default function MathPage() {
         </table>
       </div>
       <h3>Choosing parameters: maximum likelihood</h3>
-      <p>Given data and a family of distributions, which member produced it? <strong>Maximum likelihood</strong> answers: pick the parameters making the observed data most probable. Take the log — by that first rule from chapter one — and the product over examples becomes a sum, and maximising it becomes minimising its negative. That negative log-likelihood <em>is</em> cross-entropy. The standard loss was not invented for neural networks; it is a century-old statistical principle arriving under a different name.</p>
-      <p>Add a prior belief about the parameters and you get <strong>MAP</strong> estimation instead — and a Gaussian prior on the weights turns out to be exactly an L2 penalty. Regularisation is not a hack bolted onto the loss; it is a prior, written in the other notation.</p>
+      <p>Given data and a family of distributions, which member produced it? <strong>Maximum likelihood</strong> answers: pick the parameters maximizing the observed data&apos;s probability mass or density. Take the log — by that first rule from chapter one — and for independent observations the product over examples becomes a sum, and maximising it becomes minimising its negative. That negative log-likelihood <em>is</em> cross-entropy. The standard loss was not invented for neural networks; it is a century-old statistical principle arriving under a different name.</p>
+      <p>Add a prior belief about the parameters and you get <strong>MAP</strong> estimation instead — and a Gaussian prior on the weights turns out to be exactly an L2 penalty. This equivalence is between particular penalty terms and log priors; not every regularization method is simply MAP estimation.</p>
       <KLLab />
       <aside className="math-callout">
         <strong>The trap this chapter exists to prevent</strong>
@@ -267,31 +273,35 @@ export default function MathPage() {
     </section>
 
     {/* ---------------------------------------------------------------- */}
+    <StatisticsChapter />
+
     <section id="optimization" className="math-chapter">
-      <ChapterHeading number="08" title="Everything so far, running in a loop.">
-        <p>Optimisation is where the previous chapters stop being separate subjects. A function (chapter 4) built from matrix operations (chapter 5), differentiated by the chain rule (chapter 6), against a loss defined by probability (chapter 7) — and then stepped downhill, over and over.</p>
+      <ChapterHeading number="10" title="Everything so far, running in a loop.">
+        <p>Optimisation is where the previous chapters stop being separate subjects. A function built from matrix operations, differentiated by the chain rule, against a loss defined using probability — and then stepped downhill, over and over.</p>
       </ChapterHeading>
       <DescentLab />
       <div className="math-card-grid">
-        <article><span className="math-eyebrow">CONVEX</span><h3>Bowl-shaped, and honest about it</h3><p>Every local minimum is the global one, so descent cannot get stuck anywhere bad. Linear and logistic regression are convex. Guarantees exist here.</p></article>
-        <article><span className="math-eyebrow">NON-CONVEX</span><h3>What deep learning actually is</h3><p>A landscape of valleys, ridges and saddles. There is no theorem promising you the best minimum, and in practice you do not get it — you get one that is good enough, for reasons still being worked out.</p></article>
-        <article><span className="math-eyebrow">STOCHASTIC</span><h3>Estimating the slope from a sample</h3><p>The true gradient needs the whole dataset. A mini-batch gives a noisy estimate far more cheaply, and the noise turns out to help rather than hurt. That is the S in SGD.</p></article>
+        <article><span className="math-eyebrow">CONVEX</span><h3>Bowl-shaped, and honest about it</h3><p>For a convex objective on a convex domain, every local minimum is global. Least-squares linear regression and standard logistic negative log-likelihood are convex in their coefficients. Step sizes and regularity still matter for convergence.</p></article>
+        <article><span className="math-eyebrow">NON-CONVEX</span><h3>What deep learning actually is</h3><p>A landscape of valleys, ridges and saddles. Typical neural-network objectives are non-convex. A local improvement does not certify global optimality; guarantees depend on specific assumptions about the objective and algorithm.</p></article>
+        <article><span className="math-eyebrow">STOCHASTIC</span><h3>Estimating the slope from a sample</h3><p>The full empirical gradient averages the whole dataset. Uniform minibatch sampling estimates it at lower cost per update; sampling noise can help or hinder, depending on the problem. That is the S in SGD.</p></article>
       </div>
       <h3>The optimiser zoo, in four lines</h3>
-      <p>Every one of these is the same step with a memory bolted on. Written out, the family resemblance is obvious.</p>
+      <p>Each rule turns a gradient into an update. Plain SGD has no optimizer memory; momentum and adaptive methods keep state across steps.</p>
       <div className="math-table-wrap" tabIndex={0} role="region" aria-label="Optimiser update rules">
         <table>
           <thead><tr><th scope="col">Optimiser</th><th scope="col">Update</th><th scope="col">The idea</th></tr></thead>
           <tbody>{optimizerMath.map(item => <tr key={item.name}><th scope="row">{item.name}</th><td><code>{item.update}</code></td><td>{item.what}</td></tr>)}</tbody>
         </table>
       </div>
-      <p>Second-order methods go further and use the curvature as well as the slope. <strong>Newton&apos;s method</strong> models the loss as a bowl using the Hessian and jumps to its bottom, converging in dramatically fewer steps — and needing a matrix with as many rows as you have parameters, which settles the matter for anything large. The compromise is to approximate curvature cheaply, which is most of what Adam is doing.</p>
+      <p>Second-order methods use curvature as well as slope. A Newton step solves HΔ = −g. Fast local convergence requires conditions on smoothness, curvature and the starting point; an indefinite Hessian may not produce a descent direction. Quasi-Newton and matrix-free methods reduce the cost. Adam instead tracks gradient moments: it is not a Hessian approximation.</p>
       <RegularizationLab />
     </section>
 
     {/* ---------------------------------------------------------------- */}
+    <NumericsChapter />
+
     <section id="combinations" className="math-chapter">
-      <ChapterHeading number="09" title="Which combinations build which parts.">
+      <ChapterHeading number="12" title="Which combinations build which parts.">
         <p>This is the chapter the rest of the guide exists for. No component of an AI system is built from one branch of mathematics; each one is a specific recipe, and seeing the recipes is what turns a pile of topics into a subject.</p>
       </ChapterHeading>
       <CombinationLab />
@@ -310,7 +320,7 @@ export default function MathPage() {
 
     {/* ---------------------------------------------------------------- */}
     <section id="world" className="math-chapter">
-      <ChapterHeading number="10" title="None of this was invented for AI.">
+      <ChapterHeading number="13" title="None of this was invented for AI.">
         <p>Every tool in this guide predates the field, most of them by centuries, and was built to answer a question about the physical world. That is not trivia — it is the strongest evidence that you are learning something durable rather than the notation of one passing technology.</p>
       </ChapterHeading>
       <div className="math-echo-grid">
@@ -325,7 +335,7 @@ export default function MathPage() {
 
     {/* ---------------------------------------------------------------- */}
     <section id="frontier" className="math-chapter">
-      <ChapterHeading number="11" title="Where the work actually is right now.">
+      <ChapterHeading number="14" title="Deeper paths and research questions.">
         <p>Deep learning works considerably better than the theory explains. The gap between what practitioners can build and what mathematicians can prove is the honest state of the field, and it is wider than most introductions admit. Each area below lists the level it asks of you, because &ldquo;open problem&rdquo; is not the same as &ldquo;inaccessible&rdquo;.</p>
       </ChapterHeading>
       <p className="math-small">Reviewed on <time dateTime={reviewedOnISO}>{reviewedOn}</time>. These are directions of sustained work rather than a snapshot of this month, and each links the paper that framed the question rather than the latest result — deliberately, because the framing outlives the leaderboard.</p>
@@ -346,7 +356,7 @@ export default function MathPage() {
 
     {/* ---------------------------------------------------------------- */}
     <section id="first-steps" className="math-chapter">
-      <ChapterHeading number="12" title="A concrete order, and how to know you are ready.">
+      <ChapterHeading number="15" title="A concrete order, and how to know you are ready.">
         <p>The most common mistake is starting with calculus because that is what the field is said to require. The second is trying to be rigorous before anything means anything. Here is the order that works, with a test for each stage so you are not guessing.</p>
       </ChapterHeading>
       <ol className="math-steps">

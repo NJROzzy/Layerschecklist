@@ -269,7 +269,7 @@ export function DerivativeLab() {
 
   return <Lab id="math-derivative" eyebrow="THE IDEA THE WHOLE FIELD RESTS ON" title="You cannot divide by zero. So creep up on it instead."
     question="If the limit is exact, why does shrinking h too far make the answer worse?"
-    answer={<><p>Because two different things are happening at once. Mathematically, smaller h means a better estimate, all the way down. Numerically, f(x+h) and f(x) are two nearly identical floating-point numbers, and subtracting them throws away almost every significant digit you had — then you divide that wreckage by a tiny number, which magnifies it.</p><p>Watch the error fall to roughly 1e-8 and then climb again. The best h is a compromise between the two effects, near the square root of machine precision. This is why real frameworks do not estimate gradients this way: backpropagation computes them <em>exactly</em> with the chain rule, and finite differences are kept for checking that the exact code is right.</p></>}>
+    answer={<><p>Because two different things are happening at once. Mathematically, smaller h means a better estimate, all the way down. Numerically, f(x+h) and f(x) are two nearly identical floating-point numbers, and subtracting them throws away almost every significant digit you had — then you divide that wreckage by a tiny number, which magnifies it.</p><p>Watch the error fall to roughly 1e-8 and then climb again. The best h is a compromise between the two effects, near the square root of machine precision. This is why real frameworks do not estimate gradients this way: backpropagation applies the chain rule with floating-point arithmetic, and finite differences are kept for checking that the exact code is right.</p></>}>
     <p>Average speed is easy: distance ÷ time. Speed <em>at an instant</em> looks impossible, because in an instant nothing happens — you get 0 ÷ 0, which is not a number. The move that rescues it is to refuse the impossible division and watch where the possible ones are heading.</p>
     <Choices label="Function" value={curve} onChange={setCurve} options={(Object.keys(curves) as CurveKey[]).map(key => ({ value: key, label: curves[key].label }))} />
     <div className="math-lab-grid">
@@ -630,7 +630,7 @@ export function SVDLab() {
   return <Lab id="math-svd" eyebrow="THE DECOMPOSITION THAT EARNS ITS KEEP" title="Every matrix is a rotation, a stretch, and another rotation."
     question="Why does this make fine-tuning cheap?"
     answer={<p>LoRA starts from an observation: the <em>change</em> a fine-tune makes to a big weight matrix is close to low-rank. So instead of learning all d×d numbers, you learn two thin matrices whose product has rank r, and add it on. With d = 4096 and r = 8 that is 65 thousand numbers instead of 17 million — the same trade you are making with the slider, applied to a weight update rather than a picture. It only works because real matrices, like the letter above, carry most of their content in their first few singular directions.</p>}>
-    <p>The singular value decomposition writes any matrix as a sum of simple rank-one pieces, ordered by how much they matter. Keep the first few and you keep most of the content. This is PCA, image compression, and LoRA, all at once.</p>
+    <p>The singular value decomposition writes any matrix as a sum of simple rank-one pieces, ordered by how much they matter. Keep the first few and you keep most of the content. This gives an optimal low-rank approximation in Frobenius norm. PCA applies related geometry to centered data; LoRA learns low-rank weight updates rather than computing a truncated SVD.</p>
     <Slider id="math-svd-k" label="Rank kept · k" value={k} min={1} max={size} step={1} onChange={setK} />
     <div className="math-svd-grids">
       {grid(MATRIX, `Original · ${size}×${size}`)}
@@ -645,7 +645,7 @@ export function SVDLab() {
       ["Typical pixel error", show(Math.sqrt(squared / (size * size)), 4)],
       ["True rank of this matrix", trueRank],
     ]} />
-    <p className="math-note">The first singular value alone carries {(DECOMP.S[0] ** 2 / ENERGY * 100).toFixed(0)}% of the content. Note what happens past rank {Math.ceil(size * size / (2 * size + 1))}: you are storing more numbers than the original had, so compression stops being a saving. Low rank only pays when k stays small next to the dimensions — which, for real weight matrices, it does.</p>
+    <p className="math-note">The first singular value alone carries {(DECOMP.S[0] ** 2 / ENERGY * 100).toFixed(0)}% of the content. Note what happens past rank {Math.ceil(size * size / (2 * size + 1))}: you are storing more numbers than the original had, so compression stops being a saving. Low rank saves storage only when k is small enough relative to the matrix dimensions; whether the approximation is useful depends on the singular-value spectrum and task.</p>
   </Lab>;
 }
 
@@ -695,7 +695,7 @@ export function GaussianLab() {
 
   return <Lab id="math-gaussian" eyebrow="WHY THE BELL CURVE IS UNAVOIDABLE" title="Average enough of anything and you get the same shape."
     question="Why does initialisation scale weights by 1 over the square root of the fan-in?"
-    answer={<p>A neuron sums n terms, each roughly independent. Variances of independent things add, so the sum&apos;s variance is about n times one term&apos;s — meaning the signal grows by √n at every layer, and after thirty layers it has exploded or vanished. Dividing the initial weights by √n cancels that factor exactly, so variance is preserved through depth. Xavier and He initialisation are this argument with the activation function accounted for. It is one of the highest-value things on this page: a two-line variance calculation that decides whether a deep network trains at all.</p>}>
+    answer={<p>A neuron sums n terms, each roughly independent. Variances of independent things add, so the sum&apos;s variance is about n times one term&apos;s — meaning the signal grows by √n at every layer, and after thirty layers it has exploded or vanished. Scaling weight standard deviation proportionally to 1/√n controls this factor under the independence and activation assumptions; it does not guarantee preserved variance throughout training. Xavier and He initialisation are this argument with the activation function accounted for. It is one of the highest-value things on this page: a two-line variance calculation that decides whether a deep network trains at all.</p>}>
     <p>Draw <strong>n</strong> numbers uniformly between 0 and 1 and average them. At n = 1 the histogram is flat, because that is what uniform means. Watch what happens as n grows — nothing about the underlying distribution has changed.</p>
     <Slider id="math-clt-n" label="Numbers averaged together · n" value={n} min={1} max={12} step={1} onChange={setN} />
     <figure>
@@ -783,7 +783,7 @@ export function KLLab() {
 const series = {
   sin: { label: "sin x", f: Math.sin, coefficient: (n: number) => (n % 2 === 0 ? 0 : (n % 4 === 1 ? 1 : -1) / factorial(n)), from: -7, to: 7, note: "Converges everywhere, but you need more terms the further out you look." },
   exp: { label: "eˣ", f: Math.exp, coefficient: (n: number) => 1 / factorial(n), from: -3, to: 3, note: "Converges everywhere. This is how a calculator actually evaluates it." },
-  log: { label: "ln(1 + x)", f: (x: number) => Math.log(1 + x), coefficient: (n: number) => (n === 0 ? 0 : (n % 2 === 1 ? 1 : -1) / n), from: -0.9, to: 2.4, note: "Diverges past x = 1 no matter how many terms you add — every series has a radius beyond which it is useless." },
+  log: { label: "ln(1 + x)", f: (x: number) => Math.log(1 + x), coefficient: (n: number) => (n === 0 ? 0 : (n % 2 === 1 ? 1 : -1) / n), from: -0.9, to: 2.4, note: "Diverges past x = 1 no matter how many terms you add — this expansion has radius of convergence 1; boundary points need separate checks." },
 };
 type SeriesKey = keyof typeof series;
 function factorial(n: number) { let out = 1; for (let i = 2; i <= n; i++) out *= i; return out; }
@@ -880,7 +880,7 @@ export function RegularizationLab() {
       if (value < bestLoss) { bestLoss = value; solution = w; }
     }
   }
-  const zeroed = Math.abs(solution[1]) < 0.02 || Math.abs(solution[0]) < 0.02;
+  const zeroed = Math.abs(solution[1]) < 1e-10 || Math.abs(solution[0]) < 1e-10;
 
   const px = (v: number) => at(175 + v * 58);
   const py = (v: number) => at(175 - v * 58);
@@ -896,11 +896,11 @@ export function RegularizationLab() {
     ? <circle className="math-region" cx={px(0)} cy={py(0)} r={at(budget * 58)} />
     : <polygon className="math-region" points={[[budget, 0], [0, budget], [-budget, 0], [0, -budget]].map(([a, b]) => `${px(a)},${py(b)}`).join(" ")} />;
 
-  return <Lab id="math-regularization" eyebrow="WHY L1 GIVES YOU ZEROS AND L2 DOES NOT" title="A budget on the weights, and the shape of that budget."
+  return <Lab id="math-regularization" eyebrow="HOW A CONSTRAINT CHANGES THE FIT" title="A budget on the weights, and the shape of that budget."
     question="So is weight decay the same as L2 regularisation?"
-    answer={<p>For plain SGD, yes — adding λ‖w‖² to the loss and shrinking every weight by a constant factor each step are the same update written two ways. For Adam they come apart, because Adam divides by the recent gradient magnitude and that division also rescales the penalty term, so the effective decay differs per parameter. AdamW exists precisely to fix this: it applies the shrinkage separately, outside the adaptive scaling. That is the entire content of a paper people cite constantly, and it is a consequence of the algebra rather than a new idea.</p>}>
+    answer={<p>For plain SGD without momentum, adding (λ/2)‖w‖² gives w ← (1 − αλ)w − αg. This equals decoupled shrinkage with the matching coefficient and learning rate. For Adam they come apart, because Adam divides by the recent gradient magnitude and that division also rescales the penalty term, so the effective decay differs per parameter. AdamW exists precisely to fix this: it applies the shrinkage separately, outside the adaptive scaling. That is the entire content of a paper people cite constantly, and it is a consequence of the algebra rather than a new idea.</p>}>
     <p>Two weights. The ellipses are the loss, lowest at the dot in the middle. The shaded shape is your budget: the weights must stay inside it. The answer is wherever the smallest reachable ellipse touches the shape — and <em>the shape of the budget decides where that touch happens</em>.</p>
-    <Choices label="Penalty" value={penalty} onChange={setPenalty} options={[{ value: "l1" as const, label: "L1 · |w₁| + |w₂|" }, { value: "l2" as const, label: "L2 · w₁² + w₂²" }]} />
+    <Choices label="Penalty" value={penalty} onChange={setPenalty} options={[{ value: "l1" as const, label: "L1 · |w₁| + |w₂|" }, { value: "l2" as const, label: "L2 · √(w₁² + w₂²)" }]} />
     <div className="math-lab-grid">
       <figure>
         <svg viewBox="0 0 350 300" role="img" aria-label={`Loss contours with an ${penalty === "l1" ? "L1 diamond" : "L2 circle"} constraint of size ${budget}. The solution is at ${solution[0].toFixed(2)}, ${solution[1].toFixed(2)}.`}>
@@ -914,7 +914,7 @@ export function RegularizationLab() {
           <text className="math-axis-label" x="330" y={py(0) - 8} textAnchor="end">w₁</text>
           <text className="math-axis-label" x={px(0) + 7} y="26">w₂</text>
         </svg>
-        <figcaption>The solution is where the smallest reachable contour touches the budget.</figcaption>
+        <figcaption>The display searches 1,600 points on the boundary for an approximate constrained minimum, or uses the unconstrained optimum when it is feasible.</figcaption>
       </figure>
       <div>
         <Slider id="math-reg-budget" label="Budget on the weights" value={budget} min={0.2} max={2.6} step={0.1} display={budget.toFixed(1)} onChange={setBudget} />
@@ -922,14 +922,14 @@ export function RegularizationLab() {
           ["w₁", show(solution[0], 3)],
           ["w₂", show(solution[1], 3), zeroed],
           ["Loss at the solution", show(quadratic(solution), 3)],
-          ["A weight at exactly zero", zeroed ? "yes" : "no", zeroed],
+          ["A weight within 10⁻¹⁰ of zero", zeroed ? "yes" : "no", zeroed],
         ]} />
         <p className="math-note">{penalty === "l1"
           ? (zeroed ? "The diamond has corners on the axes, and a corner is where a shrinking ellipse touches first. w₂ is not small — it is zero, and that feature has been removed from the model entirely."
                     : "With a generous budget the touch point slips off the corner onto a flat edge and nothing is zeroed. Tighten it and the corner wins again.")
-          : "The circle has no corners. There is nothing to catch the contour on an axis, so both weights shrink towards zero together and neither ever arrives."}</p>
+          : "For this quadratic and the available budgets, the circular constraint gives two nonzero coordinates. L2 does not generally encourage exact sparsity, but zero coefficients are possible for particular problems."}</p>
       </div>
     </div>
-    <p>This one picture is the whole difference. <strong>L1 selects</strong>: it produces models with genuinely fewer features, because a corner is the first thing a shrinking ellipse meets. <strong>L2 shrinks</strong>: it keeps every feature and makes them all smaller, which is smoother and usually better conditioned. Both fight overfitting by refusing to let the fit chase noise; they just disagree about whether the answer should be sparse.</p>
+    <p><strong>L1 can select</strong>: the constraint has corners on the axes, which can favor sparse optima. <strong>L2 constrains overall length</strong>: it usually gives a dense solution. Effects on generalization require evaluation; neither shape guarantees that the resulting model will improve.</p>
   </Lab>;
 }

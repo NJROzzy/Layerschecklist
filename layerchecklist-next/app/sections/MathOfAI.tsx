@@ -30,6 +30,6 @@ export default function MathOfAI() {
     </div>
 
     <Link href="/math" className="moa-start">Build the math of AI <span aria-hidden="true">→</span></Link>
-    <p className="moa-note">12 chapters · 9 interactive labs · Starts from zero · Ends at the open problems</p>
+    <p className="moa-note">15 chapters · 17 interactive labs · 16 mathematical constellations · Starts from zero · Ends at the open problems</p>
   </section>;
 }

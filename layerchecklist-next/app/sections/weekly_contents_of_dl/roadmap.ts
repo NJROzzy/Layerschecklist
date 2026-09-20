@@ -2,7 +2,7 @@ export const dlRoadmap = [
   { week: 0, title: "Statistical Learning to Neural Learning", ready: true },
   { week: 1, title: "Neural Network from First Principles", ready: true },
   { week: 2, title: "Depth, Activations, and Gradient Behaviour", ready: true },
-  { week: 3, title: "Optimization and Generalization", ready: false },
+  { week: 3, title: "Optimization and Generalization", ready: true },
   { week: 4, title: "Convolutional Neural Networks", ready: false },
   { week: 5, title: "Residual Networks and Transfer Learning", ready: false },
   { week: 6, title: "Recurrent Neural Networks and Memory", ready: false },

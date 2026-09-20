@@ -1,0 +1,56 @@
+/* About: quieter than the subject pages, and deliberately narrow. */
+.about-page {
+  --a-accent: #b45309;
+  --a-line: color-mix(in srgb, var(--color-text) 14%, var(--color-bg));
+  --a-tint: color-mix(in srgb, var(--a-accent) 6%, var(--color-bg));
+  width: 100%; max-width: 780px; margin-inline: auto;
+  padding: 42px clamp(20px, 5vw, 40px) 64px; color: var(--color-text);
+}
+[data-theme="dark"] .about-page { --a-accent: #fbbf24; }
+.about-page *, .about-page *::before, .about-page *::after { box-sizing: border-box; }
+.about-page :is(h1, h2, h3, p, blockquote, figure) { margin: 0; }
+.about-page p { color: var(--color-muted); line-height: 1.85; }
+.about-page p + p { margin-top: 18px; }
+.about-page a { color: var(--a-accent); text-underline-offset: 5px; }
+.about-page strong { color: var(--color-text); }
+.about-page .about-eyebrow { display: block; color: var(--a-accent); font: 700 11px/1.6 ui-monospace, SFMono-Regular, monospace; letter-spacing: .1em; }
+.about-page .about-back { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+
+.about-page .about-hero { padding-block: 40px 20px; border-bottom: 1px solid var(--a-line); }
+.about-page h1 { font-size: clamp(38px, 7vw, 60px); line-height: 1.05; letter-spacing: -.05em; margin-block: 14px 16px; }
+.about-page .about-tagline { font-size: 19px; line-height: 1.6; color: var(--color-text); max-width: 34ch; }
+.about-page .about-meta { margin-top: 14px; font-size: 13px; }
+.about-page .about-intro { margin-top: 24px; }
+.about-page .about-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.about-page .about-links a { display: inline-flex; align-items: baseline; gap: 8px; min-height: 42px; padding: 10px 16px; border: 1px solid var(--a-line); border-radius: 999px; font-size: 13.5px; font-weight: 600; text-decoration: none; }
+.about-page .about-links a:hover { border-color: var(--a-accent); }
+.about-page .about-links span { color: var(--color-muted); font-weight: 400; font-size: 12.5px; }
+
+.about-page .about-section { margin-top: 56px; }
+.about-page h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.25; letter-spacing: -.03em; margin-bottom: 18px; }
+.about-page .about-quote { margin-block: 26px; padding: 22px 26px; border-left: 3px solid var(--a-accent); border-radius: 0 12px 12px 0; background: var(--a-tint); }
+.about-page .about-quote p { font-size: 15.5px; }
+.about-page .about-quote footer { margin-top: 14px; color: var(--color-muted); font-size: 12.5px; }
+
+.about-page .about-areas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-block: 24px; }
+.about-page .about-areas a { display: grid; gap: 6px; min-width: 0; padding: 18px 20px; border: 1px solid var(--a-line); border-radius: 13px; background: var(--color-surface); text-decoration: none; }
+.about-page .about-areas a:hover { border-color: var(--a-accent); }
+.about-page .about-areas strong { font-size: 15px; }
+.about-page .about-areas span { color: var(--color-muted); font-size: 12.5px; line-height: 1.6; }
+.about-page .about-counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.about-page .about-counts > div { min-width: 0; border-top: 2px solid var(--a-accent); padding-top: 12px; }
+.about-page .about-counts strong { display: block; font-size: 26px; line-height: 1; font-variant-numeric: tabular-nums; }
+.about-page .about-counts span { display: block; margin-top: 6px; color: var(--color-muted); font-size: 12px; line-height: 1.5; }
+
+.about-page .about-principles { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 22px; }
+.about-page .about-principles > li { margin: 0; padding-left: 18px; border-left: 1px solid var(--a-line); }
+.about-page .about-principles strong { display: block; margin-block: 8px 7px; font-size: 16px; }
+.about-page .about-principles p { font-size: 14px; }
+
+.about-page .about-footer { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--a-line); margin-top: 56px; padding-top: 24px; font-size: 13px; }
+.about-page :is(a, button):focus-visible { outline: 3px solid var(--a-accent); outline-offset: 4px; }
+
+@media (max-width: 620px) {
+  .about-page .about-areas { grid-template-columns: minmax(0, 1fr); }
+  .about-page .about-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

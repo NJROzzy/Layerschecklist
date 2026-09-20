@@ -184,10 +184,80 @@ a {
 .nav-title {
   margin-right: auto;
 
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 34px;
+
+  padding: 6px 12px 6px 11px;
+
+  border:
+    1px solid transparent;
+
+  border-radius: 999px;
+
+  color: var(--color-text);
+
+  text-decoration: none;
+
   font-size: var(--text-sm);
   font-weight: 700;
 
   letter-spacing: -0.01em;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+/* The only way into the about page — so it has to look like it goes somewhere. */
+.nav-title::after {
+  content: "\2192";
+
+  margin-left: 8px;
+
+  opacity: 0;
+
+  transform: translateX(-4px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.nav-title:hover,
+.nav-title:focus-visible {
+  border-color: var(--color-border);
+
+  background: var(--color-surface-soft);
+
+  color: var(--color-accent);
+}
+
+
+.nav-title:hover::after,
+.nav-title:focus-visible::after {
+  opacity: 0.75;
+
+  transform: translateX(0);
+}
+
+
+.nav-title:focus-visible {
+  outline: 3px solid var(--color-accent);
+
+  outline-offset: 3px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-title,
+  .nav-title::after {
+    transition: none;
+  }
 }
 
 

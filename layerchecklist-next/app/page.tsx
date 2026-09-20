@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import Math from "./sections/Math";
 import MathOfAI from "./sections/MathOfAI";
 import PythonFundamentals from "./sections/PythonFundamentals";
@@ -12,6 +13,8 @@ import SQL from "./sections/SQL";
 import ROS from "./sections/ROS";
 import CUDA from "./sections/CUDA";
 import SimulationsEnv from "./sections/SimulationsEnv";
+import SimulationsLive from "./sections/SimulationsLive";
+import Physics from "./sections/Physics";
 import ThemeToggle from "./ThemeToggle";
 
 declare global {
@@ -85,7 +88,7 @@ export default function Home() {
   return (
     <>
       <nav id="navbar">
-        <span className="nav-title">Layerchecklist</span>
+        <Link href="/about" className="nav-title" aria-label="About Layerchecklist and the person writing it">Layerchecklist</Link>
         <ul>
           <li><a href="#math">Math</a></li>
           <li><a href="#python-fundamentals">Python</a></li>
@@ -97,6 +100,7 @@ export default function Home() {
           <li><a href="#ros">ROS</a></li>
           <li><a href="#cuda">CUDA</a></li>
           <li><a href="#simulations">Simulations</a></li>
+          <li><a href="#physics">Physics</a></li>
         </ul>
         <ThemeToggle />
       </nav>
@@ -139,6 +143,8 @@ export default function Home() {
         <ROS />
         <CUDA />
         <SimulationsEnv />
+        <SimulationsLive />
+        <Physics />
       </main>
     </>
   );

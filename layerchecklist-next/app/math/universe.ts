@@ -1,33 +1,31 @@
-/**
- * A catalogue of mathematical ideas, plotted as one circle.
- *
- * The circle is the universe: everything mathematics has found. Each dot is one
- * idea. Distance from the centre is how much has to be built before it makes
- * sense — the middle is counting and sets, the rim is where research happens.
- * The wedge an idea sits in is its branch. Some dots glow because AI is built
- * from them; most do not, and that is the honest shape of the subject.
- */
+import { additionalConcepts } from "./universe-additions";
 
+/** A curated atlas. Radius is a rough study level, not a prerequisite count. */
 export type SectorId =
   | "number" | "algebra" | "analysis" | "geometry" | "linear" | "calculus"
-  | "probability" | "statistics" | "information" | "optimization" | "discrete" | "computation";
+  | "probability" | "statistics" | "information" | "optimization" | "discrete" | "computation"
+  | "number-theory" | "foundations" | "dynamics" | "learning";
 
 export const sectors: { id: SectorId; label: string; short: string }[] = [
   { id: "number", label: "Number & arithmetic", short: "Number" },
+  { id: "number-theory", label: "Number theory", short: "Number theory" },
   { id: "algebra", label: "Algebra", short: "Algebra" },
   { id: "analysis", label: "Functions & analysis", short: "Functions" },
   { id: "geometry", label: "Geometry & topology", short: "Geometry" },
   { id: "linear", label: "Linear algebra", short: "Linear" },
   { id: "calculus", label: "Calculus", short: "Calculus" },
+  { id: "dynamics", label: "Differential equations & dynamics", short: "Dynamics" },
   { id: "probability", label: "Probability", short: "Probability" },
   { id: "statistics", label: "Statistics", short: "Statistics" },
   { id: "information", label: "Information theory", short: "Information" },
   { id: "optimization", label: "Optimization", short: "Optimization" },
-  { id: "discrete", label: "Discrete & logic", short: "Discrete" },
+  { id: "learning", label: "Learning theory", short: "Learning" },
+  { id: "discrete", label: "Discrete mathematics", short: "Discrete" },
+  { id: "foundations", label: "Logic & foundations", short: "Foundations" },
   { id: "computation", label: "Computation & numerics", short: "Computation" },
 ];
 
-export const ringNames = ["Counting on your fingers", "School mathematics", "Undergraduate", "Graduate", "Research frontier"];
+export const ringNames = ["Starting ideas", "School foundations", "Core university", "Deeper connections", "Advanced study"];
 
 export type Concept = {
   id: string; name: string; sector: SectorId; ring: 0 | 1 | 2 | 3 | 4;
@@ -35,19 +33,20 @@ export type Concept = {
   ai?: string;      // present when AI leans on it directly
   world?: string;   // present when it describes something outside mathematics
   needs?: string[]; // prerequisite ids, for the dependency lines
-  taught?: true;    // covered somewhere in this guide
+  taught?: true;    // accompanied by an actual lesson link
+  lesson?: string;
 };
 
-export const concepts: Concept[] = [
+const catalogue: Concept[] = [
   // ---- Number & arithmetic -------------------------------------------------
   { id: "counting", name: "Counting", sector: "number", ring: 0, what: "One, two, three. The first abstraction anybody makes.", ai: "Batch sizes, token counts, layer counts, array lengths.", world: "Every tally, census and inventory ever kept.", taught: true },
   { id: "zero", name: "Zero", sector: "number", ring: 0, what: "A number for nothing, and a placeholder that makes place value work.", ai: "Padding, masking, sparsity, the additive identity in every sum.", world: "Took civilisations millennia to accept as a number." },
   { id: "integers", name: "Integers", sector: "number", ring: 0, what: "Counting numbers plus zero and their negatives.", ai: "A negative weight is evidence against — that is the whole point of allowing them.", world: "Debt, temperature below freezing, altitude below sea level.", needs: ["counting", "zero"], taught: true },
-  { id: "rationals", name: "Rational numbers", sector: "number", ring: 1, what: "Every ratio of two integers.", ai: "Learning rates, dropout probabilities, train/test proportions.", world: "Sharing, measuring, musical intervals.", needs: ["integers"], taught: true },
+  { id: "rationals", name: "Rational numbers", sector: "number", ring: 1, what: "A ratio of two integers with a nonzero denominator.", ai: "Learning rates, dropout probabilities, train/test proportions.", world: "Sharing, measuring, musical intervals.", needs: ["integers"], taught: true },
   { id: "reals", name: "Real numbers", sector: "number", ring: 1, what: "The unbroken line: rationals and irrationals together, no gaps.", ai: "Weights, activations, losses and gradients all live here in the mathematics.", world: "Length, time, temperature — anything that varies smoothly.", needs: ["rationals"], taught: true },
   { id: "complex", name: "Complex numbers", sector: "number", ring: 2, what: "a + bi, where i² = −1. Multiplying by i rotates the plane a quarter turn.", ai: "Under the surface: Fourier methods, and the spectra that say whether a system explodes.", world: "Alternating current, quantum states, wave mechanics.", needs: ["reals"], taught: true },
-  { id: "primes", name: "Prime numbers", sector: "number", ring: 1, what: "Numbers divisible only by one and themselves — the multiplicative atoms.", world: "Public-key cryptography rests on their being hard to recover from a product." },
-  { id: "modular", name: "Modular arithmetic", sector: "number", ring: 2, what: "Arithmetic that wraps around, like a clock.", ai: "Hashing, positional encodings that cycle, reproducible pseudorandom streams.", world: "Calendars, clocks, check digits on a barcode.", needs: ["integers"] },
+  { id: "primes", name: "Prime numbers", sector: "number-theory", ring: 1, what: "Positive integers greater than one with exactly two positive divisors: one and themselves.", world: "Integer factorization underlies cryptosystems such as RSA; other public-key systems use different hard problems." },
+  { id: "modular", name: "Modular arithmetic", sector: "number-theory", ring: 2, what: "Arithmetic that wraps around, like a clock.", ai: "Hashing, positional encodings that cycle, reproducible pseudorandom streams.", world: "Calendars, clocks, check digits on a barcode.", needs: ["integers"] },
   { id: "exponents", name: "Exponents", sector: "number", ring: 1, what: "Repeated multiplication, then generalised to any power at all.", ai: "Softmax, parameter counts, every mention of scale.", world: "Compound interest, population growth, square-cube scaling.", needs: ["integers"], taught: true },
   { id: "logarithms", name: "Logarithms", sector: "number", ring: 1, what: "The exponent run backwards: what power gives this number?", ai: "Cross-entropy, log-likelihood, perplexity, log-odds, learning-rate schedules.", world: "Decibels, the Richter scale, pH, human perception of brightness and pitch.", needs: ["exponents"], taught: true },
   { id: "magnitude", name: "Orders of magnitude", sector: "number", ring: 1, what: "Reasoning in powers of ten rather than exact figures.", ai: "The only sane way to compare a 7B model with a 700B one.", world: "Estimating anything before you measure it.", needs: ["logarithms"] },
@@ -74,15 +73,15 @@ export const concepts: Concept[] = [
   { id: "domain-range", name: "Domain & range", sector: "analysis", ring: 1, what: "What may go in, and what can come out.", ai: "Why a sigmoid can stand for a probability, and where most NaNs are born.", needs: ["function"], taught: true },
   { id: "composition", name: "Composition", sector: "analysis", ring: 1, what: "Feeding one function's output into the next.", ai: "Depth. A deep network is composition repeated dozens of times.", needs: ["function"], taught: true },
   { id: "inverse-fn", name: "Inverse functions", sector: "analysis", ring: 1, what: "The function that undoes another.", ai: "log undoes exp; the logit undoes the sigmoid.", needs: ["function"] },
-  { id: "linear-fn", name: "Linear functions", sector: "analysis", ring: 1, what: "Straight lines: constant rate of change.", ai: "Every layer's matrix multiply, before the activation.", world: "Hooke's law, Ohm's law, anything proportional.", needs: ["function"], taught: true },
+  { id: "linear-fn", name: "Linear functions", sector: "analysis", ring: 1, what: "A linear map preserves addition and scaling; ax + b is affine when b is nonzero.", ai: "The matrix multiplication is linear; adding a bias makes the whole preactivation affine.", world: "Hooke's law, Ohm's law, anything proportional.", needs: ["function"], taught: true },
   { id: "exp-fn", name: "Exponential function", sector: "analysis", ring: 1, what: "eˣ — a function equal to its own rate of change.", ai: "softmax, decay schedules, likelihoods.", world: "Radioactive decay, epidemics, cooling, interest.", needs: ["exponents", "function"], taught: true },
   { id: "trig", name: "Trigonometric functions", sector: "analysis", ring: 2, what: "Sine and cosine: circular motion written as functions.", ai: "Positional encodings in Transformers; rotary embeddings.", world: "Waves, oscillation, tides, alternating current.", needs: ["function", "circle"] },
   { id: "sigmoid", name: "Sigmoid & tanh", sector: "analysis", ring: 2, what: "S-shaped curves squashing the whole line into a fixed range.", ai: "Binary probabilities, LSTM gates, older hidden layers.", needs: ["exp-fn"], taught: true },
   { id: "relu", name: "Piecewise linear & ReLU", sector: "analysis", ring: 1, what: "Straight pieces joined at corners.", ai: "max(0, x). Cheap, and non-linear just enough to work.", needs: ["linear-fn"], taught: true },
-  { id: "continuity", name: "Continuity", sector: "analysis", ring: 2, what: "No sudden jumps: small input changes give small output changes.", ai: "What makes gradient-based learning possible at all.", needs: ["function", "limit"] },
+  { id: "continuity", name: "Continuity", sector: "analysis", ring: 2, what: "No sudden jumps: small input changes give small output changes.", ai: "A basic regularity property; continuity alone does not imply differentiability or trainability.", needs: ["function", "limit"] },
   { id: "convergence", name: "Convergence", sector: "analysis", ring: 3, what: "Whether a sequence settles on a value, and how fast.", ai: "The question every training curve is implicitly asking.", needs: ["sequences", "limit"] },
   { id: "real-analysis", name: "Real analysis", sector: "analysis", ring: 4, what: "Calculus rebuilt on proofs: epsilon, delta, and completeness.", ai: "Where the guarantees come from, once you want guarantees.", needs: ["continuity", "convergence"] },
-  { id: "fourier", name: "Fourier analysis", sector: "analysis", ring: 3, what: "Any signal as a sum of pure waves.", ai: "Spectral methods, positional encodings, efficient convolution.", world: "Audio compression, MRI, optics, seismology.", needs: ["trig", "complex"] },
+  { id: "fourier", name: "Fourier analysis", sector: "analysis", ring: 3, what: "Represent suitable functions or signals using sinusoidal components, with convergence depending on the setting.", ai: "Spectral methods, positional encodings, efficient convolution.", world: "Audio compression, MRI, optics, seismology.", needs: ["trig", "complex"] },
   { id: "functional", name: "Functional analysis", sector: "analysis", ring: 4, what: "Treating whole functions as points in an infinite-dimensional space.", ai: "Kernel methods and the infinite-width limits of networks.", needs: ["real-analysis", "vector-space"] },
 
   // ---- Geometry & topology -------------------------------------------------
@@ -91,7 +90,7 @@ export const concepts: Concept[] = [
   { id: "pythagoras", name: "Pythagoras", sector: "geometry", ring: 1, what: "a² + b² = c², which is where Euclidean distance comes from.", ai: "The L2 norm is Pythagoras in as many dimensions as you like.", needs: ["distance"] },
   { id: "coordinates", name: "Coordinates", sector: "geometry", ring: 1, what: "Descartes' idea: turn geometry into arithmetic by naming every point with numbers.", ai: "Without it there are no vectors, and so no machine learning.", world: "Latitude and longitude; every screen pixel.", needs: ["point-line", "reals"] },
   { id: "circle", name: "Circle & angle", sector: "geometry", ring: 1, what: "All points at one distance from a centre, and the measure of turning.", world: "Wheels, orbits, anything that repeats.", needs: ["distance"] },
-  { id: "convex-set", name: "Convex sets", sector: "geometry", ring: 2, what: "Shapes where the line between any two points stays inside.", ai: "Where optimisation has guarantees, and deep learning does not live.", needs: ["coordinates"] },
+  { id: "convex-set", name: "Convex sets", sector: "geometry", ring: 2, what: "Shapes where the line between any two points stays inside.", ai: "Convex domains are useful when paired with a convex objective; the domain alone does not guarantee easy optimization.", needs: ["coordinates"] },
   { id: "hyperplane", name: "Hyperplanes", sector: "geometry", ring: 2, what: "A flat slice one dimension below the space it sits in.", ai: "A linear classifier's decision boundary is exactly one of these.", needs: ["coordinates", "vector"] },
   { id: "highdim", name: "High-dimensional geometry", sector: "geometry", ring: 3, what: "In many dimensions almost all volume is near the surface and most vectors are nearly orthogonal.", ai: "Why embeddings can pack so much in, and why distance-based intuition misleads.", needs: ["pythagoras", "vector"] },
   { id: "manifold", name: "Manifolds", sector: "geometry", ring: 3, what: "A surface that looks flat close up, however curved it is overall.", ai: "The hypothesis that real data occupies a thin curved sheet inside a huge space.", world: "The Earth's surface. Spacetime.", needs: ["highdim", "continuity"] },
@@ -138,8 +137,8 @@ export const concepts: Concept[] = [
   { id: "integral", name: "Integral", sector: "calculus", ring: 2, what: "Accumulated total; area under a curve.", ai: "An expectation is an integral; so is the evidence term in Bayes' rule.", world: "Distance from speed, charge from current, dose over time.", needs: ["limit"], taught: true },
   { id: "ftc", name: "Fundamental theorem", sector: "calculus", ring: 2, what: "Differentiation and integration undo each other — which is not obvious at all.", needs: ["derivative", "integral"], taught: true },
   { id: "multi-integral", name: "Multiple integrals", sector: "calculus", ring: 3, what: "Accumulating over areas, volumes and higher spaces.", ai: "Marginalising a joint distribution — usually impossible, hence sampling.", needs: ["integral", "partial"] },
-  { id: "ode", name: "Differential equations", sector: "calculus", ring: 3, what: "Equations relating a quantity to its own rate of change.", ai: "Neural ODEs; diffusion sampling written as solving one.", world: "Nearly all of physics is written this way.", needs: ["derivative", "integral"] },
-  { id: "sde", name: "Stochastic differential equations", sector: "calculus", ring: 4, what: "Differential equations driven by noise.", ai: "The modern formulation of diffusion and score-based generative models.", world: "Brownian motion, option pricing.", needs: ["ode", "stochastic-process"] },
+  { id: "ode", name: "Differential equations", sector: "dynamics", ring: 3, what: "Equations relating a quantity to its own rate of change.", ai: "Neural ODEs; diffusion sampling written as solving one.", world: "Nearly all of physics is written this way.", needs: ["derivative", "integral"] },
+  { id: "sde", name: "Stochastic differential equations", sector: "dynamics", ring: 4, what: "Differential equations driven by noise.", ai: "The modern formulation of diffusion and score-based generative models.", world: "Brownian motion, option pricing.", needs: ["ode", "stochastic-process"] },
   { id: "vector-calc", name: "Vector calculus", sector: "calculus", ring: 3, what: "Divergence, curl and flux: calculus of fields.", world: "Maxwell's equations; fluid flow.", needs: ["gradient", "multi-integral"] },
   { id: "variations", name: "Calculus of variations", sector: "calculus", ring: 4, what: "Optimising over whole functions rather than numbers.", ai: "Variational inference and the objective behind a VAE.", world: "The principle of least action, from which mechanics follows.", needs: ["integral", "gradient"] },
   { id: "autodiff", name: "Automatic differentiation", sector: "calculus", ring: 3, what: "Evaluating exact derivatives by applying the chain rule across a computational graph.", ai: "What every framework actually does. Not symbolic, and not finite differences.", needs: ["chain", "graph"], taught: true },
@@ -170,7 +169,7 @@ export const concepts: Concept[] = [
   { id: "mcmc", name: "MCMC", sector: "probability", ring: 4, what: "Build a Markov chain whose long-run behaviour is the distribution you want.", ai: "Bayesian posteriors; energy-based model sampling.", needs: ["markov", "monte-carlo"] },
   { id: "stochastic-process", name: "Stochastic processes", sector: "probability", ring: 4, what: "Randomness unfolding over time.", ai: "The formal setting for diffusion and for SGD's trajectory.", world: "Brownian motion, population dynamics.", needs: ["markov"] },
   { id: "measure", name: "Measure-theoretic probability", sector: "probability", ring: 4, what: "Probability rebuilt on measure theory so continuous cases stop being awkward.", needs: ["real-analysis", "prob-axioms"] },
-  { id: "concentration", name: "Concentration inequalities", sector: "probability", ring: 4, what: "Bounds saying a random quantity is very unlikely to stray far.", ai: "The engine of generalisation bounds.", needs: ["variance", "measure"] },
+  { id: "concentration", name: "Concentration inequalities", sector: "probability", ring: 4, what: "Bounds saying a random quantity is very unlikely to stray far.", ai: "Tools for relating finite-sample quantities to population expectations.", needs: ["variance", "prob-axioms"] },
 
   // ---- Statistics ----------------------------------------------------------
   { id: "sample", name: "Sample & population", sector: "statistics", ring: 1, what: "The part you measured against the whole you care about.", ai: "Your training set is a sample. Every claim about the world inherits that.", needs: ["prob-axioms"] },
@@ -190,13 +189,13 @@ export const concepts: Concept[] = [
   { id: "causal", name: "Causal inference", sector: "statistics", ring: 4, what: "Distinguishing what causes what from what merely moves together.", ai: "The gap between a model that predicts and one you can act on.", world: "Clinical trials, policy evaluation.", needs: ["correlation", "conditional"] },
 
   // ---- Information theory --------------------------------------------------
-  { id: "bit", name: "The bit", sector: "information", ring: 1, what: "One yes-or-no answer: the unit information is measured in.", ai: "Quantisation, model size, and the natural unit for a loss.", world: "All of digital communication and storage.", needs: ["logarithms"] },
-  { id: "entropy", name: "Entropy", sector: "information", ring: 2, what: "Average surprise: how uncertain a distribution is.", ai: "The floor a loss can reach when the data itself is ambiguous.", world: "Thermodynamic entropy is the same quantity, found first.", needs: ["distribution", "logarithms"], taught: true },
+  { id: "bit", name: "The bit", sector: "information", ring: 1, what: "One yes-or-no answer: the unit information is measured in.", ai: "Quantization and storage; log-base-2 losses are in bits, while natural-log losses are in nats.", world: "All of digital communication and storage.", needs: ["logarithms"] },
+  { id: "entropy", name: "Entropy", sector: "information", ring: 2, what: "Average surprise: how uncertain a distribution is.", ai: "The floor a loss can reach when the data itself is ambiguous.", world: "Statistical-mechanical entropy connects to Shannon entropy through physical units and a choice of states.", needs: ["distribution", "logarithms"], taught: true },
   { id: "cross-entropy", name: "Cross-entropy", sector: "information", ring: 2, what: "Your predicted distribution's average surprise at reality.", ai: "The standard classification and language-modelling loss.", needs: ["entropy"], taught: true },
-  { id: "kl", name: "KL divergence", sector: "information", ring: 3, what: "The excess surprise from using the wrong distribution. Never negative, never symmetric.", ai: "VAE objectives, distillation, the constraint term in RLHF.", needs: ["cross-entropy"], taught: true },
+  { id: "kl", name: "KL divergence", sector: "information", ring: 3, what: "The excess surprise from using the wrong distribution. Nonnegative, but not symmetric in general.", ai: "VAE objectives, distillation, the constraint term in RLHF.", needs: ["cross-entropy"], taught: true },
   { id: "mutual-info", name: "Mutual information", sector: "information", ring: 3, what: "How much knowing one variable reduces uncertainty about another.", ai: "Feature selection, representation learning objectives.", needs: ["kl", "joint"], taught: true },
   { id: "perplexity", name: "Perplexity", sector: "information", ring: 3, what: "Exponentiated cross-entropy: the effective number of choices the model felt it had.", ai: "The traditional headline number for a language model.", needs: ["cross-entropy", "exponents"] },
-  { id: "coding", name: "Coding & compression", sector: "information", ring: 3, what: "Shannon's result: entropy is the shortest average code length possible.", ai: "The argument that good prediction and good compression are the same thing.", world: "ZIP, JPEG, every codec you use.", needs: ["entropy"] },
+  { id: "coding", name: "Coding & compression", sector: "information", ring: 3, what: "Entropy bounds expected lossless code length; block coding can approach the bound under appropriate source assumptions.", ai: "The argument that good prediction and good compression are the same thing.", world: "ZIP, JPEG, every codec you use.", needs: ["entropy"] },
   { id: "channel", name: "Channel capacity", sector: "information", ring: 4, what: "The maximum rate you can communicate reliably over a noisy channel.", world: "Sets the limit for every modem, fibre and radio link.", needs: ["mutual-info"] },
   { id: "rate-distortion", name: "Rate–distortion", sector: "information", ring: 4, what: "The best fidelity achievable at a given number of bits.", ai: "A principled way to think about what a representation should discard.", needs: ["coding", "mutual-info"] },
   { id: "mdl", name: "Minimum description length", sector: "information", ring: 4, what: "Prefer the model that compresses the data best, itself included.", ai: "A formal statement of Occam's razor for model selection.", needs: ["coding", "overfitting"] },
@@ -204,41 +203,41 @@ export const concepts: Concept[] = [
   // ---- Optimization --------------------------------------------------------
   { id: "extremum", name: "Minimum & maximum", sector: "optimization", ring: 1, what: "The best and worst a quantity can get.", world: "Every economic and engineering decision is one of these.", needs: ["function"] },
   { id: "objective", name: "Objective function", sector: "optimization", ring: 1, what: "The single number you have decided to make small.", ai: "Choosing it is the most consequential design decision in a project.", needs: ["extremum"], taught: true },
-  { id: "grad-descent", name: "Gradient descent", sector: "optimization", ring: 2, what: "Read the slope, step against it, repeat.", ai: "How essentially every model you have used was trained.", world: "Water finding the valley; a physical system settling into low energy.", needs: ["gradient", "objective"], taught: true },
-  { id: "learning-rate", name: "Learning rate", sector: "optimization", ring: 2, what: "How far to step. A concrete multiplier on your remaining error.", ai: "The hyperparameter most likely to be the reason it is not training.", needs: ["grad-descent"], taught: true },
-  { id: "sgd", name: "Stochastic gradient descent", sector: "optimization", ring: 2, what: "Estimate the slope from a small sample rather than all the data.", ai: "Cheaper per step, and the noise turns out to help rather than hurt.", needs: ["grad-descent", "monte-carlo"], taught: true },
-  { id: "momentum", name: "Momentum", sector: "optimization", ring: 3, what: "Accumulate a running direction so you stop zig-zagging across a valley.", world: "Literally a heavy ball rolling downhill.", needs: ["sgd"], taught: true },
-  { id: "adam", name: "Adaptive methods (Adam)", sector: "optimization", ring: 3, what: "Give each parameter its own step size from its recent gradient history.", ai: "The default optimiser for most of deep learning.", needs: ["momentum", "variance"], taught: true },
-  { id: "convexity", name: "Convexity", sector: "optimization", ring: 3, what: "Bowl-shaped: every local minimum is the global one.", ai: "Where guarantees exist — and where deep learning does not live.", needs: ["convex-set", "hessian"], taught: true },
-  { id: "local-minima", name: "Local vs global minima", sector: "optimization", ring: 2, what: "The bottom of a valley need not be the bottom of the landscape.", ai: "Less of a problem in high dimensions than anyone expected.", needs: ["extremum"], taught: true },
-  { id: "saddle", name: "Saddle points", sector: "optimization", ring: 3, what: "Flat, but downhill in some direction — up in another.", ai: "Far more common than bad minima in high-dimensional landscapes.", needs: ["hessian", "local-minima"] },
+  { id: "grad-descent", name: "Gradient descent", sector: "optimization", ring: 2, what: "Read the slope, step against it, repeat.", ai: "The basis of training for many differentiable models; trees and other methods use different procedures.", world: "Water finding the valley; a physical system settling into low energy.", needs: ["gradient", "objective"], taught: true },
+  { id: "learning-rate", name: "Learning rate", sector: "optimization", ring: 2, what: "A multiplier on the update direction, not on the remaining error.", ai: "The hyperparameter most likely to be the reason it is not training.", needs: ["grad-descent"], taught: true },
+  { id: "sgd", name: "Stochastic gradient descent", sector: "optimization", ring: 2, what: "Estimate the slope from a small sample rather than all the data.", ai: "Often cheaper per update; sampling noise can help or hinder, depending on the problem and settings.", needs: ["grad-descent", "monte-carlo"], taught: true },
+  { id: "momentum", name: "Momentum", sector: "optimization", ring: 3, what: "Accumulate a running direction so you stop zig-zagging across a valley.", world: "Related to a discretized heavy-ball model, with damping.", needs: ["sgd"], taught: true },
+  { id: "adam", name: "Adaptive methods (Adam)", sector: "optimization", ring: 3, what: "Give each parameter its own step size from its recent gradient history.", ai: "A widely used adaptive optimizer for neural networks.", needs: ["momentum", "rmsprop"], taught: true },
+  { id: "convexity", name: "Convexity", sector: "optimization", ring: 3, what: "Bowl-shaped: every local minimum is the global one.", ai: "Convex objectives have global optimality properties; typical neural-network objectives are non-convex.", needs: ["convex-set", "hessian"], taught: true },
+  { id: "local-minima", name: "Local vs global minima", sector: "optimization", ring: 2, what: "The bottom of a valley need not be the bottom of the landscape.", ai: "Distinguishing local from global improvement helps interpret optimization results.", needs: ["extremum"], taught: true },
+  { id: "saddle", name: "Saddle points", sector: "optimization", ring: 3, what: "Flat, but downhill in some direction — up in another.", ai: "One potential obstacle in non-convex optimization; prevalence depends on the objective.", needs: ["hessian", "local-minima"] },
   { id: "newton", name: "Newton's method", sector: "optimization", ring: 3, what: "Use curvature as well as slope to jump nearer the minimum.", ai: "Too expensive at scale, but the reason people care about the Hessian.", needs: ["hessian", "taylor"], taught: true },
-  { id: "regularization", name: "Regularisation", sector: "optimization", ring: 2, what: "Add a penalty for complexity so the fit does not chase noise.", ai: "Weight decay is L2; L1 drives weights exactly to zero.", needs: ["norm", "overfitting"], taught: true },
+  { id: "regularization", name: "Regularisation", sector: "optimization", ring: 2, what: "Add a penalty for complexity so the fit does not chase noise.", ai: "L1 penalties can produce sparse solutions. L2 penalties and decoupled weight decay differ with adaptive optimizers.", needs: ["norm", "overfitting"], taught: true },
   { id: "constrained", name: "Constrained optimization", sector: "optimization", ring: 3, what: "Find the best point that also satisfies some rules.", world: "Scheduling, portfolios, resource allocation.", needs: ["objective", "inequality"] },
-  { id: "lagrange", name: "Lagrange multipliers", sector: "optimization", ring: 3, what: "Turn a constrained problem into an unconstrained one.", ai: "Behind the KL constraint in RLHF and the derivation of softmax from entropy.", needs: ["constrained", "gradient"] },
-  { id: "kkt", name: "KKT conditions", sector: "optimization", ring: 4, what: "What must hold at the solution of a constrained problem.", needs: ["lagrange"] },
+  { id: "lagrange", name: "Lagrange multipliers", sector: "optimization", ring: 3, what: "Introduce multipliers to express stationarity and constraint conditions through a Lagrangian.", ai: "Behind the KL constraint in RLHF and the derivation of softmax from entropy.", needs: ["constrained", "gradient"] },
+  { id: "kkt", name: "KKT conditions", sector: "optimization", ring: 4, what: "First-order optimality conditions under suitable constraint qualifications; in convex problems they can certify global optimality.", needs: ["lagrange"] },
   { id: "linear-prog", name: "Linear programming", sector: "optimization", ring: 3, what: "Optimise a linear objective under linear constraints.", world: "Logistics, refinery scheduling, diet problems.", needs: ["constrained", "hyperplane"] },
   { id: "transport", name: "Optimal transport", sector: "optimization", ring: 4, what: "The cheapest way to move one distribution onto another.", ai: "Wasserstein distances; the transport view of diffusion and flow matching.", world: "Posed in 1781 about moving piles of earth.", needs: ["distribution", "constrained"] },
   { id: "landscape", name: "Loss landscape", sector: "optimization", ring: 3, what: "The surface training walks across, in as many dimensions as there are parameters.", ai: "Flat minima, mode connectivity, and why the picture in your head is wrong.", needs: ["convexity", "highdim"] },
 
   // ---- Discrete & logic ----------------------------------------------------
-  { id: "set", name: "Sets", sector: "discrete", ring: 0, what: "A collection of things. Most of mathematics is written in this language.", needs: [] },
-  { id: "logic", name: "Logic", sector: "discrete", ring: 0, what: "And, or, not, implies — and what follows from what.", ai: "Symbolic AI was built on this, and neurosymbolic work is returning to it.", world: "Law, argument, and every circuit in your machine." },
-  { id: "proof", name: "Proof", sector: "discrete", ring: 1, what: "An argument that leaves no room for doubt.", world: "What separates mathematics from every other discipline.", needs: ["logic"] },
-  { id: "induction", name: "Induction", sector: "discrete", ring: 2, what: "True for the first case, and each case forces the next — so true for all.", needs: ["proof"] },
+  { id: "set", name: "Sets", sector: "foundations", ring: 0, what: "A collection of things. Most of mathematics is written in this language.", needs: [] },
+  { id: "logic", name: "Logic", sector: "foundations", ring: 0, what: "And, or, not, implies — and what follows from what.", ai: "Symbolic AI was built on this, and neurosymbolic work is returning to it.", world: "Law, argument, and every circuit in your machine." },
+  { id: "proof", name: "Proof", sector: "foundations", ring: 1, what: "An argument that leaves no room for doubt.", world: "What separates mathematics from every other discipline.", needs: ["logic"] },
+  { id: "induction", name: "Induction", sector: "foundations", ring: 2, what: "True for the first case, and each case forces the next — so true for all.", needs: ["proof"] },
   { id: "combinatorics", name: "Combinatorics", sector: "discrete", ring: 2, what: "Counting arrangements without listing them.", ai: "Why exhaustive search fails, and how large a hypothesis space really is.", world: "Lotteries, scheduling, card games.", needs: ["counting", "set"] },
   { id: "permutations", name: "Permutations & combinations", sector: "discrete", ring: 2, what: "Orderings, and selections where order does not matter.", needs: ["combinatorics"] },
   { id: "graph", name: "Graphs", sector: "discrete", ring: 2, what: "Things, and connections between them.", ai: "Graph neural networks; attention as a fully connected graph; the autodiff graph.", world: "Social networks, molecules, road systems, the internet.", needs: ["set"], taught: true },
-  { id: "tree", name: "Trees", sector: "discrete", ring: 2, what: "Graphs with no cycles and a clear hierarchy.", ai: "Decision trees, gradient boosting, search trees, parse structure.", world: "Family trees, file systems, taxonomies.", needs: ["graph"] },
+  { id: "tree", name: "Trees", sector: "discrete", ring: 2, what: "Connected undirected graphs with no cycles; selecting a root introduces a hierarchy.", ai: "Decision trees, gradient boosting, search trees, parse structure.", world: "Family trees, file systems, taxonomies.", needs: ["graph"] },
   { id: "recursion", name: "Recursion", sector: "discrete", ring: 2, what: "Defining something in terms of a smaller version of itself.", ai: "Recurrent networks; divide-and-conquer; the structure of backprop itself.", world: "Fractals, nested reflections.", needs: ["induction"] },
-  { id: "boolean", name: "Boolean algebra", sector: "discrete", ring: 1, what: "Algebra on true and false.", ai: "Attention masks, and quantisation taken to its extreme.", world: "Every transistor in every chip.", needs: ["logic"] },
+  { id: "boolean", name: "Boolean algebra", sector: "foundations", ring: 1, what: "Algebra on true and false.", ai: "Attention masks, and quantisation taken to its extreme.", world: "Every transistor in every chip.", needs: ["logic"] },
   { id: "relations", name: "Relations & orders", sector: "discrete", ring: 2, what: "How elements of a set relate, and how they can be ranked.", ai: "Ranking losses, preference learning, and the pairwise data behind RLHF.", needs: ["set"] },
-  { id: "countability", name: "Countability", sector: "discrete", ring: 3, what: "Which infinite sets can be listed, and which cannot.", needs: ["set", "infinity"] },
-  { id: "computability", name: "Computability", sector: "discrete", ring: 4, what: "What no algorithm can decide, however long it runs.", ai: "A hard ceiling that no amount of scale removes.", world: "Turing's halting problem.", needs: ["logic", "countability"] },
-  { id: "category", name: "Category theory", sector: "discrete", ring: 4, what: "Structure described by how things map to each other rather than what they contain.", ai: "An emerging language for composing learning systems.", needs: ["set", "group"] },
+  { id: "countability", name: "Countability", sector: "foundations", ring: 3, what: "Which infinite sets can be listed, and which cannot.", needs: ["set", "infinity"] },
+  { id: "computability", name: "Computability", sector: "foundations", ring: 4, what: "What no algorithm can decide, however long it runs.", ai: "A hard ceiling that no amount of scale removes.", world: "Turing's halting problem.", needs: ["logic", "countability"] },
+  { id: "category", name: "Category theory", sector: "foundations", ring: 4, what: "Structure described by how things map to each other rather than what they contain.", ai: "An emerging language for composing learning systems.", needs: ["set", "group"] },
 
   // ---- Computation & numerics ----------------------------------------------
-  { id: "algorithm", name: "Algorithm", sector: "computation", ring: 1, what: "A finite recipe that always terminates with an answer.", ai: "Training is one. So is inference.", world: "Long division is one you already know.", needs: ["logic"] },
+  { id: "algorithm", name: "Algorithm", sector: "computation", ring: 1, what: "An effective step-by-step procedure; termination is a property that needs to be established for its intended inputs.", ai: "Training is one. So is inference.", world: "Long division is one you already know.", needs: ["logic"] },
   { id: "bigo", name: "Big-O complexity", sector: "computation", ring: 2, what: "How cost grows with size, ignoring constants.", ai: "Why attention's O(n²) in sequence length is the defining engineering problem.", needs: ["algorithm", "magnitude"] },
   { id: "precision", name: "Numerical precision", sector: "computation", ring: 2, what: "How many digits you actually have, and where they go.", ai: "float32 against bfloat16; quantisation to eight bits and below.", needs: ["floats"], taught: true },
   { id: "stability", name: "Numerical stability", sector: "computation", ring: 3, what: "Whether small errors stay small or compound catastrophically.", ai: "log-sum-exp, gradient clipping, and shifting logits before softmax.", needs: ["precision"], taught: true },
@@ -249,7 +248,27 @@ export const concepts: Concept[] = [
   { id: "discretization", name: "Discretisation", sector: "computation", ring: 3, what: "Replacing something continuous with finitely many steps.", ai: "Diffusion timesteps; every numerical integrator.", needs: ["integral", "precision"] },
   { id: "fixed-point", name: "Fixed-point iteration", sector: "computation", ring: 3, what: "Apply a map repeatedly until the output stops moving.", ai: "Deep equilibrium models; the analysis of recurrent dynamics.", needs: ["iterative", "convergence"] },
   { id: "matrix-free", name: "Matrix-free methods", sector: "computation", ring: 4, what: "Work with a matrix you never build, only multiply by.", ai: "How Hessian-vector products stay affordable at scale.", needs: ["iterative", "jacobian"] },
+  ...additionalConcepts,
 ];
+
+// A badge is backed by a destination, not inferred from a branch.
+const coverage: Record<string, string[]> = {
+  numbers: ["counting", "integers", "rationals", "reals", "complex", "exponents", "logarithms", "floats"],
+  variables: ["variable", "expression"],
+  foundations: ["set", "logic", "proof", "induction", "boolean", "quantifiers", "contradiction", "graph"],
+  algebra: ["equation", "rearranging", "polynomial", "systems"],
+  functions: ["function", "domain-range", "composition", "linear-fn", "exp-fn", "sigmoid", "relu"],
+  "linear-algebra": ["vector", "dot", "norm", "matrix", "matmul", "transpose", "identity-inverse", "span-basis", "rank", "determinant", "eigen", "svd", "trace", "tensor", "pca", "least-squares", "projection"],
+  calculus: ["rate", "limit", "derivative", "diff-rules", "chain", "partial", "gradient", "jacobian", "hessian", "taylor", "integral", "ftc", "autodiff"],
+  probability: ["conditional", "bayes", "random-var", "expectation", "variance", "covariance", "distribution", "bernoulli", "categorical", "uniform", "gaussian", "poisson", "exponential-d", "beta-dirichlet", "clt", "mle", "map", "entropy", "cross-entropy", "kl", "calibration"],
+  statistics: ["sample", "averages", "estimator", "standard-error", "confidence", "hypothesis", "cross-val", "overfitting", "empirical-risk", "bias-variance"],
+  optimization: ["objective", "grad-descent", "learning-rate", "sgd", "momentum", "rmsprop", "adam", "convexity", "local-minima", "newton", "regularization"],
+  numerics: ["precision", "stability", "conditioning", "softmax"],
+};
+const lessonById = new Map(Object.entries(coverage).flatMap(([chapter, ids]) => ids.map(id => [id, "#" + chapter] as const)));
+lessonById.set("adamw", "/dl/week-3#w3-regularization");
+lessonById.set("early-stopping", "/dl/week-3#w3-checkpoints");
+export const concepts: Concept[] = catalogue.map(concept => ({ ...concept, taught: lessonById.has(concept.id) ? true : undefined, lesson: lessonById.get(concept.id) }));
 
 export const conceptById = new Map(concepts.map(concept => [concept.id, concept]));
 export const aiConcepts = concepts.filter(concept => concept.ai);

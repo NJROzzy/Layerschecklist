@@ -242,98 +242,10 @@
   .math-page .math-lab, .math-page .math-frontier-grid > article { break-inside: avoid; }
 }
 
-/* =========================================================
-   THE UNIVERSE MAP
-   One circle, 187 dots. Branch by wedge, depth by radius.
-========================================================= */
-.math-page .universe { margin-block: 30px; }
-.math-page .um-controls { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px 28px; }
-.math-page .um-controls .math-choice-row { margin-block: 0; }
-.math-page .um-search { min-width: 240px; }
-.math-page .um-search input { min-width: 0; width: 100%; padding: 10px 14px; min-height: 44px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--m-line); border-radius: 8px; font: inherit; }
 
-.math-page .um-legend { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
-.math-page .um-legend button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 6px 12px; font-size: 12px; border-radius: 999px; background: var(--color-bg); color: var(--color-text); border: 1px solid var(--m-line); }
-.math-page .um-legend button[aria-pressed="true"] { border-color: hsl(var(--h) 60% 45%); background: hsl(var(--h) 60% 45% / .13); color: var(--color-text); }
-.math-page .um-legend .um-legend-all[aria-pressed="true"] { border-color: var(--m-accent); background: color-mix(in srgb, var(--m-accent) 13%, transparent); }
-.math-page .um-swatch { width: 9px; height: 9px; border-radius: 50%; background: hsl(var(--h) 60% 45%); flex: 0 0 9px; }
-[data-theme="dark"] .math-page .um-legend button[aria-pressed="true"] { border-color: hsl(var(--h) 65% 68%); background: hsl(var(--h) 65% 68% / .16); }
-[data-theme="dark"] .math-page .um-swatch { background: hsl(var(--h) 65% 68%); }
-.math-page .um-count { margin-top: 14px; }
-
-.math-page .um-skip { position: absolute; left: -9999px; }
-.math-page .um-skip:focus { position: static; display: inline-block; margin-top: 12px; font-size: 13px; }
-
-.math-page .um-stage { margin-top: 14px; }
-.math-page .um-stage svg { width: 100%; height: auto; overflow: visible; }
-.math-page .um-void { fill: color-mix(in srgb, var(--m-accent) 4%, var(--color-bg)); stroke: var(--m-line); stroke-width: 1.5; }
-.math-page .um-ring { fill: none; stroke: var(--m-line); stroke-width: 1; opacity: .5; }
-.math-page .um-spoke { stroke: var(--m-line); stroke-width: 1; opacity: .38; }
-.math-page .um-sector-label { fill: hsl(var(--h) 55% 40%); font: 700 13px ui-monospace, SFMono-Regular, monospace; letter-spacing: .04em; }
-[data-theme="dark"] .math-page .um-sector-label { fill: hsl(var(--h) 60% 70%); }
-.math-page .um-centre-label { fill: var(--color-muted); font: 12px ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
-.math-page .um-centre-label.is-big { fill: var(--m-accent); font-size: 15px; font-weight: 700; }
-
-.math-page .um-dot { fill: hsl(var(--h) 58% 46%); opacity: .5; cursor: pointer; transition: opacity .15s, r .15s; }
-.math-page .um-dot.is-ai { opacity: .95; }
-.math-page .um-dot.is-taught { stroke: var(--color-bg); stroke-width: 1.6; }
-.math-page .um-dot.is-dim { opacity: .09; }
-.math-page .um-dot.is-related { opacity: 1; stroke: var(--m-accent); stroke-width: 2; }
-.math-page .um-dot.is-selected { opacity: 1; stroke: var(--m-second); stroke-width: 3.5; }
-.math-page .um-dot:hover { opacity: 1; }
-.math-page .um-dot:focus-visible { outline: 3px solid var(--m-second); outline-offset: 3px; }
-[data-theme="dark"] .math-page .um-dot { fill: hsl(var(--h) 62% 66%); }
-.math-page .um-constellation { stroke: var(--m-accent); stroke-width: 1; opacity: .3; }
-.math-page .um-link { stroke: var(--m-second); stroke-width: 1.5; opacity: .75; }
-
-.math-page .um-rings-key { list-style: none; padding: 0; margin: 10px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; justify-content: center; }
-.math-page .um-rings-key > li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 9px; align-items: center; margin: 0; color: var(--color-muted); font-size: 12px; line-height: 1.5; }
-.math-page .um-rings-key span { display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--m-line); border-radius: 50%; font: 11px ui-monospace, monospace; color: var(--m-accent); }
-
-.math-page .um-detail { border: 1px solid var(--m-line); border-radius: 14px; background: var(--color-bg); padding: 22px 24px; margin-top: 22px; scroll-margin-top: 90px; }
-.math-page .um-detail-head { display: flex; align-items: center; gap: 9px; }
-.math-page .um-detail h4 { margin-block: 10px 10px; font-size: 22px; }
-.math-page .um-flag { margin-left: 10px; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--m-accent) 14%, transparent); color: var(--m-accent); font: 600 11px/1.6 system-ui, sans-serif; font-style: normal; vertical-align: 3px; }
-.math-page .um-detail p { font-size: 14px; }
-.math-page .um-ai { margin-top: 14px; padding-left: 13px; border-left: 2px solid var(--m-accent); }
-.math-page .um-world { margin-top: 12px; padding-left: 13px; border-left: 2px solid var(--m-second); }
-.math-page .um-links { margin-top: 18px; }
-.math-page .um-links > div { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
-.math-page .um-links button { min-height: 32px; padding: 5px 12px; font-size: 12px; border-radius: 999px; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--m-line); }
-.math-page .um-links button:hover { border-color: var(--m-accent); color: var(--m-accent); }
-
-@media (max-width: 860px) {
-  .math-page .um-index-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 700px) {
-  .math-page .um-sector-label { font-size: 19px; }
-  .math-page .um-name { font-size: 19px; }
-  .math-page .um-index-body { grid-template-columns: minmax(0, 1fr); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .math-page .um-dot { transition: none; }
-}
-
-/* The map as the page's opening act, and its name labels. */
-.math-page .math-opening { margin-block: 18px 40px; padding-bottom: 38px; border-bottom: 1px solid var(--m-line); scroll-margin-top: 84px; }
-.math-page .math-opening-head { max-width: 78ch; margin-bottom: 4px; }
-.math-page .math-opening-head h2 { margin-block: 12px 16px; }
-.math-page .um-controls-right { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
-.math-page .um-labels-toggle { min-height: 44px; white-space: nowrap; }
-.math-page .um-name { fill: var(--color-text); font: 15px ui-monospace, SFMono-Regular, monospace; pointer-events: none; paint-order: stroke; stroke: var(--color-bg); stroke-width: 3.5px; stroke-linejoin: round; }
-.math-page .um-name.is-selected { fill: var(--m-second); font-weight: 700; }
-.math-page .um-leader { stroke: var(--m-line); stroke-width: 1; opacity: .75; }
-
-/* The complete index: what a circle cannot legibly hold at once. */
-.math-page .um-index { margin-top: 24px; }
-.math-page .um-index-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 26px; padding-bottom: 16px; }
-.math-page .um-index-body > section { min-width: 0; }
-.math-page .um-index h5 { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--m-line); font-size: 13px; }
-.math-page .um-index-name { min-width: 0; flex: 1 1 auto; overflow-wrap: anywhere; }
-.math-page .um-index h5 em { margin-left: auto; color: var(--color-muted); font: 11px ui-monospace, monospace; font-style: normal; }
-.math-page .um-index ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 5px; }
-.math-page .um-index li { margin: 0; }
-.math-page .um-index button { min-height: 28px; padding: 4px 10px; border-radius: 6px; font: 400 12px/1.4 system-ui, sans-serif; background: var(--color-bg); color: var(--color-muted); border: 1px solid var(--m-line); }
-.math-page .um-index button.is-ai { color: var(--color-text); font-weight: 650; }
-.math-page .um-index button:hover { border-color: var(--m-accent); color: var(--m-accent); }
-.math-page .um-index button.is-selected { border-color: var(--m-second); color: var(--m-second); }
+.math-page .math-set-members { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-block: 24px; }
+.math-page .math-set-members > div { display: grid; gap: 7px; padding: 16px; border: 1px solid var(--m-line); border-radius: 10px; background: var(--color-bg); }
+.math-page .math-set-members .is-included { border-color: var(--m-accent); background: var(--m-tint); }
+.math-page .math-set-members strong { font-size: 22px; }
+.math-page .math-set-members span, .math-page .math-set-members small { color: var(--color-muted); font-size: 12px; }
+@media (max-width: 550px) { .math-page .math-set-members { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

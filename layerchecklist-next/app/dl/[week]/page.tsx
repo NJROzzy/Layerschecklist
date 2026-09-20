@@ -6,6 +6,7 @@ import { dlRoadmap } from "../../sections/weekly_contents_of_dl/roadmap";
 import Week0 from "../../sections/weekly_contents_of_dl/week0/Week0";
 import Week1 from "../../sections/weekly_contents_of_dl/week1/Week1";
 import Week2 from "../../sections/weekly_contents_of_dl/week2/Week2";
+import Week3 from "../../sections/weekly_contents_of_dl/week3/Week3";
 import "./week.css";
 
 type WeekPageProps = { params: Promise<{ week: string }> };
@@ -14,6 +15,7 @@ const lessons: Partial<Record<number, ComponentType>> = {
   0: Week0,
   1: Week1,
   2: Week2,
+  3: Week3,
 };
 
 export const dynamicParams = false;
@@ -56,7 +58,7 @@ export default async function WeekPage({ params }: WeekPageProps) {
             <h2>This lesson is on the way.</h2>
             <p>
               The content for this week hasn&apos;t been added yet. Explore the
-              rest of the map, or start with the available lessons in Weeks 0–2.
+              rest of the map, or start with an available lesson.
             </p>
             <Link href="/dl/week-0">Read Week 0 &rarr;</Link>
           </div>

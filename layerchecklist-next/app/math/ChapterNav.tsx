@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { chapters } from "./content";
 
-/** Twelve chapters is a long scroll; this keeps your place visible. */
+/** This is a long guide; this keeps your place visible. */
 export default function ChapterNav() {
   const [active, setActive] = useState(-1);
   const [progress, setProgress] = useState(0);

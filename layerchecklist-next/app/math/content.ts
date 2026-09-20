@@ -3,9 +3,9 @@ export const reviewedOnISO = "2026-09-19";
 export const reviewedOn = "September 19, 2026";
 
 export const chapters = [
-  ["numbers", "The number systems"], ["variables", "Variables"], ["algebra", "Algebra"],
+  ["numbers", "The number systems"], ["variables", "Variables"], ["foundations", "Sets, logic & graphs"], ["algebra", "Algebra"],
   ["functions", "Functions & graphs"], ["linear-algebra", "Linear algebra"], ["calculus", "Calculus"],
-  ["probability", "Probability"], ["optimization", "Optimization"], ["combinations", "What combines into AI"],
+  ["probability", "Probability"], ["statistics", "Statistics & evidence"], ["optimization", "Optimization"], ["numerics", "Numerical stability"], ["combinations", "What combines into AI"],
   ["world", "The same math, elsewhere"], ["frontier", "Where the work is now"], ["first-steps", "Your first steps"],
 ] as const;
 
@@ -34,20 +34,20 @@ export const numberSystems = [
     contents: "Every ratio a/b of integers, with b ≠ 0.",
     born: "Sharing and measuring. Ratios, proportions, percentages, probabilities.",
     breaks: "x² = 2 has no answer here — and that is a theorem, not a gap in our cleverness. No fraction squares to 2.",
-    inAI: "Learning rates, dropout probabilities, train/test proportions. Every probability is a ratio.",
+    inAI: "Learning rates, dropout probabilities, train/test proportions. Probabilities can also be irrational real numbers; rational values are common convenient settings.",
   },
   {
-    symbol: "ℝ", name: "Real numbers", equation: "x² = 2", solution: "x = √2 ≈ 1.41421356…",
+    symbol: "ℝ", name: "Real numbers", equation: "x² = 2", solution: "x = ±√2 ≈ ±1.41421356…",
     contents: "Every point on an unbroken line, rationals and irrationals together.",
     born: "Length, and limits. The diagonal of a unit square is a real length with no fractional name.",
     breaks: "x² = −1 has no answer here. No real number squares to something negative.",
     inAI: "Almost everything. Weights, activations, losses and gradients are modelled as real numbers — and calculus needs the line to have no holes in it.",
   },
   {
-    symbol: "ℂ", name: "Complex numbers", equation: "x² = −1", solution: "x = i",
+    symbol: "ℂ", name: "Complex numbers", equation: "x² = −1", solution: "x = ±i",
     contents: "a + bi, where i² = −1.",
     born: "Rotation and waves. Multiplying by i turns the plane a quarter turn; that is what i actually does.",
-    breaks: "Nothing, for algebra: every non-constant polynomial has a root here. The ladder stops.",
+    breaks: "Nothing, for algebra: every non-constant polynomial has a root here. This is algebraic closure; it does not mean every kind of equation has a solution.",
     inAI: "Less common on the surface, central underneath: Fourier analysis, signal processing, the eigenvalues that describe whether a recurrent system explodes or decays.",
   },
 ];
@@ -181,12 +181,12 @@ export const glossary = [
   ["Limit", "The value an expression approaches as its input approaches something, whether or not it arrives."],
   ["Derivative", "The rate at which an output changes as an input changes."],
   ["Partial derivative", "The derivative with respect to one variable, holding the others fixed."],
-  ["Gradient", "The vector of all partial derivatives; it points in the direction of steepest increase."],
+  ["Gradient", "The vector of partial derivatives; under Euclidean geometry it gives steepest first-order increase when nonzero."],
   ["Chain rule", "The derivative of a composition is the product of the derivatives of its stages."],
   ["Integral", "Accumulated total; the reverse of the derivative."],
   ["Random variable", "A quantity whose value depends on the outcome of a random process."],
   ["Expectation", "The long-run average value of a random variable, written E[X]."],
-  ["Likelihood", "How probable the observed data is under a given set of parameters."],
+  ["Likelihood", "The data probability mass or density, considered as a function of the parameters."],
   ["Entropy", "The average surprise of a distribution; how uncertain it is."],
   ["Convex", "Bowl-shaped: every local minimum is the global one. Deep networks are not."],
   ["Floating point", "The computer's finite approximation of a real number."],
@@ -206,9 +206,9 @@ export const logRules = [
 ];
 
 export const matrixFacts = [
-  { name: "Transpose · Aᵀ", what: "Flip the grid across its diagonal; rows become columns.", ai: "The backward pass multiplies by the transpose of each forward matrix. That is not a coincidence — it is what the chain rule requires." },
-  { name: "Identity · I", what: "Ones down the diagonal, zeros elsewhere. It changes nothing.", ai: "A residual connection adds the identity, which is why gradients can reach the early layers at all." },
-  { name: "Inverse · A⁻¹", what: "Undoes A. It exists only when A destroys no information.", ai: "Solving least squares in closed form; whitening a covariance." },
+  { name: "Transpose · Aᵀ", what: "Flip the grid across its diagonal; rows become columns.", ai: "For a linear operation, its backward pass multiplies by the transpose of the forward matrix. That is not a coincidence — it is what the chain rule requires." },
+  { name: "Identity · I", what: "Ones down the diagonal, zeros elsewhere. It changes nothing.", ai: "A residual block x + F(x) has Jacobian I + JF, giving an additional gradient route without guaranteeing stable gradients." },
+  { name: "Inverse · A⁻¹", what: "For a square matrix, the inverse exists exactly when its columns are linearly independent.", ai: "Solving least squares in closed form; whitening a covariance." },
   { name: "Rank", what: "How many genuinely independent directions the matrix has.", ai: "LoRA freezes the big weight matrix and learns a low-rank update instead — fine-tuning gets cheap because the update turns out not to need full rank." },
   { name: "Determinant · det A", what: "The factor by which volume is scaled. Zero means space gets flattened.", ai: "The change-of-variables term in a normalising flow." },
   { name: "Span & basis", what: "Everything reachable by combining a set, and a smallest set that reaches it all.", ai: "What a layer can represent at all; the axes PCA selects." },
@@ -216,7 +216,7 @@ export const matrixFacts = [
 ];
 
 export const normFamily = [
-  { name: "L1 · Σ|vᵢ|", shape: "A diamond", ai: "Penalising it drives weights exactly to zero, because the diamond has corners on the axes. That is where sparsity comes from." },
+  { name: "L1 · Σ|vᵢ|", shape: "A diamond", ai: "An L1 penalty can favor exact zeros at an optimum. Sparsity depends on the objective, penalty strength and solver." },
   { name: "L2 · √Σvᵢ²", shape: "A circle", ai: "Ordinary length. Weight decay, gradient clipping, the distance behind cosine similarity." },
   { name: "L∞ · max|vᵢ|", shape: "A square", ai: "Worst-case bounds; the radius used in adversarial robustness." },
   { name: "Frobenius · √ΣAᵢⱼ²", shape: "L2, applied to a matrix", ai: "How far two weight matrices are apart; the size of an update." },
@@ -234,7 +234,7 @@ export const distributions = [
 
 export const optimizerMath = [
   { name: "SGD", update: "θ ← θ − α·g", what: "The plain step. g is the gradient from one mini-batch." },
-  { name: "Momentum", update: "v ← βv + g;  θ ← θ − α·v", what: "Keep a running average of direction, so consistent slopes accumulate and zig-zags cancel. β is usually 0.9, which means v remembers roughly the last ten steps." },
-  { name: "RMSProp", update: "s ← βs + (1−β)g²;  θ ← θ − α·g/√s", what: "Divide by the recent size of each parameter's gradient, so every parameter gets a step scaled to its own terrain." },
+  { name: "Momentum", update: "v ← βv + g;  θ ← θ − α·v", what: "Accumulate an exponentially weighted sum of past gradients. Consistent directions reinforce one another; β controls how fast history decays." },
+  { name: "RMSProp", update: "s ← βs + (1−β)g²;  θ ← θ − α·g/(√s + ε)", what: "Divide by the recent size of each parameter's gradient, so every parameter gets a step scaled to its own terrain." },
   { name: "Adam", update: "both, plus bias correction", what: "Momentum on the gradient and RMSProp on its square, with a correction because both averages start at zero and are biased low early on." },
 ];

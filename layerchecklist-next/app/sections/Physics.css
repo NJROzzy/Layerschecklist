@@ -1,0 +1,21 @@
+#physics { max-width: 920px; border-top: 1px solid var(--color-border); }
+#physics .phy-eyebrow { color: var(--color-accent); font: 700 11px/1.6 ui-monospace, monospace; letter-spacing: .09em; margin-bottom: 14px; }
+#physics .phy-atlas-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 28px; margin: 28px 0 24px; padding: 24px 26px; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface-soft); }
+#physics .phy-atlas-card > div { min-width: 0; flex: 1 1 320px; }
+#physics .phy-atlas-card .phy-eyebrow { margin-bottom: 10px; }
+#physics .phy-atlas-card strong { display: block; font-size: 19px; line-height: 1.35; margin-bottom: 8px; }
+#physics .phy-atlas-card p { margin: 0; font-size: 13.5px; line-height: 1.75; }
+#physics .phy-atlas-link { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 12px; min-height: 46px; padding: 12px 20px; border: 1px solid var(--color-accent); border-radius: 8px; color: var(--color-accent); text-decoration: none; font-size: 14px; font-weight: 650; }
+#physics .phy-atlas-link:hover { background: var(--color-accent); color: var(--color-bg); }
+#physics .phy-path { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; margin: 0 0 24px; }
+#physics .phy-path li { margin: 0; min-width: 0; }
+#physics .phy-path a { display: grid; gap: 5px; height: 100%; padding: 16px; border: 1px solid var(--color-border); background: var(--color-surface); border-radius: 12px; text-decoration: none; }
+#physics .phy-path a:hover { border-color: var(--color-accent); }
+#physics .phy-path span { color: var(--color-accent); font: 12px/1.4 ui-monospace, monospace; }
+#physics .phy-path strong { font-size: 14px; line-height: 1.35; }
+#physics .phy-path small { color: var(--color-muted); font-size: 11.5px; line-height: 1.6; }
+#physics .phy-start { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 48px; padding: 12px 20px; border-radius: 8px; background: var(--color-accent); color: var(--color-bg); text-decoration: none; font-size: 14px; font-weight: 650; }
+#physics .phy-note { margin-top: 16px; font-size: 12px; color: var(--color-muted); }
+#physics a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+@media (max-width: 860px) { #physics .phy-path { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { #physics .phy-path { grid-template-columns: minmax(0, 1fr); } }

@@ -15,7 +15,7 @@ export default function SimulationsEnv() {
         <div className="interview-note">
           <strong>Interview mindset:</strong>
           <p>
-            For every simulator: What's being modeled physically? How well does
+            For every simulator: What&apos;s being modeled physically? How well does
             simulated behavior transfer to the real world?
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function SimulationsEnv() {
         <div className="interview-questions">
           <ul>
             <li>Why use a physics simulator instead of testing directly on real hardware?</li>
-            <li>What's the difference between MuJoCo and Isaac Sim in terms of scale?</li>
+            <li>What&apos;s the difference between MuJoCo and Isaac Sim in terms of scale?</li>
             <li>What is domain randomization, and what problem does it solve?</li>
             <li>What is the &quot;sim-to-real gap&quot;?</li>
           </ul>
@@ -124,7 +124,7 @@ export default function SimulationsEnv() {
   
         <p>
           <strong>
-            Simulation scale is often the difference between an RL policy that works and one that doesn't.
+            Simulation scale is often the difference between an RL policy that works and one that doesn&apos;t.
           </strong>
         </p>
       </section>
