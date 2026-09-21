@@ -264,14 +264,39 @@ a {
 #navbar ul {
   display: flex;
 
+  /* Twelve items plus the title and the toggle overflow between the mobile
+     breakpoint and about 1040px, so the list is allowed to wrap. */
+  flex-wrap: wrap;
+
   align-items: center;
 
-  gap: var(--space-3);
+  gap: 4px var(--space-3);
 
   margin: 0;
   padding: 0;
 
   list-style: none;
+}
+
+
+/* Twelve links do not fit on one row below about 1040px, so the list drops to
+   its own line — the same shape the mobile layout already used, applied sooner. */
+@media (max-width: 1040px) {
+  #navbar {
+    flex-wrap: wrap;
+
+    gap: 6px var(--space-2);
+  }
+
+  #navbar ul {
+    order: 3;
+
+    width: 100%;
+
+    justify-content: flex-start;
+
+    gap: 4px var(--space-2);
+  }
 }
 
 
@@ -347,6 +372,8 @@ a {
 ========================================================= */
 
 .hero {
+  position: relative;
+
   width: 100%;
 
   min-height: 100vh;
@@ -414,6 +441,9 @@ a {
 ========================================================= */
 
 .hero-subtitle {
+  position: relative;
+  z-index: 1;
+
   display: block;
 
   width: 100%;
@@ -437,6 +467,9 @@ a {
 ========================================================= */
 
 .hero-content {
+  position: relative;
+  z-index: 1;
+
   display: flex;
 
   width: 100%;

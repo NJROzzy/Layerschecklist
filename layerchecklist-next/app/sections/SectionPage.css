@@ -1,0 +1,5 @@
+.section-page { width: 100%; max-width: var(--wide-width); margin-inline: auto; padding: 32px var(--page-padding) var(--space-7); }
+.section-page .section-page-back { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-accent); font-size: 14px; text-decoration: none; }
+.section-page .section-page-back:hover { text-decoration: underline; text-underline-offset: 5px; }
+.section-page > .learning-section:first-of-type { padding-top: var(--space-3); }
+.section-page :focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }

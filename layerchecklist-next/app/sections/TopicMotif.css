@@ -1,0 +1,102 @@
+/* Topic emblems. Everything animates in CSS so there is nothing to hydrate. */
+.motif { display: block; width: 64px; height: 48px; opacity: .6; transition: opacity .2s ease; }
+.motif svg { width: 100%; height: 100%; display: block; overflow: visible; }
+a:hover .motif, a:focus-visible .motif { opacity: 1; }
+
+.motif line, .motif path, .motif ellipse { stroke: var(--color-accent); fill: none; stroke-linecap: round; }
+.motif circle, .motif rect { fill: var(--color-accent); }
+.motif text { fill: var(--color-accent); font: 700 15px/1 ui-monospace, SFMono-Regular, monospace; }
+
+/* ---- Math: odometer reels ------------------------------------------------ */
+.m-reel { animation: m-roll 3.4s steps(10) infinite; }
+.m-reel-1 { animation-duration: 2.2s; }
+.m-reel-2 { animation-duration: 1.5s; }
+@keyframes m-roll { to { transform: translateY(-200px); } }
+
+/* ---- Physics: orbit and stars -------------------------------------------- */
+.m-orbit { stroke-width: 1.1; opacity: .4; }
+.m-orbit-b { opacity: .25; }
+.m-core { fill: var(--color-accent); animation: m-breathe 2.6s ease-in-out infinite; transform-origin: 32px 24px; }
+.m-electron { transform-origin: 32px 24px; animation: m-spin 3.2s linear infinite; }
+.m-star { animation: m-twinkle 2.4s ease-in-out infinite; }
+.m-star-1 { animation-delay: .5s; } .m-star-2 { animation-delay: 1.1s; } .m-star-3 { animation-delay: 1.7s; }
+@keyframes m-spin { to { transform: rotate(360deg); } }
+@keyframes m-breathe { 50% { transform: scale(1.18); } }
+@keyframes m-twinkle { 0%, 100% { opacity: .15; } 50% { opacity: .95; } }
+
+/* ---- Biology: a neuron firing -------------------------------------------- */
+.m-dendrite { stroke-width: 1.3; opacity: .55; }
+.m-axon { stroke-width: 1.6; opacity: .45; }
+.m-soma { animation: m-breathe 2.8s ease-in-out infinite; transform-origin: 22px 24px; }
+.m-spike { animation: m-travel 2.8s cubic-bezier(.4, 0, .2, 1) infinite; }
+.m-synapse { opacity: 0; animation: m-flash 2.8s ease-out infinite; transform-origin: 57px 24px; }
+@keyframes m-travel { 0%, 12% { transform: translateX(0); opacity: 0; } 20% { opacity: 1; } 68%, 100% { transform: translateX(30px); opacity: 0; } }
+@keyframes m-flash { 0%, 62% { opacity: 0; transform: scale(.5); } 72% { opacity: .9; transform: scale(1.3); } 100% { opacity: 0; transform: scale(1); } }
+
+/* ---- Notation: symbols taking turns -------------------------------------- */
+.m-sym { opacity: 0; font-size: 22px; animation: m-cycle 4.5s ease-in-out infinite; }
+.m-sym-1 { animation-delay: 1.5s; } .m-sym-2 { animation-delay: 3s; }
+@keyframes m-cycle { 0%, 33%, 100% { opacity: 0; } 8%, 25% { opacity: 1; } }
+
+/* ---- Python: typing ------------------------------------------------------- */
+.m-code { transform-origin: left center; animation: m-type 3.6s ease-in-out infinite; }
+.m-code-1 { animation-delay: .35s; } .m-code-2 { animation-delay: .7s; }
+.m-caret { animation: m-blink 1s steps(2) infinite; }
+@keyframes m-type { 0%, 5% { transform: scaleX(0); } 22%, 78% { transform: scaleX(1); } 95%, 100% { transform: scaleX(0); } }
+@keyframes m-blink { 50% { opacity: 0; } }
+
+/* ---- Libraries: a column sweeping ---------------------------------------- */
+.m-cell { opacity: .22; animation: m-sweep 2.8s ease-in-out infinite; }
+.m-col-1 { animation-delay: .18s; } .m-col-2 { animation-delay: .36s; } .m-col-3 { animation-delay: .54s; }
+@keyframes m-sweep { 0%, 60%, 100% { opacity: .22; } 20% { opacity: 1; } }
+
+/* ---- SQL: rows being filtered -------------------------------------------- */
+.m-row { opacity: .25; animation: m-filter 3.2s ease-in-out infinite; }
+.m-row-1, .m-row-2 { animation-name: m-keep; }
+@keyframes m-filter { 0%, 30% { opacity: .55; } 55%, 100% { opacity: .12; } }
+@keyframes m-keep { 0%, 30% { opacity: .55; } 55%, 100% { opacity: 1; } }
+
+/* ---- CUDA: every core at once -------------------------------------------- */
+.m-core-cell { opacity: .25; animation: m-parallel 1.9s ease-in-out infinite; }
+@keyframes m-parallel { 0%, 100% { opacity: .22; } 45% { opacity: 1; } }
+
+/* ---- ROS: a message hopping ---------------------------------------------- */
+.m-wire { stroke-width: 1.2; opacity: .4; }
+.m-node { opacity: .5; }
+.m-packet { animation: m-hop 3s ease-in-out infinite; }
+@keyframes m-hop { 0%, 8% { transform: translate(0, 0); } 42%, 50% { transform: translate(20px, -16px); } 84%, 100% { transform: translate(40px, 0); } }
+
+/* ---- AI: a network lighting up layer by layer ---------------------------- */
+.m-synapse-line { stroke-width: .8; opacity: .28; }
+.m-unit { opacity: .3; animation: m-fireline 2.6s ease-in-out infinite; }
+.m-layer-1 { animation-delay: .3s; } .m-layer-2 { animation-delay: .6s; }
+@keyframes m-fireline { 0%, 70%, 100% { opacity: .3; } 22% { opacity: 1; } }
+
+/* ---- ML: walking down a loss curve --------------------------------------- */
+.m-curve { stroke-width: 1.6; opacity: .55; }
+.m-floor { stroke-width: 1; opacity: .2; }
+.m-walker { offset-path: path("M 8 12 C 20 12, 22 36, 34 37 C 46 38, 48 34, 56 33"); animation: m-descend 3.4s ease-in-out infinite; }
+@keyframes m-descend { 0% { offset-distance: 0%; } 70%, 100% { offset-distance: 100%; } }
+
+/* ---- DL: activation passing down the stack ------------------------------- */
+.m-layer { opacity: .22; animation: m-forward 2.8s ease-in-out infinite; }
+.m-layer-s1 { animation-delay: .22s; } .m-layer-s2 { animation-delay: .44s; } .m-layer-s3 { animation-delay: .66s; }
+@keyframes m-forward { 0%, 55%, 100% { opacity: .22; } 18% { opacity: 1; } }
+
+/* ---- Lab: a pendulum ------------------------------------------------------ */
+.m-pivot-bar { stroke-width: 1.4; opacity: .35; }
+.m-swing { transform-origin: 32px 9px; animation: m-swing 2.6s cubic-bezier(.44, 0, .56, 1) infinite; }
+.m-swing line { stroke-width: 1.4; }
+@keyframes m-swing { 0%, 100% { transform: rotate(-26deg); } 50% { transform: rotate(26deg); } }
+
+/* ---- Simulators: a body bouncing ----------------------------------------- */
+.m-ground { stroke-width: 1.4; opacity: .35; }
+.m-bouncer { animation: m-bounce 1.8s cubic-bezier(.5, .05, .8, .6) infinite; }
+@keyframes m-bounce { 0%, 100% { transform: translateY(0); } 48% { transform: translateY(18px); } 56% { transform: translateY(15px) scaleY(.85); } 64% { transform: translateY(18px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .motif * { animation: none !important; }
+  .m-sym-1, .m-sym-2 { opacity: 0; }
+  .m-sym-0, .m-cell, .m-row, .m-core-cell, .m-unit, .m-layer, .m-spike { opacity: 1; }
+  .m-synapse { opacity: 0; }
+}

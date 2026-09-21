@@ -2,22 +2,10 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import Math from "./sections/Math";
-import MathOfAI from "./sections/MathOfAI";
-import PythonFundamentals from "./sections/PythonFundamentals";
-import AI from "./sections/AI";
-import PythonLibraries from "./sections/PythonLibraries";
-import ML from "./sections/ML";
-import DL from "./sections/DL";
-import SQL from "./sections/SQL";
-import ROS from "./sections/ROS";
-import CUDA from "./sections/CUDA";
-import SimulationsEnv from "./sections/SimulationsEnv";
-import SimulationsLive from "./sections/SimulationsLive";
-import Physics from "./sections/Physics";
-import Biology from "./sections/Biology";
-import ScienceFlow from "./ScienceFlow";
+import Overview from "./sections/Overview";
 import ThemeToggle from "./ThemeToggle";
+import PerceptronField from "./PerceptronField";
+import Reveal from "./Reveal";
 
 declare global {
   interface Window {
@@ -59,31 +47,8 @@ export default function Home() {
     };
     window.addEventListener("scroll", handleScroll);
 
-    // Fade-in sections on scroll into view
-    const sections = document.querySelectorAll(".fade-section");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-
-            // Once visible, stop watching it
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.01,
-        rootMargin: "0px 0px -80px 0px",
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      observer.disconnect();
     };
   }, []);
 
@@ -92,23 +57,25 @@ export default function Home() {
       <nav id="navbar">
         <Link href="/about" className="nav-title" aria-label="About Layerchecklist and the person writing it">Layerchecklist</Link>
         <ul>
-          <li><a href="#math">Math</a></li>
-          <li><a href="#physics">Physics</a></li>
-          <li><a href="#biology">Biology</a></li>
-          <li><a href="#python-fundamentals">Python</a></li>
-          <li><a href="#ai">AI</a></li>
-          <li><a href="#python-libraries">Libraries</a></li>
-          <li><a href="#ml">ML</a></li>
-          <li><a href="#dl">DL</a></li>
-          <li><a href="#sql">SQL</a></li>
-          <li><a href="#ros">ROS</a></li>
-          <li><a href="#cuda">CUDA</a></li>
-          <li><a href="#simulations">Simulations</a></li>
+          <li><Link href="/math">Math</Link></li>
+          <li><Link href="/physics">Physics</Link></li>
+          <li><Link href="/biology">Biology</Link></li>
+          <li><Link href="/python">Python</Link></li>
+          <li><Link href="/ai">AI</Link></li>
+          <li><Link href="/libraries">Libraries</Link></li>
+          <li><Link href="/ml">ML</Link></li>
+          <li><Link href="/dl">DL</Link></li>
+          <li><Link href="/sql">SQL</Link></li>
+          <li><Link href="/ros">ROS</Link></li>
+          <li><Link href="/cuda">CUDA</Link></li>
+          <li><Link href="/simulations">Simulations</Link></li>
         </ul>
         <ThemeToggle />
       </nav>
 
       <header className="hero">
+        <PerceptronField />
+
         <div className="hero-content">
           <div id="hero-equation"></div>
 
@@ -135,21 +102,8 @@ export default function Home() {
       </header>
 
       <main>
-        <ScienceFlow />
-        <Math />
-        <MathOfAI />
-        <Physics />
-        <Biology />
-        <PythonFundamentals />
-        <AI />
-        <PythonLibraries />
-        <ML />
-        <DL />
-        <SQL />
-        <ROS />
-        <CUDA />
-        <SimulationsEnv />
-        <SimulationsLive />
+        <Reveal />
+        <Overview />
       </main>
     </>
   );

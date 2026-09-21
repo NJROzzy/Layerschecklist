@@ -1,0 +1,38 @@
+.overview { display: grid; gap: var(--space-7); padding-block: var(--space-6) var(--space-5); }
+.overview .ov-eyebrow { color: var(--color-accent); font: 700 11px/1.6 ui-monospace, SFMono-Regular, monospace; letter-spacing: .1em; margin-bottom: 14px; }
+.overview h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.18; letter-spacing: -.035em; margin: 0 0 18px; max-width: 24ch; text-wrap: balance; }
+.overview p { margin: 0; color: var(--color-muted); line-height: 1.85; max-width: 68ch; }
+.overview p + p { margin-top: 16px; }
+.overview strong { color: var(--color-text); }
+
+.overview .ov-intro .ov-lead { font-size: 18px; max-width: 64ch; }
+.overview .ov-figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: var(--space-4); }
+.overview .ov-figures > div { min-width: 0; border-top: 2px solid var(--color-accent); padding-top: 14px; }
+.overview .ov-figures strong { display: block; font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; }
+.overview .ov-figures span { display: block; margin-top: 8px; color: var(--color-muted); font-size: 12.5px; line-height: 1.55; }
+
+.overview .ov-group > header { margin-bottom: var(--space-3); }
+.overview .science-flow { margin-block: var(--space-3); }
+.overview .ov-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; margin: var(--space-3) 0 0; }
+.overview .ov-cards li { margin: 0; min-width: 0; }
+.overview .ov-cards a { display: grid; gap: 8px; height: 100%; padding: 22px 24px; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); text-decoration: none; transition: border-color .18s ease, transform .18s ease; }
+.overview .ov-cards a:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+.overview .ov-cards strong { font-size: 17px; }
+.overview .ov-cards span { color: var(--color-muted); font-size: 13.5px; line-height: 1.7; }
+.overview .ov-cards em { color: var(--color-accent); font: 600 11.5px/1.5 ui-monospace, monospace; font-style: normal; letter-spacing: .05em; }
+
+.overview a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) { .overview .ov-cards a { transition: none; } .overview .ov-cards a:hover { transform: none; } }
+@media (max-width: 900px) {
+  .overview .ov-figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) { .overview .ov-cards { grid-template-columns: minmax(0, 1fr); } }
+
+/* Room for the emblem in the corner of each card. */
+.overview .ov-cards a { position: relative; padding-right: 92px; }
+.overview .ov-cards .motif { position: absolute; top: 18px; right: 18px; }
+@media (max-width: 420px) {
+  .overview .ov-cards a { padding-right: 24px; }
+  .overview .ov-cards .motif { position: static; margin-bottom: 4px; }
+}
