@@ -9,7 +9,7 @@ export const profile = {
   name: "Nitish John Rawat",
 
   /** A short line under your name. e.g. "Learning ML in public" */
-  tagline: "Learning machines, learning mathematics, learning how to learn.",
+  tagline: "Learning mathematics, exploring nature, building intelligent systems.",
 
   /** e.g. "Robotics engineer" — leave empty to hide. */
   role: "",
@@ -33,17 +33,24 @@ export const profile = {
 
 /** The site's own areas. Counts that are real are imported on the page itself. */
 export const areas = [
-  { href: "/ai", title: "AI Foundations", detail: "What the field is, how a system works, and how to judge a result — before any notation." },
-  { href: "/math", title: "The Math of AI", detail: "From what a number is to the open problems, with an interactive atlas of the whole subject." },
-  { href: "/ml", title: "Machine Learning", detail: "A week-by-week series, from cleaning data to neural networks." },
-  { href: "/dl", title: "Deep Learning", detail: "The longer path through architectures, training and the things that break." },
-  { href: "/simulations", title: "Simulation & Robotics", detail: "Eight simulations running live: integrators, chaos, flocking, kinematics, control, sensing." },
-  { href: "/physics", title: "Physics", detail: "An atlas of the subject underneath, and where it shares equations with machine learning." },
+  { href: "/math", title: "Math", detail: "The first foundation: mathematical ideas, worked examples and an interactive atlas." },
+  { href: "/physics", title: "Physics", detail: "The second foundation: physical laws, scales, mechanisms and their connections." },
+  { href: "/biology", title: "Biology", detail: "The third foundation: living systems, heredity, evolution and ecology, with interactive models." },
+  { href: "/#python-fundamentals", title: "Python Fundamentals", detail: "Turn an idea into a program with functions, data structures and small experiments." },
+  { href: "/ai", title: "AI Foundations", detail: "What the field is, how a system works, and how to judge a result." },
+  { href: "/#python-libraries", title: "Python Libraries", detail: "A practical checklist of the tools used to work with data, numerical models and visualizations." },
+  { href: "/ml", title: "Machine Learning", detail: "A week-by-week series, from data and evaluation to learning algorithms." },
+  { href: "/dl", title: "Deep Learning", detail: "A learning path through architectures, training and model behavior." },
+  { href: "/#sql", title: "SQL", detail: "Organize, query and combine the data behind an experiment or application." },
+  { href: "/#ros", title: "ROS", detail: "Connect sensing, communication and control in a robotics workflow." },
+  { href: "/#cuda", title: "CUDA", detail: "Explore parallel computation and the hardware behind numerical workloads." },
+  { href: "/#simulations", title: "Simulation Environments", detail: "Explore the tools and environments used to model physical systems and train agents." },
+  { href: "/simulations", title: "Live Simulation Lab", detail: "Eight interactive experiments in motion, collective behavior, robotics, control and sensing." },
 ];
 
 export const principles = [
-  { title: "Nothing is pre-recorded", detail: "Every simulation on this site is integrating real equations in your browser, frame by frame. The orbits drift because the integrator drifts, not because a designer drew them that way." },
-  { title: "The numbers are checked", detail: "Each interactive piece was verified against a separate reference run before it was written about. Where a claim is made about a result, the result was computed first." },
-  { title: "Say what is not known", detail: "Every subject here ends with its open problems rather than a tidy summary. Deep learning works better than the theory explains, and pretending otherwise helps nobody." },
-  { title: "Build it to understand it", detail: "The fastest way to find out whether you understand something is to make it work, watch it fail, and be unable to look away from the reason." },
+  { title: "Build one layer at a time", detail: "Begin with an observation, give it a precise language, then build a model. Definitions, assumptions and worked examples belong beside the result." },
+  { title: "Make the model explorable", detail: "Change a parameter and watch a prediction change. The labs calculate in your browser: some step equations through time, while others evaluate a mathematical solution directly." },
+  { title: "Check the limits", detail: "Use units, conservation laws and boundary cases to question a calculation. A model is useful only within its assumptions; a smooth animation does not establish that it matches the world." },
+  { title: "Keep questions open", detail: "Separate established results, useful approximations and unresolved questions. Follow sources, test an explanation, and revise it when the evidence changes." },
 ];

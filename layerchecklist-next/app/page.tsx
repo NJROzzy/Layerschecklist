@@ -15,11 +15,13 @@ import CUDA from "./sections/CUDA";
 import SimulationsEnv from "./sections/SimulationsEnv";
 import SimulationsLive from "./sections/SimulationsLive";
 import Physics from "./sections/Physics";
+import Biology from "./sections/Biology";
+import ScienceFlow from "./ScienceFlow";
 import ThemeToggle from "./ThemeToggle";
 
 declare global {
   interface Window {
-    katex: any;
+    katex: { render: (tex: string, element: HTMLElement, options?: Record<string, unknown>) => void };
   }
 }
 
@@ -91,6 +93,8 @@ export default function Home() {
         <Link href="/about" className="nav-title" aria-label="About Layerchecklist and the person writing it">Layerchecklist</Link>
         <ul>
           <li><a href="#math">Math</a></li>
+          <li><a href="#physics">Physics</a></li>
+          <li><a href="#biology">Biology</a></li>
           <li><a href="#python-fundamentals">Python</a></li>
           <li><a href="#ai">AI</a></li>
           <li><a href="#python-libraries">Libraries</a></li>
@@ -100,7 +104,6 @@ export default function Home() {
           <li><a href="#ros">ROS</a></li>
           <li><a href="#cuda">CUDA</a></li>
           <li><a href="#simulations">Simulations</a></li>
-          <li><a href="#physics">Physics</a></li>
         </ul>
         <ThemeToggle />
       </nav>
@@ -127,13 +130,16 @@ export default function Home() {
         </div>
 
         <p className="hero-subtitle">
-          Learning machines. Learning mathematics. Learning how to learn.
+          Math. Physics. Biology. Then the tools to explore them.
         </p>
       </header>
 
       <main>
+        <ScienceFlow />
         <Math />
         <MathOfAI />
+        <Physics />
+        <Biology />
         <PythonFundamentals />
         <AI />
         <PythonLibraries />
@@ -144,7 +150,6 @@ export default function Home() {
         <CUDA />
         <SimulationsEnv />
         <SimulationsLive />
-        <Physics />
       </main>
     </>
   );

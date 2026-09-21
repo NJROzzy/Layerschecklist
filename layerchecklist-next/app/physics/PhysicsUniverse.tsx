@@ -1,11 +1,17 @@
 "use client";
 
 import { useMemo, useState, type CSSProperties } from "react";
+import Link from "next/link";
 import { branches, ideaById, ideas, levels, type BranchId, type Idea } from "./universe";
 import { CENTRE, HUES, RADII, branchAngle, noise, polar, positions, round, routes } from "./universe-layout";
 
-type Mode = "all" | "compute" | "world";
+type Mode = "all" | "compute" | "world" | "life";
 const tint = (branch: BranchId) => ({ "--h": HUES[branch] } as CSSProperties);
+const chapterFor: Record<BranchId, string> = {
+  mechanics: "conserved", waves: "fields", fluids: "scales", thermo: "chance",
+  em: "fields", optics: "fields", relativity: "scales", quantum: "quantum",
+  particle: "quantum", matter: "quantum", cosmos: "scales", methods: "method",
+};
 
 const links = ideas.flatMap(i => (i.needs ?? []).map(from => [from, i.id] as const));
 const followers = (() => {
@@ -20,6 +26,7 @@ const dust = Array.from({ length: 420 }, (_, i) => {
 });
 const computeCount = ideas.filter(i => i.compute).length;
 const worldCount = ideas.filter(i => i.world).length;
+const lifeCount = ideas.filter(i => i.life).length;
 
 export default function PhysicsUniverse() {
   const [mode, setMode] = useState<Mode>("all");
@@ -29,14 +36,15 @@ export default function PhysicsUniverse() {
   const [chosenId, setChosenId] = useState("entropy");
   const [named, setNamed] = useState(true);
   const [rings, setRings] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
 
   const activeRoute = routes.find(r => r.id === route);
   const search = query.trim().toLowerCase();
   const matches = useMemo(() => ideas.filter(i =>
-    (mode === "all" || (mode === "compute" ? Boolean(i.compute) : Boolean(i.world)))
+    (mode === "all" || Boolean(i[mode]))
     && (!branch || i.branch === branch)
     && (!activeRoute || (activeRoute.stops as readonly string[]).includes(i.id))
-    && (!search || [i.name, i.what, i.compute, i.world].join(" ").toLowerCase().includes(search))
+    && (!search || [i.id, i.name, i.what, i.compute, i.world, i.life?.detail].join(" ").toLowerCase().includes(search))
   ), [mode, branch, activeRoute, search]);
   const lit = new Set(matches.map(i => i.id));
 
@@ -66,10 +74,11 @@ export default function PhysicsUniverse() {
     }
     return [...priority, ...spread].slice(0, 18);
   })();
-  const taken: { x: number; y: number; w: number }[] = [];
+  // Reserve the centre title before placing any star labels.
+  const taken: { x: number; y: number; w: number }[] = [{ x: 392, y: 475, w: 176 }, { x: 392, y: 493, w: 176 }];
   const labels = labelled.flatMap(idea => {
     const p = positions.get(idea.id)!;
-    const w = Math.min(idea.name.length, 26) * 6.6 + 14;
+    const w = Math.min(idea.name.length, 26) * 8.5 + 14;
     for (const dy of [-17, 21, -37, 41, -57]) {
       const x = Math.max(12, Math.min(948 - w, p.x + 12)), y = p.y + dy;
       if (taken.some(t => Math.abs(t.y - y) < 20 && x < t.x + t.w && x + w > t.x)) continue;
@@ -82,11 +91,11 @@ export default function PhysicsUniverse() {
   return <div className="pu">
     <div className="pu-controls">
       <div className="pu-modes" role="group" aria-label="What to highlight">
-        {([["all", `Everything · ${ideas.length}`], ["compute", `Touches computing · ${computeCount}`], ["world", `You meet it daily · ${worldCount}`]] as [Mode, string][])
+        {([["all", `Everything · ${ideas.length}`], ["life", `Leads into biology · ${lifeCount}`], ["compute", `Touches computing · ${computeCount}`], ["world", `You meet it daily · ${worldCount}`]] as [Mode, string][])
           .map(([value, label]) => <button key={value} type="button" aria-pressed={mode === value} onClick={() => { setMode(value); setRoute(null); }}>{label}</button>)}
       </div>
       <label className="pu-search" htmlFor="pu-search">Search the atlas
-        <input id="pu-search" type="search" value={query} placeholder="entropy, spin, turbulence…" onChange={e => setQuery(e.target.value)} />
+        <input id="pu-search" type="search" value={query} placeholder="entropy, diffusion, membranes…" onChange={e => setQuery(e.target.value)} />
       </label>
     </div>
 
@@ -107,12 +116,18 @@ export default function PhysicsUniverse() {
       {(mode !== "all" || branch || query || route) && <button type="button" className="pu-clear" onClick={clear}>Clear</button>}
       <a className="pu-skip" href="#pu-detail">Skip to the selected idea ↓</a>
     </div>
-    {activeRoute && <p className="pu-route-note">{activeRoute.description}</p>}
+    {activeRoute && <div className="pu-route-note">
+      <p>{activeRoute.description}</p>
+      <ol className="pu-route-stops" aria-label="Stops on the selected route">
+        {activeRoute.stops.map((id, index) => <li key={id}><button type="button" aria-pressed={chosen?.id === id} onClick={() => pick(id)}><span>{index + 1}</span>{ideaById.get(id)!.name}</button></li>)}
+      </ol>
+    </div>}
+    <p className="phys-note pu-help" id="pu-help">Choose a star to explore its connections. Use arrow keys on the map, follow a route, or browse the idea list below. Zoom in to read more closely and scroll around the map.</p>
 
     <div className="pu-observatory">
-      <div className="pu-head"><div><span>THE PHYSICAL UNIVERSE</span><strong>{branches.length} branches. One set of rules.</strong></div><i className="pu-live" aria-hidden="true" /></div>
-      <div className="pu-stage">
-        <svg viewBox={named ? "-290 -10 1540 980" : "-110 -10 1180 980"} aria-label={`A circle of ${ideas.length} physics ideas, arranged by branch and by how much has to be understood first.`}>
+      <div className="pu-head"><div><span>THE PHYSICAL UNIVERSE</span><strong>{branches.length} branches. From matter to living systems.</strong></div><i className="pu-live" aria-hidden="true" /></div>
+      <div className={"pu-stage" + (zoomed ? " is-zoomed" : "")} tabIndex={zoomed ? 0 : undefined} role="region" aria-label="Physics universe map" aria-describedby="pu-help">
+        <svg viewBox="-70 -10 1100 980" aria-label={`A constellation of ${ideas.length} physics ideas, arranged by branch and approximate study level.`}>
           <defs>
             <radialGradient id="pu-space"><stop stopColor="#231630" /><stop offset=".55" stopColor="#120c1e" /><stop offset="1" stopColor="#08060f" /></radialGradient>
             <radialGradient id="pu-core"><stop stopColor="#ffd9a8" stopOpacity=".55" /><stop offset=".2" stopColor="#ff9d6e" stopOpacity=".14" /><stop offset="1" stopColor="#c46bff" stopOpacity="0" /></radialGradient>
@@ -121,7 +136,7 @@ export default function PhysicsUniverse() {
             </radialGradient>)}
           </defs>
           <g aria-hidden="true" pointerEvents="none">
-            <rect x="-290" y="-10" width="1540" height="980" fill="url(#pu-space)" />
+            <rect x="-70" y="-10" width="1100" height="980" fill="url(#pu-space)" />
             <circle cx={CENTRE} cy={CENTRE} r="428" className="pu-horizon" />
             {branches.map((b, i) => { const p = polar(272, branchAngle(i)); return <ellipse key={b.id} cx={p.x} cy={p.y} rx="178" ry="104"
               transform={`rotate(${round(branchAngle(i) * 180 / Math.PI)} ${p.x} ${p.y})`} fill={`url(#pu-neb-${b.id})`} />; })}
@@ -185,6 +200,7 @@ export default function PhysicsUniverse() {
         <div>
           <button type="button" aria-pressed={named} onClick={() => setNamed(!named)}>{named ? `Names · ${labels.length}` : "Show names"}</button>
           <button type="button" aria-pressed={rings} onClick={() => setRings(!rings)}>Level rings</button>
+          <button type="button" aria-pressed={zoomed} onClick={() => setZoomed(!zoomed)}>{zoomed ? "Fit whole universe" : "Zoom in"}</button>
         </div>
         <ol className="pu-levels" aria-label="What distance from the centre means">
           {levels.map((name, i) => <li key={name}><span>{i}</span>{name}</li>)}
@@ -199,14 +215,15 @@ export default function PhysicsUniverse() {
         <p>{chosen.what}</p>
         {chosen.world && <p className="pu-world"><strong>Where you meet it</strong> · {chosen.world}</p>}
         {chosen.compute && <p className="pu-compute"><strong>Where it touches computing</strong> · {chosen.compute}</p>}
-        {!chosen.compute && <p className="phys-note">This atlas records no direct link to machine learning for this one — which most of physics shares.</p>}
+        {chosen.life && <div className="pu-life"><p><strong>Where it leads into biology</strong> · {chosen.life.detail}</p><Link href={chosen.life.href}>Explore this in Biology →</Link></div>}
+        <a className="pu-chapter-link" href={"#" + chapterFor[chosen.branch]}>Read the related Physics chapter ↓</a>
         <div className="pu-links">
           {([["Rests on", parents], ["Leads to", children]] as const).map(([title, list]) => <div key={title}>
             <span className="phys-eyebrow">{title}</span>
             <div>{list.length ? list.map(id => <button key={id} type="button" onClick={() => pick(id)}>{ideaById.get(id)!.name}</button>) : <em>nothing listed here</em>}</div>
           </div>)}
         </div>
-      </> : <p className="phys-note">No ideas match these filters.</p>}
+      </> : <><p className="phys-note">No ideas match these filters.</p><button type="button" onClick={clear}>Show all ideas</button></>}
     </div>
 
     <details className="pu-index">

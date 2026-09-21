@@ -2,20 +2,21 @@ import Link from "next/link";
 import "./Section.css";
 import "./Physics.css";
 import { branches, ideas } from "../physics/universe";
+import { routes } from "../physics/universe-layout";
+import { chapters, openQuestions } from "../physics/content";
 
-/** The subject underneath all the others, added at the end of the path. */
+/** The subject underneath all the others, the second foundation in the learning path. */
 export default function Physics() {
   const computeLinks = ideas.filter(idea => idea.compute).length;
 
   return <section id="physics" className="learning-section fade-section" aria-labelledby="physics-title">
-    <p className="phy-eyebrow">THE SUBJECT UNDERNEATH</p>
+    <p className="phy-eyebrow">FOUNDATION 02 / MATH → PHYSICS → BIOLOGY</p>
     <h2 id="physics-title">Physics</h2>
     <p>
-      Everything on this site runs on something physical, and a surprising amount of
-      it was <em>invented</em> by physicists. Entropy, the Boltzmann distribution,
-      diffusion processes, spin glasses, symmetry arguments — machine learning did
-      not borrow the vocabulary, it inherited the equations. This is an atlas of
-      where those ideas came from, and of the rest of the subject they came from.
+      Put mathematics to work describing matter, energy, motion and chance.
+      Follow diffusion, gradients and electrical signals into Biology, or explore
+      the connections to simulations and machine learning. This atlas gives you
+      a route through the physical ideas behind those systems.
     </p>
 
     <div className="phy-atlas-card">
@@ -23,9 +24,9 @@ export default function Physics() {
         <span className="phy-eyebrow">THE PHYSICS ATLAS</span>
         <strong>{ideas.length} ideas. {branches.length} branches. One circle.</strong>
         <p>
-          Plotted by branch and by how much has to be understood first — the middle
-          is what you can feel with your hands, the rim is what nobody has settled.
-          {" "}{computeLinks} of them carry a real link to computation.
+          Start with everyday observations, then move toward deeper theory and
+          open research. {computeLinks} ideas connect to computation, and a new
+          guided route connects physical mechanisms to living systems.
         </p>
       </div>
       <Link href="/physics#atlas" className="phy-atlas-link">Open the atlas <span aria-hidden="true">→</span></Link>
@@ -37,12 +38,13 @@ export default function Physics() {
       <li><Link href="/physics#conserved"><span>03</span><strong>What never changes</strong><small>Symmetry, and the quantities it protects</small></Link></li>
       <li><Link href="/physics#chance"><span>04</span><strong>Chance &amp; heat</strong><small>Where softmax and cross-entropy actually come from</small></Link></li>
       <li><Link href="/physics#quantum"><span>05</span><strong>The quantum turn</strong><small>Learnable maths, genuinely unsettled meaning</small></Link></li>
-      <li><Link href="/physics#bridge"><span>06</span><strong>Physics &amp; machine learning</strong><small>Shared equations, and one analogy that is only an analogy</small></Link></li>
-      <li><Link href="/physics#open"><span>07</span><strong>Still open</strong><small>Around 95% of the universe is labelled, not explained</small></Link></li>
-      <li><Link href="/physics#start"><span>08</span><strong>Where to start</strong><small>An order that works, with a test for each stage</small></Link></li>
+      <li><Link href="/physics#life"><span>06</span><strong>Physics into Biology</strong><small>Transport, cellular energy and electrical signals</small></Link></li>
+      <li><Link href="/physics#bridge"><span>07</span><strong>Physics &amp; machine learning</strong><small>Shared mathematical tools and their limits</small></Link></li>
+      <li><Link href="/physics#open"><span>08</span><strong>Still open</strong><small>Questions that established theories leave unanswered</small></Link></li>
+      <li><Link href="/physics#start"><span>09</span><strong>Where to start</strong><small>An order that works, with a test for each stage</small></Link></li>
     </ol>
 
     <Link href="/physics" className="phy-start">Explore physics <span aria-hidden="true">→</span></Link>
-    <p className="phy-note">9 chapters · {ideas.length}-idea interactive atlas · 5 guided routes · 7 open questions</p>
+    <p className="phy-note">{chapters.length} chapters · {ideas.length}-idea interactive atlas · {routes.length} guided routes · {openQuestions.length} open questions</p>
   </section>;
 }

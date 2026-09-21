@@ -11,6 +11,7 @@
 }
 [data-theme="dark"] .phys-page { --p-accent: #d8b4fe; --p-warm: #fdba74; }
 .phys-page *, .phys-page *::before, .phys-page *::after { box-sizing: border-box; }
+.phys-page :is(.phys-atlas, .phys-chapter, .pu-index-body > section) { display: block; min-height: 0; max-width: none; }
 .phys-page :is(h1, h2, h3, h4, p, table, figure) { margin: 0; }
 .phys-page p { color: var(--color-muted); line-height: 1.8; }
 .phys-page p + p { margin-top: 16px; }
@@ -96,7 +97,7 @@
    THE PHYSICS ATLAS
 ============================================================ */
 .phys-page .pu { margin-block: 26px; }
-.phys-page .pu button { font: 600 12.5px/1.5 system-ui, sans-serif; cursor: pointer; min-height: 40px; padding: 8px 14px; border: 1px solid var(--p-line); background: var(--color-bg); color: var(--color-text); border-radius: 9px; }
+.phys-page .pu button { font: 600 12.5px/1.5 system-ui, sans-serif; cursor: pointer; min-height: 44px; padding: 8px 14px; border: 1px solid var(--p-line); background: var(--color-bg); color: var(--color-text); border-radius: 9px; }
 .phys-page .pu button:hover { border-color: var(--p-accent); }
 .phys-page .pu-controls { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px 24px; }
 .phys-page .pu-modes { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -107,7 +108,7 @@
 .phys-page .pu-routes > span { flex-basis: 100%; margin-bottom: 3px; }
 .phys-page .pu-routes button[aria-pressed="true"] { border-color: var(--p-accent); background: var(--p-tint); color: var(--p-accent); }
 .phys-page .pu-legend { display: flex; flex-wrap: wrap; gap: 6px; }
-.phys-page .pu-legend button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 6px 12px; border-radius: 999px; color: var(--color-muted); font-size: 12px; }
+.phys-page .pu-legend button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 6px 12px; border-radius: 999px; color: var(--color-muted); font-size: 12px; }
 .phys-page .pu-legend button[aria-pressed="true"] { border-color: var(--p-accent); background: var(--p-tint); color: var(--color-text); }
 .phys-page .pu-dot { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: hsl(var(--h) 66% 48%); }
 [data-theme="dark"] .phys-page .pu-dot { background: hsl(var(--h) 75% 70%); }
@@ -116,13 +117,22 @@
 .phys-page .pu-clear { min-height: 32px; padding: 5px 10px; background: transparent; border: 0; color: var(--p-accent); text-decoration: underline; }
 .phys-page .pu-skip { margin-left: auto; }
 .phys-page .pu-route-note { padding: 12px 18px; background: var(--p-tint); border-left: 2px solid var(--p-accent); border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
+.phys-page .pu-route-stops { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 12px 0 0; }
+.phys-page .pu-route-stops li { margin: 0; }
+.phys-page .pu-route-stops button { display: flex; align-items: center; gap: 8px; text-align: left; }
+.phys-page .pu-route-stops button[aria-pressed="true"] { color: var(--p-accent); border-color: var(--p-accent); }
+.phys-page .pu-route-stops span { color: var(--color-muted); font: 11px ui-monospace, monospace; }
+.phys-page .pu-help { margin-bottom: 16px; }
 
 .phys-page .pu-observatory { overflow: hidden; border-radius: 22px; background: var(--p-ink); border: 1px solid var(--p-edge); color: #efe6ff; box-shadow: 0 24px 70px #08060f26; }
 .phys-page .pu-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 26px; border-bottom: 1px solid var(--p-edge); }
 .phys-page .pu-head span { display: block; color: #b49ad0; font: 10px/1.6 ui-monospace, monospace; letter-spacing: .16em; }
 .phys-page .pu-head strong { display: block; color: #efe6ff; font-size: clamp(15px, 2vw, 21px); font-weight: 500; margin-top: 7px; }
 .phys-page .pu-live { width: 8px; height: 8px; border-radius: 50%; background: #ffb38a; box-shadow: 0 0 16px #ffb38a99; flex: 0 0 8px; }
+.phys-page .pu-stage { overflow: auto; scrollbar-color: #7d6699 #120c1e; }
+.phys-page .pu-stage.is-zoomed { max-height: min(980px, 78svh); }
 .phys-page .pu-stage svg { display: block; width: 100%; height: auto; }
+.phys-page .pu-stage.is-zoomed svg { width: 160%; min-width: 1000px; max-width: none; }
 .phys-page .pu-horizon { fill: none; stroke: #4c3a68; stroke-width: 1.2; }
 .phys-page .pu-ring { fill: none; stroke: #c3a8e8; stroke-dasharray: 2 7; stroke-opacity: .16; }
 .phys-page .pu-ring.is-strong { stroke-dasharray: 4 6; stroke-opacity: .44; }
@@ -160,20 +170,22 @@
 .phys-page .pu-detail p { font-size: 14px; }
 .phys-page .pu-world { margin-top: 13px; padding-left: 13px; border-left: 2px solid var(--p-warm); }
 .phys-page .pu-compute { margin-top: 12px; padding-left: 13px; border-left: 2px solid var(--p-accent); }
+.phys-page .pu-life { margin-top: 16px; padding: 16px; border: 1px solid var(--p-line); border-left: 3px solid #33876f; border-radius: 8px; background: var(--p-tint); }
+.phys-page .pu-life a, .phys-page .pu-chapter-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; margin-top: 8px; }
 .phys-page .pu-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 20px; }
 .phys-page .pu-links > div > div { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
-.phys-page .pu-links button { min-height: 30px; padding: 5px 11px; border-radius: 999px; font-size: 12px; background: var(--color-surface); }
+.phys-page .pu-links button { min-height: 44px; padding: 5px 11px; border-radius: 999px; font-size: 12px; background: var(--color-surface); }
 .phys-page .pu-links em { color: var(--color-muted); font-size: 12.5px; }
 .phys-page .pu-index { margin-top: 20px; border-top: 1px solid var(--p-line); }
 .phys-page .pu-index > summary { cursor: pointer; padding-block: 16px; font-weight: 600; font-size: 15px; }
 .phys-page .pu-index-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 24px; padding-bottom: 16px; }
-.phys-page .pu-index-body > section { min-width: 0; }
+.phys-page .pu-index-body > section { min-width: 0; margin: 0; }
 .phys-page .pu-index h4 { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--p-line); font-size: 13px; }
 .phys-page .pu-index h4 > span { min-width: 0; flex: 1 1 auto; overflow-wrap: anywhere; }
 .phys-page .pu-index h4 em { color: var(--color-muted); font: 11px ui-monospace, monospace; font-style: normal; }
 .phys-page .pu-index ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 5px; }
 .phys-page .pu-index li { margin: 0; }
-.phys-page .pu-index li button { min-height: 28px; padding: 4px 10px; border-radius: 6px; font: 400 12px/1.4 system-ui, sans-serif; color: var(--color-muted); }
+.phys-page .pu-index li button { min-height: 44px; padding: 4px 10px; border-radius: 6px; font: 400 12px/1.4 system-ui, sans-serif; color: var(--color-muted); }
 .phys-page .pu-index li button.is-compute { color: var(--color-text); font-weight: 650; }
 .phys-page .pu-index li button[aria-pressed="true"] { border-color: var(--p-warm); color: var(--p-warm); }
 
@@ -189,7 +201,8 @@
   .phys-page .phys-hero-stats, .phys-page .pu-index-body, .phys-page .pu-links { grid-template-columns: minmax(0, 1fr); }
   .phys-page .phys-scale > li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .phys-page .phys-callout { padding: 20px; }
-  .phys-page .pu-branch-label, .phys-page .pu-name { font-size: 18px; }
+  .phys-page .pu-stage:not(.is-zoomed) .pu-branch-label { font-size: 16px; }
+  .phys-page .pu-head, .phys-page .pu-toolbar, .phys-page .pu-detail { padding: 18px; }
   .phys-bar { max-width: calc(100vw - 88px); }
   .phys-bar-body { gap: 10px; padding: 8px 15px 9px; font-size: 12px; }
   .phys-bar-body a { display: none; }

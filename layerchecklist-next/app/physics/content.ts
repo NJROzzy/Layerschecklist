@@ -4,8 +4,14 @@ export const reviewedOn = "September 20, 2026";
 export const chapters = [
   ["method", "How physics works"], ["scales", "Scales"], ["conserved", "What never changes"],
   ["fields", "Fields"], ["chance", "Chance & heat"], ["quantum", "The quantum turn"],
-  ["bridge", "Physics & machine learning"], ["open", "Still open"], ["start", "Where to start"],
+  ["life", "Physics into Biology"], ["bridge", "Physics & machine learning"], ["open", "Still open"], ["start", "Where to start"],
 ] as const;
+
+export const lifeBridges = [
+  { label: "MOTION → TRANSPORT", title: "Small steps, changing concentrations", detail: "Random molecular motion can produce net diffusion. At cellular distances it is an important transport mechanism; over larger distances, bulk flow can move materials faster.", href: "/biology#bio-diffusion", link: "Try the diffusion model", source: "https://openstax.org/books/college-physics-2e/pages/12-7-molecular-transport-phenomena-diffusion-osmosis-and-related-processes" },
+  { label: "ENERGY → CELLULAR WORK", title: "Gradients can power a cell", detail: "Electron transport can build a proton gradient across a membrane. Coupling the return flow to ATP synthase connects an electrochemical potential difference to ATP production.", href: "/biology#energy", link: "Explore molecules and energy", source: "https://www.ncbi.nlm.nih.gov/books/NBK26904/" },
+  { label: "CHARGE → SIGNALS", title: "Membranes have electrical properties", detail: "Charge separation and selective ion channels shape membrane voltage. Changes in conductance help produce the electrical signals of nerve and muscle cells.", href: "/biology#systems", link: "Explore bodies, brains and feedback", source: "https://openstax.org/books/college-physics-2e/pages/20-7-nerve-conduction-electrocardiograms" },
+];
 
 export const pillars = [
   { name: "Conservation", idea: "Some quantities never change, whatever else happens. Energy, momentum, charge.", why: "You can often answer a question about the end without following the middle." },

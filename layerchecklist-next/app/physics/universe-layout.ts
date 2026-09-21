@@ -54,4 +54,5 @@ export const routes = [
   { id: "light", label: "What light turned out to be", description: "A wave, then a field, then a particle, and the trouble that caused.", stops: ["light-shadow", "wave", "interference", "maxwell", "em-wave", "photon", "wave-particle", "wavefunction"] },
   { id: "ai-bridge", label: "Where physics meets machine learning", description: "The places the two subjects share an equation rather than a metaphor.", stops: ["entropy", "boltzmann", "partition", "free-energy", "ising", "spin-glass", "langevin", "stochastic-p", "ml-physics"] },
   { id: "scale", label: "From the tabletop to the cosmos", description: "The same laws, applied across thirty orders of magnitude.", stops: ["newton", "gravitation", "orbits", "stars", "general-rel", "black-hole", "expansion", "dark-energy"] },
+  { id: "living", label: "From physics to living systems", description: "Follow thermal motion into transport, then connect cellular work and ion gradients to the Biology course.", stops: ["temperature", "brownian", "diffusion", "osmosis", "free-energy", "molecular-motors", "electrochemical", "noneq"] },
 ] as const;

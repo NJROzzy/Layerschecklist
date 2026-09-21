@@ -1,8 +1,8 @@
 /**
  * A physics atlas, plotted as one circle.
  *
- * Distance from the centre is roughly how much has to be understood first —
- * the middle is what you can feel with your hands, the rim is unresolved.
+ * Distance from the centre suggests a study level, not a strict prerequisite
+ * order. The outer bands include both established theory and open research.
  * Each wedge is a branch. `compute` marks the places where this subject and
  * machine learning genuinely touch, which is more often than either field's
  * introductions admit.
@@ -27,13 +27,14 @@ export const branches: { id: BranchId; label: string; short: string }[] = [
   { id: "methods", label: "Methods & computation", short: "Methods" },
 ];
 
-export const levels = ["You can feel this one", "School physics", "Undergraduate", "Graduate", "Still open"];
+export const levels = ["Everyday observations", "School foundations", "Core university", "Deeper connections", "Advanced study & frontiers"];
 
 export type Idea = {
   id: string; name: string; branch: BranchId; ring: 0 | 1 | 2 | 3 | 4;
   what: string;
   compute?: string;  // a real link to computation or machine learning
   world?: string;    // where it shows up outside a textbook
+  life?: { detail: string; href: `/biology#${string}` };
   needs?: string[];
 };
 
@@ -86,16 +87,16 @@ export const ideas: Idea[] = [
   { id: "heat", name: "Heat & internal energy", branch: "thermo", ring: 1, what: "Energy transferred because of a temperature difference, and the energy already stored inside.", compute: "Why data centres are built around cooling before compute.", world: "Kettles, engines, insulation.", needs: ["temperature", "energy"] },
   { id: "first-law", name: "First law", branch: "thermo", ring: 2, what: "Energy is conserved once heat is counted as a form of it.", world: "The death of the perpetual motion machine.", needs: ["heat"] },
   { id: "entropy", name: "Entropy", branch: "thermo", ring: 2, what: "A measure of how many microscopic arrangements match what you can actually see.", compute: "The identical quantity Shannon arrived at independently for information — cross-entropy loss is this idea.", world: "Why heat flows one way and eggs do not unscramble.", needs: ["first-law", "probability-p"] },
-  { id: "second-law", name: "Second law", branch: "thermo", ring: 2, what: "Total entropy does not decrease. This is the law that gives time a direction.", world: "Efficiency limits on every engine ever built.", needs: ["entropy"] },
+  { id: "second-law", name: "Second law", branch: "thermo", ring: 2, what: "The total entropy of an isolated macroscopic system does not decrease in a spontaneous process. A subsystem can become more ordered by exchanging energy and matter with its surroundings.", world: "Efficiency limits on heat engines.", life: { detail: "Cells maintain organization while exchanging energy and matter; their surroundings must be included in the entropy account.", href: "/biology#energy" }, needs: ["entropy"] },
   { id: "boltzmann", name: "Boltzmann distribution", branch: "thermo", ring: 3, what: "At equilibrium, the chance of a state falls exponentially with its energy over temperature.", compute: "Softmax is a Boltzmann distribution with the logits as negative energies. Temperature sampling is literally temperature.", needs: ["entropy", "probability-p"] },
   { id: "partition", name: "Partition function", branch: "thermo", ring: 3, what: "Sum over all states of their Boltzmann weights. Differentiate it and every thermodynamic quantity falls out.", compute: "The normalising constant in an energy-based model, and the reason they are hard to train.", needs: ["boltzmann"] },
-  { id: "free-energy", name: "Free energy", branch: "thermo", ring: 3, what: "Energy minus temperature times entropy — what a system actually minimises when it can exchange heat.", compute: "The variational free energy in a VAE's objective is the same construction.", needs: ["partition"] },
+  { id: "free-energy", name: "Free energy", branch: "thermo", ring: 3, what: "Helmholtz free energy F = U − TS is minimized at equilibrium at fixed temperature and volume. At fixed temperature and pressure, the corresponding potential is Gibbs free energy G = H − TS, subject to the system's constraints.", compute: "Variational objectives in probabilistic models use a related energy–entropy balance; their terms need not be physical energies.", life: { detail: "Reaction free-energy changes explain how ATP hydrolysis can be coupled to cellular work. Concentrations and conditions matter.", href: "/biology#energy" }, needs: ["partition"] },
   { id: "ising", name: "The Ising model", branch: "thermo", ring: 3, what: "Spins on a lattice preferring to agree with their neighbours. The simplest model with a real phase transition.", compute: "Hopfield networks and Boltzmann machines are this model with the couplings learned.", needs: ["boltzmann"] },
   { id: "phase-transition", name: "Phase transitions", branch: "thermo", ring: 3, what: "A tiny change in a parameter producing a qualitative change in the whole system.", compute: "Proposed as the frame for emergent capabilities and grokking, though whether these are genuine transitions is contested.", world: "Boiling, freezing, magnetisation.", needs: ["ising"] },
   { id: "renormalization", name: "Renormalisation group", branch: "thermo", ring: 4, what: "Systematically coarse-grain a system and watch which details stop mattering.", compute: "An appealing analogy for what depth does in a network. Suggestive rather than established.", needs: ["phase-transition"] },
   { id: "langevin", name: "Langevin dynamics", branch: "thermo", ring: 4, what: "Motion driven by a force plus random thermal kicks.", compute: "The sampler underneath score-based diffusion models, and one lens on the noise in SGD.", needs: ["boltzmann", "stochastic-p"] },
   { id: "fluctuation", name: "Fluctuation–dissipation", branch: "thermo", ring: 4, what: "How strongly a system responds to a push is fixed by how much it jiggles on its own.", needs: ["langevin"] },
-  { id: "noneq", name: "Non-equilibrium thermodynamics", branch: "thermo", ring: 4, what: "Systems driven away from equilibrium, where most of the interesting things — including life — happen.", compute: "The original framing of diffusion generative models came from exactly here.", needs: ["second-law", "langevin"] },
+  { id: "noneq", name: "Non-equilibrium thermodynamics", branch: "thermo", ring: 4, what: "Systems with flows, gradients or time-dependent driving that keep them away from equilibrium.", compute: "Non-equilibrium processes inspired the original formulation of diffusion generative models.", life: { detail: "Metabolism and transport sustain gradients. A living cell exchanges energy and materials instead of relaxing to equilibrium.", href: "/biology#energy" }, needs: ["second-law", "langevin"] },
   { id: "maxwell-demon", name: "Information & thermodynamics", branch: "thermo", ring: 4, what: "Erasing a bit costs a minimum amount of energy. Information is physical.", compute: "Landauer's limit is a hard floor under the energy cost of computation.", needs: ["entropy", "second-law"] },
 
   /* ---- Electromagnetism ---------------------------------------------------- */
@@ -206,6 +207,16 @@ export const ideas: Idea[] = [
   { id: "pendulum", name: "The pendulum", branch: "mechanics", ring: 1, what: "A weight on a string, whose period barely depends on how far you pull it — until you pull it a long way.", compute: "Two of them linked is the standard demonstration of chaos.", world: "Clocks, for three hundred years.", needs: ["oscillator"] },
   { id: "colour", name: "Colour", branch: "optics", ring: 1, what: "Wavelength, as interpreted by three kinds of cell in your eye. The physics and the perception are not the same thing.", compute: "Why colour spaces exist, and why RGB is a convention rather than a measurement.", world: "Screens, paint, rainbows.", needs: ["light-shadow", "frequency"] },
   { id: "electricity-home", name: "Voltage & power", branch: "em", ring: 1, what: "Voltage is the push, current is the flow, and their product is the rate of energy delivery.", compute: "The number on a GPU's spec sheet that decides what your cluster costs to run.", world: "Every plug socket.", needs: ["current"] },
+
+  /* ---- Physical mechanisms that lead into biology ------------------------ */
+  { id: "brownian", name: "Brownian motion", branch: "thermo", ring: 2, what: "The irregular motion of a suspended particle caused by thermal collisions with the surrounding fluid.", compute: "Random walks and stochastic models describe its statistics.", world: "Particles jittering under a microscope.", life: { detail: "Thermal motion matters at cellular scales, where particles continually encounter one another and their surroundings.", href: "/biology#cells" }, needs: ["temperature", "probability-p"] },
+  { id: "diffusion", name: "Diffusion", branch: "fluids", ring: 2, what: "Random motion produces net spreading down a concentration gradient in a simple uniform medium. With constant diffusivity, typical displacement grows with the square root of time.", compute: "The diffusion equation connects random walks to a continuum model.", life: { detail: "Explore how time and permeability change concentrations in the Biology diffusion model.", href: "/biology#bio-diffusion" }, needs: ["brownian"] },
+  { id: "osmosis", name: "Osmosis", branch: "fluids", ring: 2, what: "Water moves across a selectively permeable membrane in response to a difference in water chemical potential. Solutes and pressure both affect the direction and balance.", world: "Water balance in cells and turgor in plants.", life: { detail: "A cell's volume depends on which substances can cross its membrane and on the conditions on each side.", href: "/biology#cells" }, needs: ["diffusion", "pressure"] },
+  { id: "poiseuille", name: "Flow through a tube", branch: "fluids", ring: 3, what: "For steady laminar flow of a Newtonian fluid in a rigid circular tube, Poiseuille's law gives Q = π ΔP r⁴ / (8 η L). Radius strongly affects flow resistance.", life: { detail: "This is a useful starting model for circulation. Pulsation, flexible vessel walls and blood's material properties limit the approximation.", href: "/biology#systems" }, needs: ["viscosity", "pressure", "reynolds"] },
+  { id: "chemical-potential", name: "Chemical potential", branch: "thermo", ring: 3, what: "At fixed temperature and pressure, the change in Gibbs free energy per added amount of a species. Differences help determine the direction of transport and reaction.", life: { detail: "Concentration differences contribute to the driving forces for transport and chemical reactions inside cells.", href: "/biology#energy" }, needs: ["free-energy"] },
+  { id: "electrochemical", name: "Electrochemical gradients", branch: "em", ring: 3, what: "An ion responds to both chemical potential and electrical potential. Together they determine its electrochemical driving force.", life: { detail: "Ion gradients support membrane transport and nerve signals; proton gradients help drive ATP synthesis.", href: "/biology#systems" }, needs: ["chemical-potential", "field"] },
+  { id: "capacitance", name: "Capacitance & membranes", branch: "em", ring: 2, what: "A capacitor stores separated charge with Q = C V. An insulating membrane between conducting fluids can be modeled as a capacitor with conducting channels alongside it.", compute: "Equivalent circuits model how membrane voltage changes with currents and time.", life: { detail: "Membrane capacitance and ion channels are part of the physical basis of a neuron's electrical response.", href: "/biology#systems" }, needs: ["current", "field"] },
+  { id: "molecular-motors", name: "Molecular motors", branch: "mechanics", ring: 3, what: "Protein machines couple chemical free-energy changes to directed motion. Cytoskeletal motors such as myosin and kinesin use ATP-dependent cycles to perform mechanical work.", life: { detail: "Motor proteins move cargo within cells and generate forces in muscles. Thermal fluctuations remain part of their environment.", href: "/biology#cells" }, needs: ["work-power", "free-energy", "brownian"] },
 ];
 
 export const ideaById = new Map(ideas.map(idea => [idea.id, idea]));

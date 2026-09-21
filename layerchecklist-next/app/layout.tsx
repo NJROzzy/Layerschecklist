@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Layerchecklist",
-  description: "Notes and thoughts on AI, ML, and DL as I work through them.",
+  description: "Learn math, physics and biology, then explore Python, AI, machine learning and live simulations.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

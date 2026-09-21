@@ -26,7 +26,13 @@
 .about-page .about-links a:hover { border-color: var(--a-accent); }
 .about-page .about-links span { color: var(--color-muted); font-weight: 400; font-size: 12.5px; }
 
-.about-page .about-section { margin-top: 56px; }
+.about-page .about-section { display: block; min-height: 0; max-width: none; margin: 48px 0 0; }
+.about-page .science-flow a { padding: 13px 10px; gap: 8px; }
+.about-page .science-flow small { font-size: 10.5px; }
+.about-page .about-experiments { display: grid; gap: 12px; margin-top: 24px; }
+.about-page .about-experiments a { display: grid; gap: 7px; padding: 20px; border: 1px solid var(--a-line); border-radius: 13px; background: var(--a-tint); text-decoration: none; }
+.about-page .about-experiments a:hover { border-color: var(--a-accent); }
+.about-page .about-experiments a > span:last-child { font-size: 13px; line-height: 1.7; color: var(--color-muted); }
 .about-page h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.25; letter-spacing: -.03em; margin-bottom: 18px; }
 .about-page .about-quote { margin-block: 26px; padding: 22px 26px; border-left: 3px solid var(--a-accent); border-radius: 0 12px 12px 0; background: var(--a-tint); }
 .about-page .about-quote p { font-size: 15.5px; }

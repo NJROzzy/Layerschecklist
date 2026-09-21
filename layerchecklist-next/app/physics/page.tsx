@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ScienceFlow from "../ScienceFlow";
 import ChapterNav from "./ChapterNav";
 import PhysicsUniverse from "./PhysicsUniverse";
-import { bridges, openQuestions, pillars, resources, reviewedOn, reviewedOnISO, scales, startHere } from "./content";
+import { bridges, chapters, lifeBridges, openQuestions, pillars, resources, reviewedOn, reviewedOnISO, scales, startHere } from "./content";
 import { ideas, branches } from "./universe";
+import { routes } from "./universe-layout";
 
 export const metadata: Metadata = {
   title: "Physics: An Atlas of How the World Works — Layerchecklist",
-  description: "A map of physics as one circle: 143 ideas across 12 branches, from what you can feel to what is still unresolved — with the places physics and machine learning genuinely share an equation.",
+  description: `Explore ${ideas.length} physics ideas across ${branches.length} branches, with guided routes into Biology, interactive simulations and connections to computing.`,
 };
 
 function Heading({ number, title, children }: { number: string; title: string; children?: React.ReactNode }) {
@@ -18,16 +20,18 @@ export default function PhysicsPage() {
   return <main className="phys-page">
     <Link className="phys-back" href="/#physics">← Back to the learning path</Link>
 
+    <ScienceFlow current="physics" />
+
     <header className="phys-hero">
       <div>
-        <p className="phys-eyebrow">PHYSICS / THE SUBJECT UNDERNEATH</p>
+        <p className="phys-eyebrow">FOUNDATION 02 / MATH → PHYSICS → BIOLOGY</p>
         <h1>Everything obeys<br /><span>a very short list of rules.</span></h1>
-        <p className="phys-lead">Physics is the attempt to find the smallest set of statements from which the world follows. It is also, quietly, where a surprising amount of machine learning came from — entropy, Boltzmann distributions, diffusion, spin glasses and symmetry all arrived here first. Start with the whole map.</p>
-        <div className="phys-hero-actions"><a className="phys-button" href="#atlas">Open the atlas ↓</a><a href="#bridge">Where it meets AI ↗</a></div>
+        <p className="phys-lead">Use the language of Math to explore matter, energy, motion and chance. Then follow those mechanisms into Biology: molecules move, membranes hold gradients, and cells exchange energy with their surroundings. The same physical ideas also connect to simulations and machine learning. Start with the map.</p>
+        <div className="phys-hero-actions"><a className="phys-button" href="#atlas">Open the atlas ↓</a><a href="#life">How physics leads into Biology ↓</a></div>
       </div>
       <div className="phys-hero-stats">
         {[[String(ideas.length), "ideas mapped", "from everyday to unresolved"], [String(branches.length), "branches", "one circle, twelve wedges"],
-          ["5", "guided routes", "including physics → machine learning"], ["7", "open questions", "with the level each one asks"]].map(([n, l, d]) =>
+          [String(routes.length), "guided routes", "including physics → biology"], [String(openQuestions.length), "open questions", "with the level each one asks"]].map(([n, l, d]) =>
           <div key={l}><strong>{n}</strong><span>{l}</span><small>{d}</small></div>)}
       </div>
     </header>
@@ -35,23 +39,23 @@ export default function PhysicsPage() {
     <section id="atlas" className="phys-atlas">
       <header className="phys-atlas-head">
         <span className="phys-eyebrow">BEFORE ANY OF THE DETAIL</span>
-        <h2>One circle. Everything physics has worked out.</h2>
-        <p>Every dot is one idea. Distance from the centre is roughly how much has to be understood first — the middle is what you can feel with your hands, the rim is what nobody has settled. Each wedge is a branch, and the connections cross them constantly.</p>
+        <h2>A universe of connected ideas.</h2>
+        <p>Every star is one idea; each constellation is a branch. Move outward from everyday observations toward deeper theory and research. The rings suggest a study level, and the lines show useful connections across branches. The outer ring includes both established results and open questions.</p>
       </header>
       <PhysicsUniverse />
       <div className="phys-card-grid">
-        <article><span className="phys-eyebrow">READ IT OUTWARD</span><h3>Depth is dependency</h3><p>Nothing near the rim is harder for its own sake — it is further out because more must exist underneath it. General relativity needs spacetime, which needs the constancy of light, which needs fields.</p></article>
+        <article><span className="phys-eyebrow">READ IT OUTWARD</span><h3>Build your foundations</h3><p>Begin with familiar observations, then use the links and guided routes to find supporting ideas. A topic can be introduced at several levels, so its ring is a guide rather than a fixed prerequisite order.</p></article>
         <article><span className="phys-eyebrow">READ IT AROUND</span><h3>Branches are administrative</h3><p>The wedges are how departments are organised, not how nature is. The harmonic oscillator appears in mechanics, waves, circuits, quantum and condensed matter, and it is the same object every time.</p></article>
-        <article><span className="phys-eyebrow">READ THE BRIGHT ONES</span><h3>Where the fields touch</h3><p>Switch to <em>Touches computing</em> and the atlas lights up where physics and machine learning share an actual equation rather than a metaphor. There are more of these than most introductions to either subject admit.</p></article>
+        <article><span className="phys-eyebrow">FOLLOW A CONNECTION</span><h3>Continue into living systems</h3><p>Choose <em>Leads into biology</em> to explore diffusion, cellular energy and electrical signals. Each highlighted idea links to a Biology lesson or model. Use the computing filter to explore another connection.</p></article>
       </div>
       <aside className="phys-callout">
         <strong>What this atlas is not</strong>
-        <p>It is a selection, weighted toward the parts of physics that connect to computation. Whole fields — biophysics, geophysics, metrology, most of experimental practice — are a handful of dots or absent. Treat it as a map at the scale where you can see the shape of the country.</p>
+        <p>This is a selected learning map. Biophysics now has several entry points; geophysics, metrology and experimental practice still deserve fuller treatment. The connections help you explore, and the chapter on open questions identifies unresolved problems.</p>
       </aside>
     </section>
 
     <div className="phys-meta">
-      <span>No prior physics assumed</span><span>9 chapters</span><span>{ideas.length} ideas mapped</span>
+      <span>No prior physics assumed</span><span>{chapters.length} chapters</span><span>{ideas.length} ideas mapped</span>
       <span>Reviewed <time dateTime={reviewedOnISO}>{reviewedOn}</time></span>
     </div>
 
@@ -134,8 +138,20 @@ export default function PhysicsPage() {
       <p className="phys-note">A practical note: the wavefunction of n particles lives in a space whose dimension grows exponentially with n. That single fact is why quantum chemistry is hard, why quantum computers are interesting, and why tensor networks and neural wavefunctions exist.</p>
     </section>
 
+    <section id="life" className="phys-chapter">
+      <Heading number="07" title="From physical mechanisms to living systems.">
+        <p>Biology adds organization, heredity and evolution to the physical picture.
+          These three connections give you a starting point for the next foundation.</p>
+      </Heading>
+      <div className="phys-card-grid">
+        {lifeBridges.map(item => <article key={item.title}><span className="phys-eyebrow">{item.label}</span><h3>{item.title}</h3><p>{item.detail}</p><Link className="pu-chapter-link" href={item.href}>{item.link} →</Link><p className="phys-note"><a href={item.source}>Read the source</a></p></article>)}
+      </div>
+      <aside className="phys-callout"><strong>A model needs a scale and assumptions</strong><p>The Biology diffusion lab uses two equal-volume compartments and a fixed transport rate. It helps explain concentration changes; a living membrane also has selective channels, pumps and regulation. Use the model to ask a clear question, then identify what it leaves out.</p></aside>
+      <p className="phys-note">Further reading: <a href="https://www.ncbi.nlm.nih.gov/books/NBK26888/">molecular motors</a>, <a href="https://openstax.org/books/college-physics-2e/pages/12-4-viscosity-and-laminar-flow-poiseuilles-law">flow and viscosity</a>, and <a href="https://www.nobelprize.org/prizes/physics/1926/perrin/lecture/">the experimental study of Brownian motion</a>.</p>
+    </section>
+
     <section id="bridge" className="phys-chapter">
-      <Heading number="07" title="These two subjects share equations, not just vocabulary.">
+      <Heading number="08" title="Physics and machine learning share mathematical tools.">
         <p>It is easy to overclaim here, and popular accounts usually do. Below are the places where the connection is an actual shared formalism, with the one well-known analogy that is <em>not</em> established marked as such.</p>
       </Heading>
       <div className="phys-table-wrap" tabIndex={0} role="region" aria-label="Where physics and machine learning share a formalism">
@@ -152,7 +168,7 @@ export default function PhysicsPage() {
     </section>
 
     <section id="open" className="phys-chapter">
-      <Heading number="08" title="The parts nobody has finished.">
+      <Heading number="09" title="The parts nobody has finished.">
         <p>Physics is often taught as a completed edifice. It is not, and the gaps are large enough to be worth naming — roughly 95% of the universe&apos;s energy content is currently labelled rather than explained.</p>
       </Heading>
       <div className="phys-open-grid">
@@ -165,7 +181,7 @@ export default function PhysicsPage() {
     </section>
 
     <section id="start" className="phys-chapter">
-      <Heading number="09" title="A workable order, and how to know you are ready.">
+      <Heading number="10" title="A workable order, and how to know you are ready.">
         <p>The common mistake is starting with whatever sounds most exciting — usually quantum or relativity — and bouncing off, because both assume mechanics you have not built yet.</p>
       </Heading>
       <ol className="phys-steps">
@@ -187,6 +203,8 @@ export default function PhysicsPage() {
         <p>Estimate before you calculate. Decide roughly what the answer should be — order of magnitude, sign, which way it should move when you change something — and only then do the algebra. It catches errors, and more importantly it is the thing that turns a set of equations into an understanding of how the world behaves.</p>
       </aside>
     </section>
+
+    <div className="phys-next-grid"><Link href="/biology"><span className="phys-eyebrow">NEXT FOUNDATION</span><h3>Continue to Biology →</h3><p>Explore how living systems use energy, information and feedback.</p></Link></div>
 
     <footer className="phys-footer">
       <p>Measure carefully. Find what cannot change. Be honest about the error bars.</p>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ScienceFlow from "../ScienceFlow";
 import ChapterNav from "./ChapterNav";
 import Formula from "./Formula";
 import UniverseMap from "./UniverseMap";
@@ -20,6 +21,8 @@ function ChapterHeading({ number, title, children }: { number: string; title: st
 export default function MathPage() {
   return <main className="math-page">
     <Link className="math-back" href="/#math">← Back to the learning path</Link>
+
+    <ScienceFlow current="math" />
 
     <header className="math-hero">
       <div>
@@ -387,6 +390,8 @@ export default function MathPage() {
         <Link href="/ml"><span className="math-eyebrow">FORWARD / THE PRACTICE</span><h3>Machine Learning →</h3><p>Five weeks putting this mathematics to work on real data, models and training loops.</p></Link>
       </div>
     </section>
+
+    <div className="math-next-grid"><Link href="/physics"><span className="math-eyebrow">NEXT FOUNDATION</span><h3>Continue to Physics →</h3><p>Take the mathematical language into the physical world.</p></Link></div>
 
     <footer className="math-footer">
       <p>Understand the idea. Do the exercise. Then read the equation again.</p>
