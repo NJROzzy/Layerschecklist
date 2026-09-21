@@ -26,7 +26,7 @@ a:hover .motif, a:focus-visible .motif { opacity: 1; }
 
 /* ---- Biology: a neuron firing -------------------------------------------- */
 .m-dendrite { stroke-width: 1.3; opacity: .55; }
-.m-axon { stroke-width: 1.6; opacity: .45; }
+.m-axon { stroke-width: 1.6; opacity: .3; }
 .m-soma { animation: m-breathe 2.8s ease-in-out infinite; transform-origin: 22px 24px; }
 .m-spike { animation: m-travel 2.8s cubic-bezier(.4, 0, .2, 1) infinite; }
 .m-synapse { opacity: 0; animation: m-flash 2.8s ease-out infinite; transform-origin: 57px 24px; }
@@ -34,9 +34,9 @@ a:hover .motif, a:focus-visible .motif { opacity: 1; }
 @keyframes m-flash { 0%, 62% { opacity: 0; transform: scale(.5); } 72% { opacity: .9; transform: scale(1.3); } 100% { opacity: 0; transform: scale(1); } }
 
 /* ---- Notation: symbols taking turns -------------------------------------- */
-.m-sym { opacity: 0; font-size: 22px; animation: m-cycle 4.5s ease-in-out infinite; }
+.m-sym { opacity: 0; font-size: 22px; animation: m-cycle 4.5s linear infinite; }
 .m-sym-1 { animation-delay: 1.5s; } .m-sym-2 { animation-delay: 3s; }
-@keyframes m-cycle { 0%, 33%, 100% { opacity: 0; } 8%, 25% { opacity: 1; } }
+@keyframes m-cycle { 0% { opacity: 0; } 5%, 33% { opacity: 1; } 38%, 100% { opacity: 0; } }
 
 /* ---- Python: typing ------------------------------------------------------- */
 .m-code { transform-origin: left center; animation: m-type 3.6s ease-in-out infinite; }
@@ -62,12 +62,12 @@ a:hover .motif, a:focus-visible .motif { opacity: 1; }
 
 /* ---- ROS: a message hopping ---------------------------------------------- */
 .m-wire { stroke-width: 1.2; opacity: .4; }
-.m-node { opacity: .5; }
+.m-node { opacity: .32; }
 .m-packet { animation: m-hop 3s ease-in-out infinite; }
 @keyframes m-hop { 0%, 8% { transform: translate(0, 0); } 42%, 50% { transform: translate(20px, -16px); } 84%, 100% { transform: translate(40px, 0); } }
 
 /* ---- AI: a network lighting up layer by layer ---------------------------- */
-.m-synapse-line { stroke-width: .8; opacity: .28; }
+.m-synapse-line { stroke-width: 1.2; opacity: .38; }
 .m-unit { opacity: .3; animation: m-fireline 2.6s ease-in-out infinite; }
 .m-layer-1 { animation-delay: .3s; } .m-layer-2 { animation-delay: .6s; }
 @keyframes m-fireline { 0%, 70%, 100% { opacity: .3; } 22% { opacity: 1; } }
@@ -99,4 +99,8 @@ a:hover .motif, a:focus-visible .motif { opacity: 1; }
   .m-sym-1, .m-sym-2 { opacity: 0; }
   .m-sym-0, .m-cell, .m-row, .m-core-cell, .m-unit, .m-layer, .m-spike { opacity: 1; }
   .m-synapse { opacity: 0; }
+  .m-sym-0 { opacity: 1; }
 }
+
+/* Simulators: the dashed box is where the simulator says it lands. */
+.m-ghost-box { fill: none; stroke: var(--color-accent); stroke-width: 1.3; stroke-dasharray: 3 3; opacity: .38; }

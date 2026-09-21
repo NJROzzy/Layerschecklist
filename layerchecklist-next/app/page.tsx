@@ -101,7 +101,7 @@ export default function Home() {
         </p>
       </header>
 
-      <main>
+      <main className="home-main">
         <Reveal />
         <Overview />
       </main>

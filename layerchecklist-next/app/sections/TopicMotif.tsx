@@ -47,8 +47,8 @@ function render(kind: MotifKind) {
         {[[6, 12], [5, 24], [7, 35]].map(([x, y], i) => <line key={i} className="m-dendrite" x1={x} y1={y} x2="20" y2="24" />)}
         <line className="m-axon" x1="26" y1="24" x2="56" y2="24" />
         <circle className="m-soma" cx="22" cy="24" r="6" />
-        <circle className="m-spike" cx="26" cy="24" r="2.6" />
-        <circle className="m-synapse" cx="57" cy="24" r="3.4" />
+        <circle className="m-spike" cx="26" cy="24" r="3.4" />
+        <circle className="m-synapse" cx="57" cy="24" r="4.2" />
       </>;
 
     // Symbols taking turns.
@@ -90,19 +90,18 @@ function render(kind: MotifKind) {
         <line className="m-wire" x1="12" y1="30" x2="32" y2="14" />
         <line className="m-wire" x1="32" y1="14" x2="52" y2="30" />
         {[[12, 30], [32, 14], [52, 30]].map(([x, y], i) => <circle key={i} className="m-node" cx={x} cy={y} r="4" />)}
-        <circle className="m-packet" cx="12" cy="30" r="2.4" />
+        <circle className="m-packet" cx="12" cy="30" r="3.4" />
       </>;
 
     // A small network, layer by layer.
     case "ai":
       return <>
-        {[[10, 16], [10, 32]].map(([x1, y1], a) => [[32, 12], [32, 24], [32, 36]].map(([x2, y2], b) =>
+        {[[12, 15], [12, 33]].map(([x1, y1], a) => [[33, 15], [33, 33]].map(([x2, y2], b) =>
           <line key={`${a}-${b}`} className="m-synapse-line" x1={x1} y1={y1} x2={x2} y2={y2} />))}
-        {[[32, 12], [32, 24], [32, 36]].map(([x1, y1], a) =>
-          <line key={a} className="m-synapse-line" x1={x1} y1={y1} x2="54" y2="24" />)}
-        {[[10, 16], [10, 32]].map(([x, y], i) => <circle key={i} className="m-unit m-layer-0" cx={x} cy={y} r="3.2" />)}
-        {[[32, 12], [32, 24], [32, 36]].map(([x, y], i) => <circle key={i} className="m-unit m-layer-1" cx={x} cy={y} r="3.2" />)}
-        <circle className="m-unit m-layer-2" cx="54" cy="24" r="3.2" />
+        {[[33, 15], [33, 33]].map(([x1, y1], a) => <line key={a} className="m-synapse-line" x1={x1} y1={y1} x2="53" y2="24" />)}
+        {[[12, 15], [12, 33]].map(([x, y], i) => <circle key={i} className="m-unit m-layer-0" cx={x} cy={y} r="4" />)}
+        {[[33, 15], [33, 33]].map(([x, y], i) => <circle key={i} className="m-unit m-layer-1" cx={x} cy={y} r="4" />)}
+        <circle className="m-unit m-layer-2" cx="53" cy="24" r="4.4" />
       </>;
 
     // A loss curve, and a point walking down it.
@@ -133,6 +132,7 @@ function render(kind: MotifKind) {
     case "simulators":
       return <>
         <line className="m-ground" x1="10" y1="40" x2="54" y2="40" />
+        <rect className="m-ghost-box" x="26" y="28" width="12" height="12" rx="2.5" />
         <rect className="m-bouncer" x="26" y="10" width="12" height="12" rx="2.5" />
       </>;
   }

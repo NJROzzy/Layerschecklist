@@ -1,4 +1,8 @@
-.overview { display: grid; gap: var(--space-7); padding-block: var(--space-6) var(--space-5); }
+.home-main { max-width: 1680px; }
+.overview { display: grid; gap: clamp(90px, 10vw, 150px); padding-block: 80px var(--space-5); }
+.overview :is(.ov-intro, .ov-group) { display: block; min-height: 0; margin: 0 auto; max-width: 760px; }
+.overview .ov-intro { position: relative; padding-top: 40px; }
+.overview .ov-intro::before { content: ""; display: block; width: 48px; height: 3px; background: var(--color-accent); margin-bottom: 30px; }
 .overview .ov-eyebrow { color: var(--color-accent); font: 700 11px/1.6 ui-monospace, SFMono-Regular, monospace; letter-spacing: .1em; margin-bottom: 14px; }
 .overview h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.18; letter-spacing: -.035em; margin: 0 0 18px; max-width: 24ch; text-wrap: balance; }
 .overview p { margin: 0; color: var(--color-muted); line-height: 1.85; max-width: 68ch; }
@@ -6,12 +10,23 @@
 .overview strong { color: var(--color-text); }
 
 .overview .ov-intro .ov-lead { font-size: 18px; max-width: 64ch; }
+.overview .ov-intro h2 { font-size: clamp(44px, 5.5vw, 76px); line-height: 1.05; letter-spacing: -.055em; margin-bottom: 28px; }
+.overview .ov-intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 28px; font-size: 13px; }
+.overview .ov-intro-actions a { display: inline-flex; align-items: center; gap: 24px; min-height: 46px; text-underline-offset: 5px; }
+.overview .ov-intro-actions a:first-child { padding: 12px 20px; border-radius: 8px; background: var(--color-text); color: var(--color-bg); text-decoration: none; }
+.overview .ov-motion-control { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 35px; border-top: 1px solid var(--color-border); padding-top: 18px; font-size: 11px; color: var(--color-muted); }
+.overview .ov-motion-control button { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); cursor: pointer; font-size: 12px; color: var(--color-text); }
+.overview .ov-motion-control button:hover { border-color: var(--color-accent); }
+.overview .ov-motion-control button:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+.overview .ov-footer { max-width: 760px; width: 100%; margin: 0 auto; padding-top: 36px; border-top: 1px solid var(--color-border); }
+.overview .ov-footer a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 18px; color: var(--color-accent); text-underline-offset: 5px; font-size: 14px; }
 .overview .ov-figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: var(--space-4); }
 .overview .ov-figures > div { min-width: 0; border-top: 2px solid var(--color-accent); padding-top: 14px; }
 .overview .ov-figures strong { display: block; font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; }
 .overview .ov-figures span { display: block; margin-top: 8px; color: var(--color-muted); font-size: 12.5px; line-height: 1.55; }
 
 .overview .ov-group > header { margin-bottom: var(--space-3); }
+.overview .ov-group h2 { scroll-margin-top: 110px; }
 .overview .science-flow { margin-block: var(--space-3); }
 .overview .ov-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; margin: var(--space-3) 0 0; }
 .overview .ov-cards li { margin: 0; min-width: 0; }

@@ -1,28 +1,61 @@
-/* The live perceptron behind the hero. Sits under the content and never
-   intercepts a pointer; opacity is kept low so the equation stays the subject. */
+/* A live learning diagram below the existing equation and note. */
 .pf {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: .5;
-  /* Weighted to the left so the network fades out before the note column. */
-  mask-image: radial-gradient(112% 92% at 40% 46%, #000 30%, transparent 72%);
+  --pf-positive: #5269db;
+  --pf-negative: #b27850;
+  --pf-correction: #c37d48;
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  color: var(--pf-positive); opacity: .78;
+  mask-image: radial-gradient(100% 92% at 38% 46%, #000 30%, transparent 77%);
 }
-[data-theme="dark"] .pf { opacity: .72; }
+[data-theme="dark"] .pf { --pf-positive: #8ea7ff; --pf-negative: #d6ac84; --pf-correction: #ffc08b; opacity: .88; }
 .pf svg { width: 100%; height: 100%; display: block; }
-
-.pf .pf-edges path { stroke: var(--color-accent); stroke-linecap: round; }
-.pf .pf-edges path[data-sign="neg"] { stroke: var(--color-muted); }
-.pf .pf-axon { stroke: var(--color-accent); stroke-width: 2.4; stroke-linecap: round; }
-
-.pf .pf-nodes circle { fill: var(--color-accent); }
-.pf .pf-halo { fill: var(--color-accent); }
-.pf .pf-neuron { fill: var(--color-bg); stroke: var(--color-accent); stroke-width: 2.2; }
-.pf .pf-output { fill: var(--color-accent); }
-
-.pf .pf-pulses circle { fill: var(--color-accent); }
-.pf .pf-pulses circle[data-sign="neg"] { fill: var(--color-muted); }
-
-@media (prefers-reduced-motion: reduce) { .pf { opacity: .3; } }
+.pf .pf-nebula { opacity: .55; }
+.pf .pf-dust circle { fill: var(--pf-positive); }
+.pf .pf-guides { stroke: var(--pf-positive); stroke-width: .7; fill: none; opacity: .17; }
+.pf .pf-edges path { stroke: var(--pf-positive); stroke-linecap: round; fill: none; }
+.pf .pf-edges path[data-sign="neg"] { stroke: var(--pf-negative); }
+.pf .pf-axon { stroke-width: 1.7; }
+.pf .pf-input-dot { fill: var(--pf-positive); }
+.pf .pf-input-dot[data-sign="neg"] { fill: var(--pf-negative); }
+.pf .pf-input-ring { stroke: var(--pf-positive); stroke-width: .8; fill: none; }
+.pf .pf-input-ring[data-sign="neg"] { stroke: var(--pf-negative); }
+.pf .pf-inputs text, .pf .pf-output-system text { fill: var(--pf-positive); font: 12px ui-monospace, SFMono-Regular, monospace; }
+.pf .pf-inputs text { opacity: .68; }
+.pf .pf-halo { fill: var(--pf-positive); }
+.pf .pf-neuron { fill: var(--color-bg); stroke: var(--pf-positive); }
+.pf .pf-sum { fill: var(--pf-positive); font: 20px Georgia, serif; opacity: .85; }
+.pf .pf-orbit { stroke: var(--pf-positive); stroke-width: .8; fill: none; opacity: .38; }
+.pf .pf-orbit-dot { fill: var(--pf-positive); stroke: none; }
+.pf .pf-ripple { fill: none; stroke: var(--pf-positive); stroke-width: .8; }
+.pf .pf-output { fill: var(--pf-positive); }
+.pf .pf-output-ring { fill: none; stroke: var(--pf-positive); stroke-width: .8; opacity: .45; }
+.pf .pf-output-system .pf-output-caption { font-size: 9px; letter-spacing: .1em; opacity: .62; }
+.pf .pf-output-system text:first-of-type { fill: var(--color-text); font-weight: 600; }
+.pf .pf-pulses circle { fill: var(--pf-positive); }
+.pf .pf-pulses circle[data-sign="neg"] { fill: var(--pf-negative); }
+.pf .pf-feedback circle { fill: var(--pf-correction); }
+.pf-playback { position: absolute; z-index: 2; bottom: 28px; left: max(32px, calc((100% - 1100px) / 2)); display: flex; align-items: center; gap: 9px; min-height: 44px; color: var(--color-muted); font: 11px/1.5 ui-monospace, SFMono-Regular, monospace; text-align: left; }
+.pf-status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-accent); opacity: .6; }
+.pf-phase { min-width: 225px; }
+.pf-playback button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 11px; margin-left: 7px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-nav-bg); color: var(--color-muted); font-size: 11px; cursor: pointer; }
+.pf-playback button:hover { border-color: var(--color-accent); color: var(--color-text); }
+.pf-playback button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+/* Keep the rendered equation inside its column at tablet sizes. */
+@media (min-width: 641px) and (max-width: 1100px) {
+  .hero .hero-content { gap: 28px; }
+  .hero #hero-equation { min-width: 0; font-size: clamp(1.4rem, 4.2vw, 2.5rem); }
+  .hero .hero-note { max-width: 240px; }
+}
+@media (max-width: 700px) {
+  .pf { mask-image: radial-gradient(100% 70% at 42% 30%, #000 20%, transparent 76%); opacity: .53; }
+  .pf svg { position: absolute; top: 95px; left: -12%; width: 155%; height: auto; }
+  .pf-playback { left: 24px; right: 24px; bottom: 18px; gap: 7px; font-size: 9px; }
+  .pf-phase { min-width: 0; flex: 1; }
+  .pf-playback button { margin-left: auto; font-size: 10px; }
+}
+@media (max-width: 640px) {
+  .hero { padding-bottom: 90px; }
+  .hero #hero-equation { min-width: 0; font-size: min(1.8rem, 6.4vw); }
+}
+@media (prefers-reduced-motion: reduce) { .pf { opacity: .45; } }
+@media print { .pf-playback { display: none; } }

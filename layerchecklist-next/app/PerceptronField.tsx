@@ -1,181 +1,162 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "./simulations/useSim";
+import { clamp, curve, CYCLE_SECONDS, INPUTS, learn, makeRun, MID_Y, NEURON_X, NODE_X, NODE_Y, OUT_X, pointOnConnection, predict, round, seeded } from "./perceptron-model";
 import "./perceptron-field.css";
 
-/**
- * A real perceptron, learning, behind the hero.
- *
- * The note beside it says you do not need to begin with the right weights —
- * so this starts with random ones and runs the actual perceptron rule
- * (w += α(y − ŷ)x) against a separable set until it classifies every example,
- * pauses, then starts over from a fresh random init. Nothing is keyframed:
- * edge thickness is |w| and the glow is the activation.
- */
-
-const INPUTS = 4;
-const TRUE_W = [0.9, -0.7, 0.5, -1.1];
-const TRUE_B = 0.15;
-const RATE = 0.12;
-const STEP_MS = 130;
-
-const VIEW = { w: 1200, h: 700 };
-// The neuron sits inside the equation's sum, which is the point. The axon has to
-// stop short of the note column on the right, so the output is pulled well in.
-const NODE_X = 214, NEURON_X = 600, OUT_X = 664;
-const NODE_Y = [166, 288, 412, 534];
-const MID_Y = 350;
-
-const f2 = (v: number) => Number(v.toFixed(2));
-const stepFn = (v: number) => (v >= 0 ? 1 : 0);
-
-function seeded(seed: number) {
-  return () => {
-    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
+const TRAIL = 5;
+const dustRandom = seeded(41);
+const dust = Array.from({ length: 42 }, () => ({ x: round(105 + dustRandom() * 680), y: round(110 + dustRandom() * 470), r: round(.6 + dustRandom()), phase: dustRandom() * Math.PI * 2 }));
+function initialAnimation() {
+  const run = makeRun(7);
+  return { run, prediction: predict(run), weights: [...run.w], phase: 0, time: 0, applied: false, holding: 0, seed: 7 };
 }
+const set = (element: Element | null | undefined, attributes: Record<string, number | string>) => {
+  if (!element) return;
+  for (const [name, value] of Object.entries(attributes)) element.setAttribute(name, typeof value === "number" ? String(round(value)) : value);
+};
 
-type Sample = { x: number[]; y: number };
-function makeRun(seed: number) {
-  const rnd = seeded(seed);
-  const data: Sample[] = [];
-  while (data.length < 14) {
-    const x = Array.from({ length: INPUTS }, () => rnd() * 2 - 1);
-    const margin = x.reduce((s, xi, i) => s + xi * TRUE_W[i], TRUE_B);
-    if (Math.abs(margin) >= 0.18) data.push({ x, y: stepFn(margin) });
-  }
-  return {
-    data,
-    w: Array.from({ length: INPUTS }, () => rnd() * 1.6 - 0.8),
-    b: rnd() * 0.6 - 0.3,
-    cursor: 0, clean: 0, settled: 0, sample: data[0],
-  };
-}
-
+/** Inputs, predictions and error correction share one clock and one actual training step. */
 export default function PerceptronField() {
   const reduced = usePrefersReducedMotion();
+  const [paused, setPaused] = useState(false);
+  const glowId = useId();
   const root = useRef<HTMLDivElement>(null);
   const edges = useRef<(SVGPathElement | null)[]>([]);
-  const pulses = useRef<(SVGCircleElement | null)[]>([]);
-  const inputDots = useRef<(SVGCircleElement | null)[]>([]);
+  const signals = useRef<(SVGCircleElement | null)[]>([]);
+  const feedback = useRef<(SVGCircleElement | null)[]>([]);
+  const dots = useRef<(SVGCircleElement | null)[]>([]);
+  const inputRings = useRef<(SVGCircleElement | null)[]>([]);
+  const rings = useRef<(SVGCircleElement | null)[]>([]);
+  const stars = useRef<(SVGCircleElement | null)[]>([]);
   const neuron = useRef<SVGCircleElement>(null);
   const halo = useRef<SVGCircleElement>(null);
+  const orbit = useRef<SVGGElement>(null);
   const axon = useRef<SVGPathElement>(null);
   const output = useRef<SVGCircleElement>(null);
+  const outputPulse = useRef<SVGCircleElement>(null);
+  const outputLabel = useRef<SVGTextElement>(null);
+  const phaseLabel = useRef<HTMLSpanElement>(null);
+  const model = useRef(initialAnimation());
 
-  const run = useRef(makeRun(7));
-  const phase = useRef<number[]>(Array.from({ length: INPUTS }, (_, i) => i * 0.23));
-  const clock = useRef(0);
-  const fire = useRef(0);
-
-  const paint = useCallback(() => {
-    const { w, b, sample } = run.current;
-    const activation = sample.x.reduce((s, xi, i) => s + xi * w[i], b);
-
+  const paint = useCallback((still = false) => {
+    const state = model.current, p = state.phase, prediction = state.prediction;
+    const arrival = Math.sin(clamp((p - .40) / .27) * Math.PI);
+    const feedbackPhase = clamp((p - .79) / .21);
+    const correction = prediction.error && state.applied ? Math.sin(feedbackPhase * Math.PI) : 0;
+    const reveal = p >= .78 || still || state.holding > 0;
+    root.current?.setAttribute("data-phase", state.holding ? "settled" : p < .5 ? "input" : p < .79 ? "predict" : prediction.error ? "adjust" : "correct");
     for (let i = 0; i < INPUTS; i++) {
-      const strength = Math.min(1, Math.abs(w[i]) / 1.3);
-      const signal = Math.min(1, Math.abs(sample.x[i] * w[i]));
-      const edge = edges.current[i];
-      if (edge) {
-        edge.setAttribute("stroke-width", String(f2(0.9 + strength * 3.4)));
-        edge.setAttribute("stroke-opacity", String(f2(0.16 + strength * 0.5)));
-        edge.setAttribute("data-sign", w[i] >= 0 ? "pos" : "neg");
+      const w = state.weights[i], strength = clamp(Math.abs(w) / 1.3);
+      const signal = clamp(Math.abs(prediction.sample.x[i] * w)), polarity = w >= 0 ? "pos" : "neg";
+      set(edges.current[i], { "stroke-width": 1.1 + strength * 3, "stroke-opacity": .23 + strength * .4, "data-sign": polarity });
+      set(dots.current[i], { r: 6 + Math.abs(prediction.sample.x[i]) * 5, "fill-opacity": .45 + signal * .5, "data-sign": polarity });
+      const charging = still ? .15 : Math.sin(clamp((p - i * .022) / .3) * Math.PI);
+      set(inputRings.current[i], { r: 14 + charging * 9, opacity: .12 + charging * .35, "data-sign": polarity });
+      for (let tail = 0; tail < TRAIL; tail++) {
+        const t = (p - .09 - i * .023) / .43 - tail * .025, position = pointOnConnection(i, t);
+        const visible = !still && !state.holding && t > 0 && t < 1;
+        set(signals.current[i * TRAIL + tail], { cx: position.x, cy: position.y, r: (2.4 + signal * 2.8) * (1 - tail * .14), opacity: visible ? Math.sin(Math.PI * t) ** .5 * (1 - tail / TRAIL) * .9 : 0, "data-sign": polarity });
       }
-      const dot = inputDots.current[i];
-      if (dot) {
-        dot.setAttribute("r", String(f2(7 + Math.abs(sample.x[i]) * 7)));
-        dot.setAttribute("fill-opacity", String(f2(0.25 + signal * 0.6)));
-      }
-      const pulse = pulses.current[i];
-      if (pulse) {
-        const t = phase.current[i] % 1;
-        pulse.setAttribute("cx", String(f2(NODE_X + (NEURON_X - NODE_X) * t)));
-        pulse.setAttribute("cy", String(f2(NODE_Y[i] + (MID_Y - NODE_Y[i]) * t)));
-        pulse.setAttribute("r", String(f2(1.8 + signal * 3.4)));
-        pulse.setAttribute("opacity", String(f2(Math.sin(t * Math.PI) * (0.25 + signal * 0.65))));
-        pulse.setAttribute("data-sign", w[i] >= 0 ? "pos" : "neg");
-      }
+      const position = pointOnConnection(i, 1 - feedbackPhase);
+      set(feedback.current[i], { cx: position.x, cy: position.y, r: 2.4 + signal * 1.4, opacity: still || state.holding ? 0 : correction * .75 });
     }
-
-    const firing = Math.min(1, Math.abs(activation) / 1.4);
-    neuron.current?.setAttribute("r", String(f2(22 + firing * 5)));
-    halo.current?.setAttribute("r", String(f2(34 + firing * 26 + fire.current * 16)));
-    halo.current?.setAttribute("opacity", String(f2(0.06 + firing * 0.14 + fire.current * 0.22)));
-    axon.current?.setAttribute("stroke-opacity", String(f2(0.12 + fire.current * 0.6)));
-    output.current?.setAttribute("r", String(f2(10 + fire.current * 9)));
-    output.current?.setAttribute("fill-opacity", String(f2(0.2 + fire.current * 0.7)));
+    const activation = clamp(Math.abs(prediction.activation) / 1.4);
+    set(neuron.current, { r: 23 + arrival * 4, "stroke-width": 1.5 + arrival * 1.6 });
+    set(halo.current, { r: 40 + arrival * 20 + correction * 9, opacity: .12 + arrival * .15 + activation * .05 });
+    set(orbit.current, { transform: `rotate(${round(state.time * 9)} ${NEURON_X} ${MID_Y})` });
+    for (let i = 0; i < 3; i++) {
+      const ripple = (p - .49 - i * .045) / .38;
+      set(rings.current[i], { r: 28 + clamp(ripple) * 57, opacity: still || ripple <= 0 || ripple >= 1 || state.holding ? 0 : (1 - ripple) * .48 });
+    }
+    const outbound = (p - .62) / .16;
+    set(axon.current, { "stroke-opacity": reveal ? .58 : .2 });
+    set(outputPulse.current, { cx: NEURON_X + clamp(outbound) * (OUT_X - NEURON_X), opacity: !still && !state.holding && outbound > 0 && outbound < 1 ? Math.sin(outbound * Math.PI) : 0 });
+    // Both 0 and 1 are predictions. The warm return pulse separately shows an error.
+    set(output.current, { r: 11 + (reveal ? 3 : 0), "fill-opacity": reveal ? .3 + prediction.output * .5 : .12 });
+    if (outputLabel.current) outputLabel.current.textContent = reveal ? String(prediction.output) : "·";
+    for (let i = 0; i < dust.length; i++) set(stars.current[i], { opacity: .08 + (1 + Math.sin(state.time * .5 + dust[i].phase)) * .09 });
+    const label = still ? "Four inputs. One learning neuron." : state.holding ? "A pattern learned. A new beginning." : p < .5 ? "Take in the inputs" : p < .79 ? "Make a prediction" : prediction.error ? "Adjust the weights" : "Keep what works";
+    if (phaseLabel.current && phaseLabel.current.textContent !== label) phaseLabel.current.textContent = label;
   }, []);
 
   useEffect(() => {
-    paint();
-    if (reduced) return;
-
-    let frame = 0, last = performance.now(), since = 0, seed = 7;
+    paint(reduced);
+    if (reduced || paused) return;
+    const element = root.current;
+    if (!element) return;
+    let frame = 0, last = 0, visible = false, disposed = false;
     const tick = (now: number) => {
-      const dt = Math.min((now - last) / 1000, 1 / 20);
-      last = now; clock.current += dt; since += dt * 1000;
-      fire.current = Math.max(0, fire.current - dt * 2.4);
-
-      for (let i = 0; i < INPUTS; i++) {
-        phase.current[i] += dt * (0.22 + Math.min(1, Math.abs(run.current.w[i])) * 0.5);
-      }
-
-      if (since >= STEP_MS) {
-        since = 0;
-        const r = run.current;
-        if (r.settled > 0) {
-          // Hold the converged network for a beat, then start again wrong.
-          r.settled -= 1;
-          if (r.settled === 0) run.current = makeRun((seed = (seed * 1103515245 + 12345) & 0x7fffffff));
-        } else {
-          const s = r.data[r.cursor % r.data.length];
-          r.sample = s;
-          const yhat = stepFn(s.x.reduce((acc, xi, k) => acc + xi * r.w[k], r.b));
-          const err = s.y - yhat;
-          if (err !== 0) {
-            for (let k = 0; k < INPUTS; k++) r.w[k] += RATE * err * s.x[k];
-            r.b += RATE * err;
-            r.clean = 0;
-            fire.current = 1;
-          } else {
-            r.clean += 1;
-            if (r.clean >= r.data.length) r.settled = 26;   // ~3.4s of holding steady
-          }
-          r.cursor += 1;
+      const dt = Math.min((now - last) / 1000, .05);
+      last = now;
+      const state = model.current;
+      state.time += dt;
+      if (state.holding > 0) {
+        state.holding = Math.max(0, state.holding - dt);
+        if (!state.holding) {
+          state.seed = (Math.imul(state.seed, 1664525) + 1013904223) >>> 0;
+          state.run = makeRun(state.seed); state.prediction = predict(state.run);
+          state.phase = 0; state.applied = false;
+        }
+      } else {
+        state.phase += dt / CYCLE_SECONDS;
+        if (state.phase >= .79 && !state.applied) { learn(state.run, state.prediction); state.applied = true; }
+        if (state.phase >= 1) {
+          state.phase = 0; state.applied = false;
+          if (state.run.clean >= state.run.data.length) state.holding = 4;
+          else state.prediction = predict(state.run);
         }
       }
-
+      for (let i = 0; i < INPUTS; i++) state.weights[i] += (state.run.w[i] - state.weights[i]) * (1 - Math.exp(-dt * 7));
       paint();
       frame = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [paint, reduced]);
+    const syncPlayback = () => {
+      cancelAnimationFrame(frame);
+      if (!disposed && visible && !document.hidden) { last = performance.now(); frame = requestAnimationFrame(tick); }
+    };
+    const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; syncPlayback(); }, { threshold: 0 });
+    observer.observe(element);
+    document.addEventListener("visibilitychange", syncPlayback);
+    return () => { disposed = true; cancelAnimationFrame(frame); observer.disconnect(); document.removeEventListener("visibilitychange", syncPlayback); };
+  }, [paint, paused, reduced]);
 
-  const curve = (i: number) => {
-    const y = NODE_Y[i];
-    return `M ${NODE_X} ${y} C ${(NODE_X + NEURON_X) / 2} ${y}, ${(NODE_X + NEURON_X) / 2} ${MID_Y}, ${NEURON_X} ${MID_Y}`;
-  };
-
-  return <div className="pf" ref={root} aria-hidden="true">
-    <svg viewBox={`0 0 ${VIEW.w} ${VIEW.h}`} preserveAspectRatio="xMidYMid slice">
-      <g className="pf-edges">
-        {NODE_Y.map((_, i) => <path key={i} ref={el => { edges.current[i] = el; }} d={curve(i)} data-sign="pos" strokeWidth="2" strokeOpacity=".3" fill="none" />)}
-        <path ref={axon} className="pf-axon" d={`M ${NEURON_X} ${MID_Y} L ${OUT_X} ${MID_Y}`} strokeOpacity=".12" fill="none" />
-      </g>
-      <g className="pf-nodes">
-        {NODE_Y.map((y, i) => <circle key={i} ref={el => { inputDots.current[i] = el; }} cx={NODE_X} cy={y} r="9" fillOpacity=".4" />)}
-        <circle ref={halo} className="pf-halo" cx={NEURON_X} cy={MID_Y} r="40" opacity=".1" />
-        <circle ref={neuron} className="pf-neuron" cx={NEURON_X} cy={MID_Y} r="23" />
-        <circle ref={output} className="pf-output" cx={OUT_X} cy={MID_Y} r="12" fillOpacity=".4" />
-      </g>
-      <g className="pf-pulses">
-        {NODE_Y.map((_, i) => <circle key={i} ref={el => { pulses.current[i] = el; }} cx={NODE_X} cy={NODE_Y[i]} r="3" opacity="0" data-sign="pos" />)}
-      </g>
-    </svg>
-  </div>;
+  return <>
+    <div className="pf" ref={root} aria-hidden="true">
+      <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet" focusable="false">
+        <defs><radialGradient id={glowId}><stop stopColor="currentColor" stopOpacity=".36" /><stop offset=".4" stopColor="currentColor" stopOpacity=".09" /><stop offset="1" stopColor="currentColor" stopOpacity="0" /></radialGradient></defs>
+        <ellipse className="pf-nebula" cx="455" cy={MID_Y} rx="380" ry="270" fill={`url(#${glowId})`} />
+        <g className="pf-dust">{dust.map((star, i) => <circle key={i} ref={el => { stars.current[i] = el; }} cx={star.x} cy={star.y} r={star.r} opacity=".15" />)}</g>
+        <g className="pf-guides"><path d="M145 128 V111 H162 M772 572 H789 V555" /><path d="M180 350 H785" strokeDasharray="2 10" /></g>
+        <g className="pf-edges">
+          {NODE_Y.map((_, i) => <path key={i} ref={el => { edges.current[i] = el; }} d={curve(i)} data-sign="pos" strokeWidth="2" strokeOpacity=".3" />)}
+          <path ref={axon} className="pf-axon" d={`M ${NEURON_X} ${MID_Y} H ${OUT_X}`} />
+        </g>
+        <g className="pf-inputs">{NODE_Y.map((y, i) => <g key={i}>
+          <circle ref={el => { inputRings.current[i] = el; }} className="pf-input-ring" cx={NODE_X} cy={y} r="16" />
+          <circle ref={el => { dots.current[i] = el; }} cx={NODE_X} cy={y} r="8" className="pf-input-dot" />
+          <text x={NODE_X - 31} y={y + 4} textAnchor="end">x<tspan baselineShift="sub" fontSize="8">{i + 1}</tspan></text>
+        </g>)}</g>
+        <g className="pf-neuron-system">
+          <circle ref={halo} className="pf-halo" cx={NEURON_X} cy={MID_Y} r="40" opacity=".1" />
+          {[0, 1, 2].map(i => <circle key={i} ref={el => { rings.current[i] = el; }} className="pf-ripple" cx={NEURON_X} cy={MID_Y} r="30" opacity="0" />)}
+          <g ref={orbit} className="pf-orbit"><circle cx={NEURON_X} cy={MID_Y} r="46" strokeDasharray="30 12 3 12" /><circle cx={NEURON_X + 46} cy={MID_Y} r="2.3" className="pf-orbit-dot" /></g>
+          <circle ref={neuron} className="pf-neuron" cx={NEURON_X} cy={MID_Y} r="23" />
+          <text className="pf-sum" x={NEURON_X} y={MID_Y + 6} textAnchor="middle">Σ</text>
+        </g>
+        <g className="pf-output-system"><circle ref={output} className="pf-output" cx={OUT_X} cy={MID_Y} r="12" /><circle className="pf-output-ring" cx={OUT_X} cy={MID_Y} r="22" /><text ref={outputLabel} x={OUT_X} y={MID_Y + 4} textAnchor="middle">·</text><text className="pf-output-caption" x={OUT_X} y={MID_Y + 42} textAnchor="middle">prediction</text></g>
+        <g className="pf-pulses">
+          {Array.from({ length: INPUTS * TRAIL }, (_, i) => <circle key={i} ref={el => { signals.current[i] = el; }} cx={NODE_X} cy={NODE_Y[Math.floor(i / TRAIL)]} r="3" opacity="0" />)}
+          <circle ref={outputPulse} className="pf-outbound" cx={NEURON_X} cy={MID_Y} r="4" opacity="0" />
+        </g>
+        <g className="pf-feedback">{NODE_Y.map((_, i) => <circle key={i} ref={el => { feedback.current[i] = el; }} cx={NEURON_X} cy={MID_Y} r="3" opacity="0" />)}</g>
+      </svg>
+    </div>
+    <div className="pf-playback">
+      <span className="pf-status-dot" aria-hidden="true" />
+      <span ref={phaseLabel} className="pf-phase">Four inputs. One learning neuron.</span>
+      {!reduced && <button type="button" aria-label={paused ? "Resume perceptron animation" : "Pause perceptron animation"} aria-pressed={paused} onClick={() => setPaused(!paused)}><span aria-hidden="true">{paused ? "▷" : "Ⅱ"}</span><span>{paused ? "Resume" : "Pause"}</span></button>}
+    </div>
+  </>;
 }
