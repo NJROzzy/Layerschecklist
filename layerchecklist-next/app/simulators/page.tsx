@@ -4,7 +4,7 @@ import SimulationsEnv from "../sections/SimulationsEnv";
 
 export const metadata: Metadata = {
   title: "Simulation Environments — Layerchecklist",
-  description: "MuJoCo, Isaac Sim, Gazebo and the rest — what each models, and how well it transfers to hardware.",
+  description: "Compare Isaac Sim, Isaac Lab, and MuJoCo, connect physics engines to neural learning, and explore hybrid models, DDPG, and A3C with examples.",
 };
 
 export default function Page() {

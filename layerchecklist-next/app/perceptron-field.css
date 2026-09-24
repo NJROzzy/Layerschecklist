@@ -46,9 +46,29 @@
   .hero #hero-equation { min-width: 0; font-size: clamp(1.4rem, 4.2vw, 2.5rem); }
   .hero .hero-note { max-width: 240px; }
 }
+/* On a narrow screen the network cannot sit behind the equation without landing
+   on top of it, so it stops being a background and takes its own band at the top
+   of the hero. .pf is the hero's first child, so going back into normal flow puts
+   it above the equation with no reordering. */
 @media (max-width: 700px) {
-  .pf { mask-image: radial-gradient(100% 70% at 42% 30%, #000 20%, transparent 76%); opacity: .53; }
-  .pf svg { position: absolute; top: 95px; left: -12%; width: 155%; height: auto; }
+  /* The navbar wraps to two rows here and is fixed, so the hero has to start
+     below it — otherwise the band, and the equation, sit underneath it. */
+  .hero { padding-top: 186px; }
+
+  .pf {
+    position: static;
+    width: 100%;
+    --pf-band: clamp(148px, 25vh, 205px);
+    height: var(--pf-band);
+    margin-bottom: 6px;
+    opacity: .62;
+    /* A soft bottom edge instead of a radial hole, so it hands off to the equation. */
+    mask-image: linear-gradient(to bottom, #000 68%, transparent 100%);
+  }
+  /* The drawn network occupies viewBox 172-775 of 1200, so it renders left of
+     centre. The letterboxed content is sized by the band height, not by the
+     viewport, so the correction has to be derived from the height too. */
+  .pf svg { position: static; width: 100%; height: 100%; transform: translateX(calc(var(--pf-band) * 0.181)); }
   .pf-playback { left: 24px; right: 24px; bottom: 18px; gap: 7px; font-size: 9px; }
   .pf-phase { min-width: 0; flex: 1; }
   .pf-playback button { margin-left: auto; font-size: 10px; }
@@ -56,6 +76,8 @@
 @media (max-width: 640px) {
   .hero { padding-bottom: 90px; }
   .hero #hero-equation { min-width: 0; font-size: min(1.8rem, 6.4vw); }
+  /* The band already gives the equation its air; drop the extra column gap. */
+  .hero .hero-content { gap: var(--space-3); }
 }
 @media (prefers-reduced-motion: reduce) { .pf { opacity: .45; } }
 @media print { .pf-playback { display: none; } }

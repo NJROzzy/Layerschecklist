@@ -12,6 +12,12 @@
   grid-template-rows: 1fr auto;
 }
 
+#simulations .senv-role { display:block; color:var(--color-accent); font:11px/1.6 ui-monospace,monospace; text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; }
+#simulations .topic-explain h3 { font-size:22px; margin:0 0 16px; }
+#simulations .senv-action { border-top:1px solid var(--color-border); padding:20px 24px; }
+#simulations .senv-action a, #simulations .senv-more { color:var(--color-accent); font-size:14px; text-underline-offset:4px; }
+#simulations .senv-more { display:inline-block; margin-top:24px; }
+
 #simulations .topic-code {
   border-top: 1px solid var(--color-border);
   border-radius: 0 0 15px 15px;

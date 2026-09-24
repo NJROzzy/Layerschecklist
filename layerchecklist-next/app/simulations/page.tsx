@@ -3,11 +3,12 @@ import Link from "next/link";
 import ChapterNav from "./ChapterNav";
 import { BoidsLab, CartPoleLab, OrbitLab, SimToRealLab, TimestepLab } from "./Sims";
 import { ArmLab, LidarLab, PIDLab } from "./Robotics";
-import { buildSteps, closing, contactModels, gapCauses, reasons, reviewedOn, reviewedOnISO, stack, toolCategories, tools } from "./content";
+import LearningSystems from "./LearningSystems";
+import { buildSteps, chapters, closing, contactModels, gapCauses, reasons, reviewedOn, reviewedOnISO, stack, toolCategories, tools } from "./content";
 
 export const metadata: Metadata = {
   title: "Simulation: How Virtual Worlds Train Real Systems — Layerchecklist",
-  description: "Live, running simulations: integrators and energy drift, timestep stability, emergent flocking, a real CartPole environment, robot arm kinematics and singularities, PID control, lidar and odometry drift, and the sim-to-real gap.",
+  description: "Live physics and robotics labs, Isaac Sim and Isaac Lab examples, MuJoCo comparisons, physics–neural hybrid models, and interactive DDPG and A3C explanations.",
 };
 
 function Heading({ number, title, children }: { number: string; title: string; children?: React.ReactNode }) {
@@ -16,14 +17,14 @@ function Heading({ number, title, children }: { number: string; title: string; c
 
 export default function SimulationsPage() {
   return <main className="sim-page">
-    <Link className="sim-back" href="/#simulations">← Back to the learning path</Link>
+    <Link className="sim-back" href="/#ov-learning">← Back to the learning path</Link>
 
     <header className="sim-hero">
       <div>
-        <p className="sim-eyebrow">SIMULATION / EVERYTHING HERE IS RUNNING</p>
+        <p className="sim-eyebrow">SIMULATION / FROM PHYSICS TO LEARNING</p>
         <h1>Build a world.<br /><span>Then find out where it lies to you.</span></h1>
-        <p className="sim-lead">Almost every robot policy and control system is born in a simulator, because reality is slow, expensive and unforgiving. This page runs the physics live in your browser — the orbits, springs, flocks and carts below are all being integrated as you read, not played back.</p>
-        <div className="sim-hero-actions"><a className="sim-button" href="#integrators">Start with the integrator ↓</a><a href="#sim2real">Jump to the reality gap ↗</a></div>
+        <p className="sim-lead">Run small physical worlds in your browser, then connect them to robot learning. Explore Isaac Sim, Isaac Lab, and MuJoCo; compare physics with learned dynamics; and follow DDPG and A3C from experience to a policy update.</p>
+        <div className="sim-hero-actions"><a className="sim-button" href="#integrators">Start with the integrator ↓</a><a href="#learning-stack">Isaac, MuJoCo &amp; learning ↗</a><a href="#ddpg">DDPG &amp; A3C ↗</a></div>
       </div>
       <div className="sim-hero-stats" aria-label="What is on this page.">
         {[["8", "live simulations", "real physics, every frame"], ["3", "integrators raced", "and one of them loses"], ["90", "lidar rays", "cast against real walls"], ["240", "episodes per drag", "in the reality-gap panel"]].map(([n, label, detail]) =>
@@ -32,7 +33,7 @@ export default function SimulationsPage() {
     </header>
 
     <div className="sim-overview-meta">
-      <span>Runs in your browser</span><span>12 chapters</span><span>Nothing pre-recorded</span>
+      <span>8 live simulations + 4 learning panels</span><span>{chapters.length} chapters</span><span>Downloadable simulator examples</span>
       <span>Tools checked <time dateTime={reviewedOnISO}>{reviewedOn}</time></span>
     </div>
 
@@ -175,8 +176,10 @@ export default function SimulationsPage() {
       </div>)}
     </section>
 
+    <LearningSystems />
+
     <section id="build" className="sim-chapter">
-      <Heading number="12" title="Build a small one, properly.">
+      <Heading number="18" title="Build a small one, properly.">
         <p>The instinct is to reach for a photorealistic platform. Resist it. A correct environment of twenty lines will teach you more than a beautiful one you cannot reason about, and these steps are in this order for a reason.</p>
       </Heading>
       <ol className="sim-steps">

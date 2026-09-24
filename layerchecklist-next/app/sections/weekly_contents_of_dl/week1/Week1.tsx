@@ -158,7 +158,7 @@ function ActivationLab() {
   const h = Math.tanh(z);
   const path = Array.from({ length: 121 }, (_, i) => {
     const input = -3 + i * .05;
-    return `${i === 0 ? "M" : "L"}${40 + i * 2.5},${120 - Math.tanh(input) * 85}`;
+    return `${i === 0 ? "M" : "L"}${40 + i * 2.5},${(120 - Math.tanh(input) * 85).toFixed(2)}`;
   }).join(" ");
   return <div className="w1-lab"><span className="w1-eyebrow">NEURON EXPLORER</span><h3>Change the parameters. Watch tanh respond.</h3><div className="w1-lab-grid"><div><p>Input x stays at 2. Move w₁ or b₁ to change z. Near the ends of the curve, tanh saturates and its derivative becomes small.</p>
     <label className="w1-slider" htmlFor="w1-weight"><span>Weight w₁ <output>{weight.toFixed(2)}</output></span><input id="w1-weight" type="range" min="-1" max="1" step=".05" value={weight} onChange={e => setWeight(Number(e.target.value))} /></label>
@@ -169,7 +169,7 @@ function ActivationLab() {
       <path className="w1-axis" d="M40 120 H340 M190 22 V215" />
       {[-1, 0, 1].map(v => <text key={v} x="18" y={125-v*85}>{v}</text>)}
       {[-3, 0, 3].map(v => <text key={v} x={190 + v*50} y="236" textAnchor="middle">{v}</text>)}
-      <text x="356" y="237">z</text><path className="w1-curve" d={path} /><line className="w1-guide" x1={190+z*50} x2={190+z*50} y1="120" y2={120-h*85} /><circle className="w1-dot" cx={190+z*50} cy={120-h*85} r="7" />
+      <text x="356" y="237">z</text><path className="w1-curve" d={path} /><line className="w1-guide" x1={190+z*50} x2={190+z*50} y1="120" y2={Number((120-h*85).toFixed(2))} /><circle className="w1-dot" cx={190+z*50} cy={Number((120-h*85).toFixed(2))} r="7" />
     </svg><figcaption>tanh(z) ranges between −1 and 1.</figcaption></figure></div></div>;
 }
 
@@ -206,7 +206,7 @@ function RateLab() {
   const run = RUNS.find(item => item.rate === selected) ?? RUNS[1];
   const current = run.history[step];
   // Log scale preserves visibility across many orders of magnitude.
-  const yPixel = (loss: number) => 36 + (-Math.log10(Math.max(1e-12, Math.min(1, loss)))) / 12 * 192;
+  const yPixel = (loss: number) => Number((36 + (-Math.log10(Math.max(1e-12, Math.min(1, loss)))) / 12 * 192).toFixed(2));
   return <section className="w1-lab" aria-labelledby="w1-rate-title"><span className="w1-eyebrow">COMPARE THE TRAINING RUNS</span><h3 id="w1-rate-title">Same network. Different step sizes.</h3><p>Every curve starts from the same four parameters and trains on the same example. Select a learning rate and scrub through its first 200 updates.</p>
     <div className="w1-toolbar"><div className="w1-rate-buttons" role="group" aria-label="Learning rate">{RATES.map(rate => <button key={rate} type="button" aria-pressed={selected === rate} onClick={() => setSelected(rate)}>η = {rate}</button>)}</div><span className="w1-small">All three runs converge here; η = 1.0 is not guaranteed to diverge.</span></div>
     <figure className="w1-loss-chart" tabIndex={0} aria-label="Scrollable training loss chart"><svg viewBox="0 0 650 275" role="img" aria-label={`Training loss on a logarithmic scale for learning rates 0.01, 0.1, and 1. Selected rate ${selected}, step ${step}, loss ${scientific(current.loss)}. Values below 1e-12 are plotted at the chart floor.`}>

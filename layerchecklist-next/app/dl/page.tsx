@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function DLPage() {
   return (
     <main className="dl-page dl-map-page">
-      <Link href="/#dl" className="back-link">&larr; Back to Layerchecklist</Link>
+      <Link href="/#ov-learning" className="back-link">&larr; Back to Layerchecklist</Link>
 
       <header className="dl-map-header">
         <p className="dl-eyebrow">ONE IDEA BUILDS ON THE NEXT</p>

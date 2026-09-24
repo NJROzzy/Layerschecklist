@@ -1,11 +1,16 @@
 export const reviewedOnISO = "2026-09-20";
 export const reviewedOn = "September 20, 2026";
+export const platformReviewedOnISO = "2026-09-23";
+export const platformReviewedOn = "September 23, 2026";
 
 export const chapters = [
   ["why", "Why simulate"], ["integrators", "Stepping time"], ["timestep", "Stability"],
   ["contact", "Contact"], ["emergence", "Emergence"], ["environments", "Environments"],
   ["kinematics", "Robot kinematics"], ["control", "Control"], ["sensing", "Sensing & pose"],
-  ["sim2real", "The reality gap"], ["tools", "The tool landscape"], ["build", "Build one"],
+  ["sim2real", "The reality gap"], ["tools", "The tool landscape"],
+  ["learning-stack", "Isaac & MuJoCo"], ["simulator-examples", "Simulator examples"],
+  ["physics-neural-hybrid", "Physics + neural models"], ["ddpg", "DDPG"],
+  ["a3c", "A3C"], ["learning-comparison", "Choose & compare"], ["build", "Build one"],
 ] as const;
 
 export const reasons = [
@@ -23,13 +28,14 @@ export const contactModels = [
   { name: "Soft-body and deformables", how: "Discretise the object itself and simulate its internal forces.", good: "Cloth, rope, tissue, deformable grasps.", bad: "Expensive, and the parameters are genuinely hard to identify from a real material." },
 ];
 
-export type ToolCategory = "Physics engines" | "Robotics platforms" | "RL environments" | "Domain simulators";
-export const toolCategories: ToolCategory[] = ["Physics engines", "Robotics platforms", "RL environments", "Domain simulators"];
+export type ToolCategory = "Physics engines" | "Robotics platforms" | "Robot-learning frameworks" | "RL environments" | "Domain simulators";
+export const toolCategories: ToolCategory[] = ["Physics engines", "Robotics platforms", "Robot-learning frameworks", "RL environments", "Domain simulators"];
 export const tools: { name: string; category: ToolCategory; what: string; check: string; href: string }[] = [
-  { name: "MuJoCo", category: "Physics engines", what: "A contact-rich rigid-body engine, open source, long the default for locomotion and manipulation research.", check: "Models are declared in XML rather than written as code. Read one before trusting a benchmark number.", href: "https://mujoco.org/" },
+  { name: "MuJoCo", category: "Physics engines", what: "An open-source engine for articulated dynamics and contact, with CPU and accelerated ecosystem options.", check: "Inspect the MJCF model or programmatic model specification, actuator settings, and backend before comparing results.", href: "https://mujoco.org/" },
   { name: "Bullet / PyBullet", category: "Physics engines", what: "A widely used open-source engine with a direct Python interface and a large body of example environments.", check: "Compare its contact settings with whatever you are reproducing; defaults differ between engines.", href: "https://pybullet.org/" },
   { name: "Brax", category: "Physics engines", what: "A differentiable engine written in JAX, built to run many environments in parallel on accelerators.", check: "Throughput comes from batching. A single environment is not where it wins.", href: "https://github.com/google/brax" },
   { name: "NVIDIA Isaac Sim", category: "Robotics platforms", what: "A GPU-accelerated robotics simulator with photorealistic rendering and synthetic-data tooling.", check: "Check the hardware requirement and whether you need the rendering fidelity you are paying for.", href: "https://developer.nvidia.com/isaac/sim" },
+  { name: "NVIDIA Isaac Lab", category: "Robot-learning frameworks", what: "Task definitions, observations, rewards, resets, and batched robot-learning workflows, with integrations for RL libraries.", check: "Distinguish the framework from the physics backend and training algorithm. See the version-specific examples below.", href: "https://isaac-sim.github.io/IsaacLab/main/" },
   { name: "Gazebo", category: "Robotics platforms", what: "The long-standing simulator of the ROS ecosystem, with sensor models and plugin support.", check: "Its value is the ROS integration. Evaluate it against your actual middleware, not in isolation.", href: "https://gazebosim.org/" },
   { name: "Webots", category: "Robotics platforms", what: "An open-source robot simulator with a large library of modelled robots and sensors.", check: "Good for getting a known robot moving quickly; check fidelity for contact-heavy tasks.", href: "https://cyberbotics.com/" },
   { name: "Gymnasium", category: "RL environments", what: "The maintained standard interface for RL environments — reset, step, observation, reward, termination.", check: "It is an API, not a physics engine. What is underneath still decides your results.", href: "https://gymnasium.farama.org/" },

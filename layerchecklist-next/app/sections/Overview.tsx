@@ -53,8 +53,8 @@ const groups = [
     title: "Simulation & robotics",
     blurb: "Make a prediction, change a parameter, and watch what happens. Explore motion, control and sensing in interactive labs, then learn about the environments used to model more complex worlds.",
     items: [
-      { href: "/simulations", motif: "lab" as MotifKind, name: "The simulation lab", note: "Integrators racing an orbit, timestep stability, flocking, CartPole, arm kinematics, PID, lidar and the reality gap.", stat: "8 live simulations" },
-      { href: "/simulators", motif: "simulators" as MotifKind, name: "Simulation environments", note: "MuJoCo, Isaac Sim, Gazebo and the rest — what each models and how well it transfers.", stat: "Tool reference" },
+      { href: "/simulations", motif: "lab" as MotifKind, name: "The simulation lab", note: "Live physics and robotics, Isaac and MuJoCo examples, hybrid models, DDPG and A3C.", stat: "8 live simulations + 4 learning panels" },
+      { href: "/simulators", motif: "simulators" as MotifKind, name: "Simulation environments", note: "Isaac Sim, Isaac Lab and MuJoCo: choose a physics engine, task framework and learning algorithm.", stat: "Tool reference" },
     ],
   },
 ];
