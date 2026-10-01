@@ -18,3 +18,4 @@ Built with Next.js, deployed on Vercel. Each topic below is its own section on a
 - [x] CUDA
 - [x] Simulation Environments (MuJoCo, Isaac Sim)
 soon new topics will be added
+new pattern of learning 
