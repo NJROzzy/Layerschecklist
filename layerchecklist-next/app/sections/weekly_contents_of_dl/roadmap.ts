@@ -9,7 +9,7 @@ export const dlRoadmap = [
   { week: 7, title: "Attention and Transformers", ready: true },
   { week: 8, title: "Representation Learning, Self-Supervision, and Pretraining", ready: true },
   { week: 9, title: "Autoencoders and Variational Autoencoders", ready: true },
-  { week: 10, title: "Generative Adversarial Networks", ready: true },
+  { week: 10, title: "Autoencoders and Variational Autoencoders", ready: true },
   { week: 11, title: "Diffusion Models", ready: true },
   { week: 12, title: "Interpreting and Stress-Testing Black Boxes", ready: true },
   { week: 13, title: "Deep Reinforcement Learning", ready: true },

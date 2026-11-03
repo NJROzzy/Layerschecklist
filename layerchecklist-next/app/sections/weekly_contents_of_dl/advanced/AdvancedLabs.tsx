@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { calibration, diffuse, estimateClean, gaussianKL, lstmStep, softmax, tdUpdate } from "./lab-math";
 
 function Slider({label,value,set,min,max,step=.05}:{label:string;value:number;set:(n:number)=>void;min:number;max:number;step?:number}) {
- return <label className="dc-control"><span>{label}<output>{Number(value.toFixed(3))}</output></span><input type="range" min={min} max={max} step={step} value={value} onChange={e=>set(Number(e.target.value))}/></label>;
+ return <label className="dc-control"><span>{label}<output>{Number(value.toFixed(3))}</output></span><input type="range" aria-label={label} min={min} max={max} step={step} value={value} onChange={e=>set(Number(e.target.value))}/></label>;
 }
 function Frame({title,children}:{title:string;children:ReactNode}) {return <div className="dc-lab"><p className="dc-eyebrow">INTERACTIVE / CHANGE ONE ASSUMPTION</p><h3>{title}</h3>{children}</div>;}
 function Readouts({items}:{items:[string,string][]}) {return <dl className="dc-readouts">{items.map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>;}

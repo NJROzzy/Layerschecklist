@@ -17,6 +17,7 @@ export type CourseLessonData = {
   title: string;
   lead: string;
   prerequisites: string;
+  alignment?: string;
   outcomes: string[];
   sections: LessonSection[];
   pitfalls: [string, string][];
