@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { dlRoadmap } from "../sections/weekly_contents_of_dl/roadmap";
+import MathAppendixLink from "./MathAppendixLink";
 import "./map.css";
 
 export const metadata: Metadata = {
   title: "Deep Learning Map — Layerchecklist",
-  description: "Explore 14 connected weeks of deep learning, from statistical learning and neural networks to transformers, generative models, and deep reinforcement learning.",
+  description: "Explore 14 connected weeks of deep learning, followed by a complete mathematics and notation reference with explained equations and worked examples.",
 };
 
 export default function DLPage() {
@@ -58,6 +59,8 @@ export default function DLPage() {
           })}
         </ol>
       </nav>
+
+      <MathAppendixLink final />
 
       <footer className="dl-map-footer">
         <p>Every week is another layer of understanding.</p>

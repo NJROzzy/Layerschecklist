@@ -8,6 +8,7 @@ import Week1 from "../../sections/weekly_contents_of_dl/week1/Week1";
 import Week2 from "../../sections/weekly_contents_of_dl/week2/Week2";
 import Week3 from "../../sections/weekly_contents_of_dl/week3/Week3";
 import CourseLesson from "../../sections/weekly_contents_of_dl/advanced/CourseLesson";
+import MathAppendixLink from "../MathAppendixLink";
 import { week4 } from "../../sections/weekly_contents_of_dl/advanced/week4";
 import { week5 } from "../../sections/weekly_contents_of_dl/advanced/week5";
 import { week6 } from "../../sections/weekly_contents_of_dl/advanced/week6";
@@ -88,6 +89,7 @@ export default async function WeekPage({ params }: WeekPageProps) {
           </Link>
         )}
       </nav>
+      <MathAppendixLink final={!next} />
     </main>
   );
 }
