@@ -30,6 +30,7 @@ const groups = [
     blurb: "Turn an idea into something you can run. Write a program, work with arrays and data, explore parallel computation, and connect the parts of a robot.",
     items: [
       { href: "/python", motif: "python" as MotifKind, name: "Python from Zero", note: "Your first line of code, explained step by step. Run real Python, practice, and build a small project.", stat: "13 beginner lessons" },
+      { href: "/python/1-to-100", motif: "python" as MotifKind, name: "Python 1 → 100", note: "From the basics to professional Python: decorators, classes, generators, type hints, testing and a capstone.", stat: "20 lessons, levels 1–100" },
       { href: "/libraries", motif: "libraries" as MotifKind, name: "Python Libraries", note: "NumPy, pandas, Matplotlib and the rest of the toolkit for data and numerical work.", stat: "The working toolkit" },
       { href: "/sql", motif: "sql" as MotifKind, name: "SQL", note: "Organise, query and join the data behind an experiment before it reaches a model.", stat: "Where the data lives" },
       { href: "/cuda", motif: "cuda" as MotifKind, name: "CUDA", note: "Parallel computation on the GPU, and the hardware model underneath every training run.", stat: "Why it is fast" },

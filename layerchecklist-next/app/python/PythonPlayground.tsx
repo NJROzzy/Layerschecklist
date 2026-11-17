@@ -16,7 +16,7 @@ const errorHints:Record<string,string> = {
  FileNotFoundError:"Check the filename and create the file before reading it. Files here live in temporary browser memory.",
  ModuleNotFoundError:"This editor supports Python's standard library. Extra packages are not installed automatically.",
 };
-export default function PythonPlayground({lesson}:{lesson:Lesson}) {
+export default function PythonPlayground({lesson,workspaceLabel="YOUR FIRST WORKSPACE"}:{lesson:Lesson;workspaceLabel?:string}) {
  const [drafts,setDrafts]=useState<Record<string,string>>({}),[inputs,setInputs]=useState<Record<string,string>>({});
  const [results,setResults]=useState<Record<string,Result>>({}),[state,setState]=useState<"idle"|"loading"|"running">("idle"),[ready,setReady]=useState(false);
  const [copyStatus,setCopyStatus]=useState("");
@@ -56,7 +56,7 @@ export default function PythonPlayground({lesson}:{lesson:Lesson}) {
  async function copy(){try{await navigator.clipboard.writeText(code);setCopyStatus("Copied");}catch{setCopyStatus("Select the code to copy it");}}
  const errorType=result?.error?.match(/(?:^|\n)(\w*Error):/)?.[1];
  return <div className="py-playground">
-  <div className="py-editor-heading"><div><span className="py-eyebrow">YOUR FIRST WORKSPACE</span><strong>{lesson.id}.py</strong></div><div className="py-editor-tools"><button type="button" onClick={copy}>{copyStatus||"Copy"}</button><button type="button" onClick={download}>Download .py</button><button type="button" disabled={busy} onClick={()=>{setDrafts(d=>({...d,[lesson.id]:lesson.code}));setInputs(d=>({...d,[lesson.id]:lesson.input??""}));setResults(r=>{const next={...r};delete next[lesson.id];return next;});setCopyStatus("");}}>Reset example</button></div></div>
+  <div className="py-editor-heading"><div><span className="py-eyebrow">{workspaceLabel}</span><strong>{lesson.id}.py</strong></div><div className="py-editor-tools"><button type="button" onClick={copy}>{copyStatus||"Copy"}</button><button type="button" onClick={download}>Download .py</button><button type="button" disabled={busy} onClick={()=>{setDrafts(d=>({...d,[lesson.id]:lesson.code}));setInputs(d=>({...d,[lesson.id]:lesson.input??""}));setResults(r=>{const next={...r};delete next[lesson.id];return next;});setCopyStatus("");}}>Reset example</button></div></div>
   <div className="py-workspace"><div className="py-code-pane"><label className="py-pane-label" htmlFor="python-editor"><span>01 / CODE</span><span>Edit these instructions</span></label><textarea id="python-editor" wrap="off" aria-label="Python code editor" spellCheck={false} autoCapitalize="off" autoCorrect="off" value={code} onChange={e=>{setDrafts(d=>({...d,[lesson.id]:e.target.value}));setCopyStatus("");}} onKeyDown={e=>{
    if(e.key==="Tab"&&!e.shiftKey){e.preventDefault();const el=e.currentTarget,start=el.selectionStart,end=el.selectionEnd;setDrafts(d=>({...d,[lesson.id]:code.slice(0,start)+"    "+code.slice(end)}));requestAnimationFrame(()=>{el.selectionStart=el.selectionEnd=start+4;});}
    if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();runCode();}

@@ -3,6 +3,7 @@ export type Lesson = {
  code:string; output:string; input?:string; lines:{line:number;explanation:string}[];
  tryIt:string; hint:string; solution:string; solutionOutput:string; pitfall:string;
  check:{question:string;choices:string[];answer:number;why:string};
+ stage?:string; solutionNote?:string;
 };
 export const lessons:Lesson[]=[
  {
@@ -42,7 +43,7 @@ export const lessons:Lesson[]=[
   concepts:[{term:"input()",meaning:"Returns the next answer as a string, even when you type digits."},{term:"int()",meaning:'Converts suitable text such as "20" into a whole number. float() can convert decimal text such as "2.5".'},{term:"Several things in print()",meaning:'Commas separate values. print("Hello", name) displays them with a space between them.'}],
   code:'name = input()\nage = int(input())\nprint(name, "will be", age + 1)',input:"Maya\n20",output:"Maya will be 21",
   lines:[{line:1,explanation:"Read the first input line, Maya, and store the text in name."},{line:2,explanation:'Read "20" from the next line, convert it to 20, and store that number in age.'},{line:3,explanation:"Calculate next year's age and print a sentence."}],
-  tryIt:"Change the input answers to Sam and 30. Leave the code unchanged and predict the output before running.",hint:"Put Sam on the first input line and 30 on the second line.",solution:'name = input()\nage = int(input())\nprint(name, "will be", age + 1)',solutionOutput:"Sam will be 31",
+  tryIt:"Change the input answers to Sam and 30. Leave the code unchanged and predict the output before running.",hint:"Put Sam on the first input line and 30 on the second line.",solution:'name = input()\nage = int(input())\nprint(name, "will be", age + 1)',solutionOutput:"Sam will be 31",solutionNote:"Use these input answers: Sam on the first line, 30 on the second.",
   pitfall:'int("twenty") raises ValueError: the text is not a whole-number representation. In this playground, EOFError means your program asked for more input lines than you supplied.',
   check:{question:'What does input() return when someone types 12?',choices:["The integer 12",'The string "12"',"The Boolean True"],answer:1,why:"input() returns text. Convert it with int() or float() when you need arithmetic."},
  },

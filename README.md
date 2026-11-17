@@ -10,6 +10,7 @@ Built with Next.js, deployed on Vercel. Each topic below is its own section on a
 
 - [x] Math
 - [x] Python Fundamentals
+- [x] Python 1 → 100
 - [x] Python Libraries
 - [x] ML Fundamentals
 - [x] DL (Deep Learning) Fundamentals
