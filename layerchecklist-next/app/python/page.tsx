@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import SectionPage from "../sections/SectionPage";
-import PythonFundamentals from "../sections/PythonFundamentals";
+import Link from "next/link";
+import ThemeToggle from "../ThemeToggle";
+import PythonCourse from "./PythonCourse";
+import { lessons } from "./lessons";
+import "./python.css";
 
-export const metadata: Metadata = {
-  title: "Python Fundamentals — Layerchecklist",
-  description: "The language itself: types, control flow, functions, data structures and the patterns that show up in every ML codebase.",
-};
-
-export default function Page() {
-  return <SectionPage><PythonFundamentals /></SectionPage>;
-}
+export const metadata:Metadata={title:"Python from Zero — Layerchecklist",description:"Learn Python with no programming experience: 13 guided lessons, real editable Python examples, plain explanations, practice, hints, and a small final project."};
+export default function Page(){return <><ThemeToggle variant="floating"/><main className="py-page"><Link className="py-back" href="/#ov-tools">← Back to Layerchecklist</Link>
+ <header className="py-hero"><div><p className="py-eyebrow">PYTHON / START HERE, EVEN FROM ZERO</p><h1>Your first line.<br/><span>Your next possibility.</span></h1><p>You don’t need to know what a variable is yet. We’ll start with one instruction, explain every new idea, and build a small program together.</p><div className="py-hero-actions"><a className="py-primary" href="#python-course">Start learning ↓</a><a href="#python-setup">Prefer to code on your computer?</a></div><div className="py-hero-facts"><span>{lessons.length} guided lessons</span><span>Real Python in the page</span><span>Go at your own pace</span></div></div>
+  <div className="py-first-program" aria-label="A Python instruction and its output"><div><span className="py-window-dots" aria-hidden="true"><i/><i/><i/></span><span>your_first_program.py</span></div><p className="py-eyebrow">YOU WRITE AN INSTRUCTION</p><pre><code><span>print</span>(<em>"I can start here."</em>)</code></pre><div className="py-flow-arrow" aria-hidden="true">↓</div><p className="py-eyebrow">PYTHON DISPLAYS THE RESULT</p><p className="py-first-output">I can start here.</p><p className="py-first-note">That’s a program. We’ll unpack every part.</p></div>
+ </header>
+ <div className="py-how"><div><span>01</span><p><strong>Understand</strong>Read one small idea in plain language.</p></div><div><span>02</span><p><strong>Predict & run</strong>Guess the result, then try the code.</p></div><div><span>03</span><p><strong>Change & explain</strong>Make it yours. Say what changed and why.</p></div></div>
+ <PythonCourse/>
+ <section id="python-setup" className="py-setup"><header><span className="py-eyebrow">WHEN YOU WANT YOUR OWN WORKSPACE</span><h2>Take the same code<br/>onto your computer.</h2><p>The examples work here without installation. When you want a local editor, <a href="https://thonny.org/">Thonny</a> is designed for beginners. Follow its official instructions for your operating system.</p></header><ol><li><span>1</span><div><h3>Install and open Thonny</h3><p>Choose the Windows, macOS, or Linux instructions on <a href="https://thonny.org/">thonny.org</a>. Its Windows and macOS installers include Python. On Linux, follow the distribution-specific instructions.</p></div></li><li><span>2</span><div><h3>Write in the editor</h3><p>The large editor pane is where a saved program goes. Type <code>print("Hello, world!")</code>. The Shell pane below shows the output; a <code>&gt;&gt;&gt;</code> prompt is a place to try individual instructions. Don’t copy that prompt into your program.</p></div></li><li><span>3</span><div><h3>Save, then run</h3><p>Save the file as <code>hello.py</code> in a folder you can find. The <code>.py</code> ending identifies a Python file. Choose <strong>Run → Run current script</strong> and look for your message in the Shell.</p></div></li><li><span>4</span><div><h3>Change one thing</h3><p>Edit the message, save, and run again. For the input lesson, type each answer into the Shell when the program asks, then press Enter.</p></div></li></ol><details><summary>Already have Python installed? Run a saved file from a terminal</summary><p>A terminal is an app for typing commands to your operating system. Open it in the folder containing <code>hello.py</code>. On macOS/Linux, try <code>python3 hello.py</code>; on Windows, try <code>py hello.py</code>. Command names depend on your installation. If these commands are not found, use Thonny’s Run menu or consult the <a href="https://www.python.org/downloads/">official installation options</a>. These commands go in a terminal, not inside the Python editor.</p></details></section>
+ <section className="py-next-path"><span className="py-eyebrow">WHERE THIS TAKES YOU</span><h2>First the language.<br/>Then the bigger tools.</h2><div><Link href="/python/reference"><span>AFTER THE BEGINNER PATH</span><h3>Keep building your Python →</h3><p>Comprehensions, classes, generators, and the patterns you’ll see in machine learning code.</p></Link><Link href="/libraries"><span>WHEN THE BASICS FEEL FAMILIAR</span><h3>Explore Python Libraries →</h3><p>Use tools such as NumPy and pandas with an understanding of the Python underneath.</p></Link></div></section>
+ <footer className="py-footer"><p>References: <a href="https://wiki.python.org/python/getting-started/BeginnersGuide.html">Python’s beginner guide</a> · <a href="https://docs.python.org/3/tutorial/">Python language tutorial</a> · <a href="https://thonny.org/">Thonny</a> · <a href="https://pyodide.org/en/stable/usage/index.html">Pyodide</a></p><a href="#python-course">Return to your lesson ↑</a></footer>
+ </main></>;}
